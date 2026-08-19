@@ -1,0 +1,34 @@
+{
+  "common": {
+    "app_title": "AppList",
+    "loading": "Đang tải..."
+  },
+  "header": {
+    "get_plugin": "Get Plugin"
+  },
+  "button": {
+    "add": "Thêm",
+    "close": "Đóng",
+    "confirm": "Đồng ý",
+    "cancel": "Hủy"
+  },
+  "app_menu": {
+    "move_top": "Đưa lên đầu",
+    "rename": "Đổi tên",
+    "delete": "Xoá"
+  },
+  "modal": {
+    "title_add_app": "➕ Thêm ứng dụng",
+    "search_placeholder": "Tìm kiếm ứng dụng...",
+    "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng."
+  },
+  "messages": {
+    "fallback_data_warning": "⚠️ Đang dùng dữ liệu dự phòng...",
+    "prompt_rename_app": "Nhập tên mới cho ứng dụng:",
+    "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?",
+    "settings_in_development": "⚙️ Chức năng cài đặt đang được phát triển! Hãy chờ các bản cập nhật tiếp theo."
+  },
+  "dock_info": {
+    "app_version": "App List\nPhiên bản: 1.0\nPhát hành bởi:Sentechtipsvn\nTạo danh sách ứng dụng tuỳ chỉnh\nHãy thêm vào màn hình chính để trải nghiệm tốt hơn !"
+  }
+}
