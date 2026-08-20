@@ -8,7 +8,6 @@
     <meta name="apple-mobile-web-app-title" content="App List" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <title>AppList</title>
-    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
         body {
@@ -16,11 +15,8 @@
             background: linear-gradient(135deg, #d4bbfc, #8ec5fc, #a78bfa, #7dd3fc);
             background-size: 300% 300%;
             animation: gradientShift 8s ease infinite;
-            min-height: 100vh;
-            padding-bottom: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            min-height: 100vh; padding-bottom: 100px;
+            display: flex; justify-content: center; align-items: flex-start;
             padding-top: 40px; padding-left: 12px; padding-right: 12px;
         }
         @keyframes gradientShift {
@@ -53,7 +49,6 @@
         .icon-wrapper { width: 60px; height: 60px; border-radius: 16px; background: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.8); }
         .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 16px; }
         .icon-wrapper .fallback-text { font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; }
-
         .app-info { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; padding: 0 2px; }
         .app-name {
             font-size: 11px; color: #1e1e2f; opacity: 0.8;
@@ -69,7 +64,6 @@
             transform: scale(0.8);
         }
         .more-btn:active { opacity: 1; background: rgba(0,0,0,0.1); }
-
         .add-btn {
             background: rgba(255, 255, 255, 0.25); border: 2px dashed rgba(255, 255, 255, 0.6);
             color: #4f46e5; font-size: 28px; cursor: pointer; border-radius: 16px;
@@ -78,9 +72,7 @@
         }
         .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px;}
-        .hide-add { display: none !important; }
 
-        /* MODAL THÊM ỨNG DỤNG (Có thêm phân biệt kết quả tìm kiếm) */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
             opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000;
@@ -107,8 +99,7 @@
         #dockMenu {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px); border-radius: 50px;
-            padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50px; padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 15px rgba(139, 92, 246, 0.1);
             display: flex; align-items: center; justify-content: center;
             gap: 12px; z-index: 999; width: fit-content; max-width: 85%;
@@ -131,17 +122,15 @@
         }
         #dockToggleBtn:active { transform: translateX(-50%) scale(0.85); background: rgba(255, 255, 255, 0.3); }
         #dockToggleBtn svg { width: 20px; height: 20px; stroke: rgba(255, 255, 255, 0.9); stroke-width: 2.5; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-
         @keyframes bounceUpLoop { 0%, 75% { transform: translateX(-50%) translateY(0) scale(1); } 80% { transform: translateX(-50%) translateY(-8px) scale(1.1); } 85% { transform: translateX(-50%) translateY(-3px) scale(1); } 90%, 100% { transform: translateX(-50%) translateY(0) scale(1); } }
         @keyframes bounceDownLoop { 0%, 75% { transform: translateX(-50%) translateY(0) scale(1); } 80% { transform: translateX(-50%) translateY(8px) scale(1.1); } 85% { transform: translateX(-50%) translateY(3px) scale(1); } 90%, 100% { transform: translateX(-50%) translateY(0) scale(1); } }
-
         #dockToggleBtn.arrow-down { animation: bounceDownLoop 4s ease-in-out infinite; }
         #dockToggleBtn:not(.arrow-down) { animation: bounceUpLoop 4s ease-in-out infinite; }
         #dockToggleBtn.arrow-down svg { transform: rotate(180deg); }
 
         .context-menu {
             position: fixed; z-index: 9999;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px);
             border-radius: 14px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px;
             display: none; flex-direction: column;
@@ -205,9 +194,6 @@
 </div>
 
 <script>
-    // ==========================================
-    // 1. 📦 TẢI DỮ LIỆU
-    // ==========================================
     let appDatabase = {};
     let socialData = {};
     let langData = {};
@@ -230,7 +216,7 @@
         "button": { "add": "Thêm", "close": "Đóng", "confirm": "Đồng ý", "cancel": "Hủy" },
         "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
         "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." },
-        "messages": { "fallback_data_warning": "⚠️ Đang dùng dữ liệu dự phòng...", "prompt_rename_app": "Nhập tên mới cho ứng dụng:", "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?", "settings_in_development": "⚙️ Chức năng cài đặt đang được phát triển! Hãy chờ các bản cập nhật tiếp theo." },
+        "messages": { "fallback_data_warning": "⚠️ Đang dùng dữ liệu dự phòng...", "prompt_rename_app": "Nhập tên mới cho ứng dụng:", "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?", "settings_in_development": "⚙️ Chức năng cài đặt đang được phát triển!" },
         "dock_info": { "app_version": "App List\nPhiên bản: 1.0\nPhát hành bởi: Sentechtipsvn\nCảm ơn bạn đã sử dụng!" }
     };
 
@@ -247,8 +233,7 @@
         langData = lang;
         renderGrid(); renderDock(); renderModal(); applyInitialDockState(); 
     })
-    .catch(error => { 
-        console.warn("⚠️ Lỗi tải dữ liệu:", error);
+    .catch(() => { 
         appDatabase = FALLBACK_DB; 
         socialData = FALLBACK_SOCIAL; 
         langData = FALLBACK_LANG; 
@@ -259,77 +244,51 @@
         if (!langData) return key;
         const keys = key.split('.');
         let val = langData;
-        for (let k of keys) {
-            if (val && val[k] !== undefined) val = val[k];
-            else return key; 
-        }
+        for (let k of keys) { if (val && val[k] !== undefined) val = val[k]; else return key; }
         if (typeof val !== 'string') return key;
-        if (replacements) {
-            for (let [k, v] of Object.entries(replacements)) {
-                val = val.replace(`{${k}}`, v);
-            }
-        }
+        if (replacements) { for (let [k, v] of Object.entries(replacements)) val = val.replace(`{${k}}`, v); }
         return val;
     }
 
-    // ==========================================
-    // 2. ⚙️ LOGIC CHÍNH (Mở rộng quản lý Custom Apps)
-    // ==========================================
     const STORAGE_KEY = 'myAppList';
     const STORAGE_NAME_KEY = 'myAppNames';
-    const STORAGE_CUSTOM_KEY = 'myCustomApps'; // 💡 Key mới để lưu App tìm kiếm
+    const STORAGE_CUSTOM_KEY = 'myCustomApps';
     const MAX_APPS = 16;
-    const PROXY_URL = 'https://sentechtipsvn.hongocsen.workers.dev/?term='; // ✅ Đã đổi sang Cloudflare Worker của bạn
+    const PROXY_URL = 'https://sentechtipsvn.hongocsen.workers.dev/?term=';
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
 
-    let currentSelectedAppId = null;
-    let isMenuOpen = false;
-    let searchTimeout = null;
+    let currentSelectedAppId = null, isMenuOpen = false, searchTimeout = null;
 
-    // 💡 Hàm lấy danh sách App tự tìm kiếm đã lưu
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
-        if (stored) { 
-            try { return JSON.parse(stored); } 
-            catch(e) { localStorage.removeItem(STORAGE_CUSTOM_KEY); return []; }
-        }
+        if (stored) { try { return JSON.parse(stored); } catch(e) { localStorage.removeItem(STORAGE_CUSTOM_KEY); return []; } }
         return [];
     }
 
-    // 💡 Hàm thêm App từ kết quả tìm kiếm vào Storage
     function addCustomApp(id, name, icon) {
         let apps = getCustomApps();
-        // Kiểm tra đã có chưa
         if (apps.find(a => a.bundleId === id)) return; 
         apps.push({ bundleId: id, Name: name, icon: icon });
         localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(apps));
-        
-        // Thêm vào danh sách đã chọn (List hiển thị)
         let current = getSelectedApps();
         if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
         current.push(id);
-        saveSelectedApps(current); // Render lại grid
+        saveSelectedApps(current);
         closeModal();
     }
 
     function getCustomNames() {
         const stored = localStorage.getItem(STORAGE_NAME_KEY);
-        if (stored) { 
-            try { return JSON.parse(stored); } 
-            catch(e) { localStorage.removeItem(STORAGE_NAME_KEY); return {}; }
-        }
+        if (stored) { try { return JSON.parse(stored); } catch(e) { localStorage.removeItem(STORAGE_NAME_KEY); return {}; } }
         return {};
     }
 
     function saveCustomName(id, newName) {
         let names = getCustomNames();
-        if (newName && newName.trim() !== "") {
-            names[id] = newName.trim();
-        } else {
-            delete names[id]; 
-        }
+        if (newName && newName.trim() !== "") names[id] = newName.trim();
+        else delete names[id]; 
         localStorage.setItem(STORAGE_NAME_KEY, JSON.stringify(names));
         renderGrid();
         closeContextMenu();
@@ -340,14 +299,9 @@
         if (stored) { 
             try { 
                 const parsed = JSON.parse(stored);
-                if (!Array.isArray(parsed) || parsed.length === 0) {
-                    localStorage.removeItem(STORAGE_KEY); 
-                    throw new Error("Dữ liệu rác, đã xóa");
-                }
+                if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("Empty");
                 return parsed;
-            } catch(e) { 
-                localStorage.removeItem(STORAGE_KEY);
-            }
+            } catch(e) { localStorage.removeItem(STORAGE_KEY); }
         }
         return ["com.deepseek.chat", "com.facebook.Messenger", "com.facebook.Facebook", "com.burbn.instagram"];
     }
@@ -358,27 +312,20 @@
         closeContextMenu();
     }
 
-    // 💡 Sửa logic Render Grid để chấp nhận cả dữ liệu từ CustomApps
     function renderGrid() {
         grid.innerHTML = '';
         const ids = getSelectedApps();
-        const customApps = getCustomApps(); // Lấy app tự tìm
-
+        const customApps = getCustomApps();
         ids.forEach((id, index) => {
-            // Ưu tiên tìm trong Database gốc trước
             let data = appDatabase[id];
-            
-            // Nếu không thấy, tìm trong CustomApps
             if (!data) {
                 const found = customApps.find(a => a.bundleId === id);
                 if (found) data = found;
             }
-
             if(!data) return;
             const item = createAppItem(id, data, index);
             grid.appendChild(item);
         });
-
         if (ids.length < MAX_APPS) {
             const addBtn = document.createElement('div');
             addBtn.className = 'app-item add-btn';
@@ -395,12 +342,10 @@
         const div = document.createElement('div');
         div.className = 'app-item';
         div.id = 'app-' + id; 
-        
         const useIcon = data.icon && data.icon.trim() !== "";
         let displayName = data.Name;
         const customNames = getCustomNames();
         if (customNames[id]) displayName = customNames[id];
-
         div.innerHTML = `
             <div class="icon-wrapper">
                 <img src="${useIcon ? data.icon : ''}" alt="${displayName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="${useIcon ? '' : 'display:none;'}">
@@ -411,14 +356,13 @@
                 <button class="more-btn" data-id="${id}">&#8942;</button>
             </div>
         `;
-
         div.querySelector('.more-btn').onclick = (e) => { e.stopPropagation(); showContextMenu(id, e); };
         div.onclick = (e) => { if(e.target.closest('.more-btn')) return; openApp(id); };
         return div;
     }
 
     // ==========================================
-    // 3. 🆕 SEARCH APPS FROM APPLE API VIA CLOUDFLARE (ĐÃ NÂNG CẤP XỬ LÝ LỖI JSON)
+    // ✅ Đã cập nhật chính xác hàm searchAppsDynamic theo yêu cầu
     // ==========================================
     function searchAppsDynamic(query) {
         clearTimeout(searchTimeout);
@@ -430,24 +374,20 @@
         searchTimeout = setTimeout(() => {
             modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">🔍 Đang tìm kiếm ứng dụng...</div>`;
             
-            // ✅ Dùng res.text() thay vì res.json() để bắt lỗi thủ công
             fetch(PROXY_URL + encodeURIComponent(query))
             .then(res => res.text()) 
             .then(text => {
                 let data;
                 try {
-                    // Thử chuyển đổi chuỗi text thành JSON
                     data = JSON.parse(text);
                 } catch (e) {
-                    // Nếu parse thất bại (thường do Apple trả về HTML lỗi), ném ra lỗi cụ thể
-                    throw new Error(`Phản hồi từ Apple không phải JSON (Có thể Worker bị chặn IP). Dữ liệu nhận: ${text.substring(0, 50)}...`);
+                    throw new Error(`Server trả về dữ liệu lỗi: ${text.substring(0, 100)}...`);
                 }
 
-                // Xử lý dữ liệu bình thường
                 modalList.innerHTML = '';
                 const results = data.results || [];
                 if (results.length === 0) {
-                    modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy ứng dụng nào.</div>`;
+                    modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; color:#555;">Apple Store Việt Nam không tìm thấy ứng dụng nào khớp với từ khóa "${query}".</div>`;
                     return;
                 }
 
@@ -473,17 +413,14 @@
             })
             .catch(err => {
                 console.error("Lỗi AppList chi tiết:", err);
-                modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; color:red;">❌ Lỗi chi tiết: ${err.message || 'Lỗi không xác định (Kiểm tra Console)'}</div>`;
+                modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; color:red;">❌ Lỗi chi tiết: ${err.message || 'Lỗi không xác định'}</div>`;
             });
         }, 500);
     }
 
-    // --- POPUP MENU LOGIC ---
     function showContextMenu(id, event) {
         const menu = document.getElementById('contextMenu');
-        currentSelectedAppId = id;
-        isMenuOpen = true;
-        
+        currentSelectedAppId = id; isMenuOpen = true;
         document.getElementById('menuMoveTop').onclick = () => { moveAppToTop(id); };
         document.getElementById('menuDelete').onclick = () => { removeApp(id); };
         document.getElementById('menuRename').onclick = () => {
@@ -491,36 +428,22 @@
             const newName = prompt(t('messages.prompt_rename_app'), currentName);
             if (newName !== null) saveCustomName(id, newName);
         };
-
         let clientX = event.clientX || (event.touches && event.touches[0].clientX);
         let clientY = event.clientY || (event.touches && event.touches[0].clientY);
         const menuWidth = 160;
-        let leftPos = clientX - (menuWidth / 2);
-        let topPos = clientY - 60;
+        let leftPos = clientX - (menuWidth / 2), topPos = clientY - 60;
         if (leftPos < 20) leftPos = 20;
         if (leftPos + menuWidth > window.innerWidth - 20) leftPos = window.innerWidth - menuWidth - 20;
         if (topPos < 20) topPos = 20;
-        menu.style.left = leftPos + 'px';
-        menu.style.top = topPos + 'px';
-        menu.classList.add('active');
+        menu.style.left = leftPos + 'px'; menu.style.top = topPos + 'px'; menu.classList.add('active');
     }
 
-    function closeContextMenu() {
-        const menu = document.getElementById('contextMenu');
-        menu.classList.remove('active');
-        isMenuOpen = false;
-        currentSelectedAppId = null;
-    }
-
-    document.addEventListener('click', (e) => {
-        if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu();
-    });
+    function closeContextMenu() { document.getElementById('contextMenu').classList.remove('active'); isMenuOpen = false; currentSelectedAppId = null; }
+    document.addEventListener('click', (e) => { if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu(); });
 
     function removeApp(id) {
-        let current = getSelectedApps();
-        current = current.filter(item => item !== id);
-        let custom = getCustomApps();
-        custom = custom.filter(item => item.bundleId !== id);
+        let current = getSelectedApps().filter(item => item !== id);
+        let custom = getCustomApps().filter(item => item.bundleId !== id);
         localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(custom));
         saveSelectedApps(current);
     }
@@ -528,11 +451,7 @@
     function moveAppToTop(id) {
         let current = getSelectedApps();
         const currentIndex = current.indexOf(id);
-        if (currentIndex > 0) {
-            current.splice(currentIndex, 1);
-            current.unshift(id);
-            saveSelectedApps(current);
-        }
+        if (currentIndex > 0) { current.splice(currentIndex, 1); current.unshift(id); saveSelectedApps(current); }
     }
 
     function renderModal() {
@@ -543,13 +462,10 @@
         document.querySelector('#addAppModal h3').innerText = t('modal.title_add_app');
         document.getElementById('searchBox').placeholder = "Tìm kiếm ứng dụng trên App Store...";
         document.getElementById('searchBox').value = '';
-
         available.forEach(id => {
             const data = appDatabase[id];
             const item = document.createElement('div');
             item.className = 'modal-item';
-            item.dataset.id = id;
-            item.dataset.name = data.Name.toLowerCase();
             const useIcon = data.icon && data.icon.trim() !== "";
             item.innerHTML = `
                 <img src="${useIcon ? data.icon : ''}" alt="${data.Name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="${useIcon ? '' : 'display:none;'}">
@@ -559,33 +475,23 @@
             item.onclick = () => {
                 let current = getSelectedApps();
                 if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
-                current.push(id);
-                saveSelectedApps(current);
-                closeModal();
+                current.push(id); saveSelectedApps(current); closeModal();
             };
             modalList.appendChild(item);
         });
     }
 
     function closeModal() { modal.classList.remove('active'); }
-    
     function openApp(bundleId) {
-        const shortcutName = "Open App Launcher"; 
-        window.location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(shortcutName) + "&input=text&text=" + encodeURIComponent(bundleId);
+        window.location.href = "shortcuts://run-shortcut?name=Open%20App%20Launcher&input=text&text=" + encodeURIComponent(bundleId);
     }
 
     document.getElementById('getPluginBtn').onclick = () => {
-        if(socialData && socialData.links && socialData.links.plugin_shortcut) {
-            window.open(socialData.links.plugin_shortcut, '_blank');
-        } else {
-            window.open("https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", '_blank');
-        }
+        if(socialData && socialData.links && socialData.links.plugin_shortcut) window.open(socialData.links.plugin_shortcut, '_blank');
+        else window.open("https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", '_blank');
     };
     modal.onclick = (e) => { if (e.target === modal) closeModal(); };
 
-    // ==========================================
-    // 4. 🌐 DOCK & SETTINGS
-    // ==========================================
     function renderDock() {
         const dock = document.getElementById('dockMenu');
         dock.innerHTML = '';
@@ -610,14 +516,11 @@
             resetBtn.innerHTML = `<img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" />`; 
             resetBtn.onclick = () => {
                 if(confirm(t('messages.reset_confirm'))) {
-                    localStorage.removeItem(STORAGE_KEY);
-                    localStorage.removeItem(STORAGE_NAME_KEY);
-                    localStorage.removeItem(STORAGE_CUSTOM_KEY);
+                    localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
                     renderGrid();
                 }
             };
             dock.appendChild(resetBtn);
-
             const settingsBtn = document.createElement('button'); settingsBtn.className = 'dock-item'; settingsBtn.id = 'settingsBtn';
             settingsBtn.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
             settingsBtn.onclick = () => { alert(t('messages.settings_in_development')); };
@@ -631,8 +534,7 @@
     const toggleIcon = dockToggleBtn.querySelector('svg');
 
     function applyInitialDockState() {
-        dockMenu.classList.add('hidden');
-        dockToggleBtn.classList.add('arrow-down');
+        dockMenu.classList.add('hidden'); dockToggleBtn.classList.add('arrow-down');
         dockToggleBtn.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
         toggleIcon.innerHTML = `<polyline points="6 9 12 15 18 9"></polyline>`;
     }
@@ -640,25 +542,15 @@
     dockToggleBtn.addEventListener('click', function() {
         isDockVisible = !isDockVisible;
         if (isDockVisible) {
-            dockMenu.classList.remove('hidden');
-            dockToggleBtn.classList.remove('arrow-down');
+            dockMenu.classList.remove('hidden'); dockToggleBtn.classList.remove('arrow-down');
             dockToggleBtn.style.bottom = 'calc(80px + env(safe-area-inset-bottom, 20px))';
             toggleIcon.innerHTML = `<polyline points="18 15 12 9 6 15"></polyline>`;
         } else {
-            dockMenu.classList.add('hidden');
-            dockToggleBtn.classList.add('arrow-down');
+            dockMenu.classList.add('hidden'); dockToggleBtn.classList.add('arrow-down');
             dockToggleBtn.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
             toggleIcon.innerHTML = `<polyline points="6 9 12 15 18 9"></polyline>`;
         }
     });
-
-    // ✅ [KHÓA]: iOS Web Clip đôi khi bị lỗi cache với Service Worker, 
-    // vì bạn đang làm Web Clip nên mình khuyên bạn comment đoạn này lại để chạy ổn định hơn
-    // if ('serviceWorker' in navigator) {
-    //     navigator.serviceWorker.register(basePath + '/sw.js')
-    //     .then(() => console.log('✅ PWA Service Worker đã đăng ký!'))
-    //     .catch(() => console.log('ℹ️ PWA không được hỗ trợ'));
-    // }
 </script>
 </body>
 </html>
