@@ -254,7 +254,10 @@
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
     const MAX_APPS = 16;
-    const PROXY_URL = 'https://sentechtipsvn.hongocsen.workers.dev/?term=';
+    
+    // ✅ Đã đổi sang AltStore API không cần Key, không bị chặn IP
+    const PROXY_URL = 'https://api.altstore.io/v1/apps/search?query=';
+
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
@@ -361,15 +364,10 @@
         return div;
     }
 
-    // ==========================================
-    // ✅ Đã cập nhật chính xác hàm searchAppsDynamic theo yêu cầu
-    // ==========================================
+    // ✅ Hàm Search App dùng AltStore API
     function searchAppsDynamic(query) {
         clearTimeout(searchTimeout);
-        if (!query.trim()) {
-            renderModal(); 
-            return;
-        }
+        if (!query.trim()) { renderModal(); return; }
 
         searchTimeout = setTimeout(() => {
             modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">🔍 Đang tìm kiếm ứng dụng...</div>`;
@@ -381,22 +379,22 @@
                 try {
                     data = JSON.parse(text);
                 } catch (e) {
-                    throw new Error(`Server trả về dữ liệu lỗi: ${text.substring(0, 100)}...`);
+                    throw new Error(`AltStore API trả về dữ liệu lỗi: ${text.substring(0, 100)}...`);
                 }
 
                 modalList.innerHTML = '';
-                const results = data.results || [];
+                const results = data.data || [];
                 if (results.length === 0) {
-                    modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; color:#555;">Apple Store Việt Nam không tìm thấy ứng dụng nào khớp với từ khóa "${query}".</div>`;
+                    modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; color:#555;">Không tìm thấy ứng dụng nào khớp với từ khóa "${query}".</div>`;
                     return;
                 }
 
                 results.forEach(app => {
-                    if (app.kind !== 'software') return;
-                    
-                    const id = String(app.trackId);
-                    const name = app.trackName;
-                    const icon = app.artworkUrl100;
+                    const id = app.bundleID;
+                    const name = app.name;
+                    const icon = app.icon;
+
+                    if (!id) return;
 
                     const item = document.createElement('div');
                     item.className = 'modal-item';
