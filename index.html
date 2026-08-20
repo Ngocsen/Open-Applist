@@ -22,6 +22,7 @@
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .app-container {
             width: 100%; max-width: 400px;
+            margin: 0 auto; /* Căn giữa tuyệt đối khung chứa */
             background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border-radius: 40px; padding: 24px 20px 20px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
@@ -36,14 +37,36 @@
             display: flex; align-items: center; gap: 6px;
         }
         .pill-btn:active { transform: scale(0.96); }
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; justify-items: center; }
-        @media (min-width: 640px) { .app-grid { grid-template-columns: repeat(5, 1fr); } }
-        @media (min-width: 900px) { .app-grid { grid-template-columns: repeat(6, 1fr); } }
+        
+        /* 💡 [CẬP NHẬT V8.2] Chỉnh Grid chính xác 4 cột */
+        .app-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 18px 10px; 
+            justify-items: center; 
+        }
+        /* Giữ 4 cột cho mọi kích thước màn hình (đảm bảo 12 app xếp gọn 3 hàng) */
 
         .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
-        .icon-wrapper { width: 60px; height: 60px; border-radius: 16px; background: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.8); }
-        .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 16px; }
-        .icon-wrapper .fallback-text { font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; }
+        
+        /* Bỏ khung, bỏ nền cho icon */
+        .icon-wrapper { 
+            width: 65px; height: 65px; 
+            border-radius: 16px; 
+            background: transparent !important; /* Xóa nền trắng */
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: none !important; /* Xóa bóng đổ */
+            margin-bottom: 4px; 
+            overflow: hidden; 
+            border: none !important; /* Xóa viền */
+        }
+        .icon-wrapper img { 
+            width: 100%; height: 100%; object-fit: contain; 
+            border-radius: 16px; 
+        }
+        .icon-wrapper .fallback-text { 
+            font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; 
+        }
 
         .app-info { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; padding: 0 2px; }
         .app-name {
@@ -72,7 +95,7 @@
         .hide-add { display: none !important; }
 
         /* ======================================================== */
-        /* CẬP NHẬT MODAL MỚI - BỎ KHUNG, ICON 65px, NÚT XEM THÊM   */
+        /* MODAL 65px VÀ NÚT THÊM ỨNG DỤNG                          */
         /* ======================================================== */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
@@ -91,66 +114,32 @@
             width: 100%; padding: 10px 14px; border-radius: 50px; border: none;
             background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none;
         }
-        .modal-list { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 16px 8px; /* Khoảng cách hàng/cột hợp lý với icon 65px */
-        }
+        .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
         
-        /* 💡 [CẬP NHẬT CSS] Bỏ khung và tăng kích thước icon */
-        .modal-item { 
-            display: flex; flex-direction: column; align-items: center; 
-            background: transparent !important; /* Không có nền xám */
-            padding: 0 !important; /* Không có padding */
-            border: none !important; /* Không có viền */
-            width: 100%; cursor: pointer;
-        }
+        .modal-item { display: flex; flex-direction: column; align-items: center; background: transparent !important; padding: 0 !important; border: none !important; width: 100%; cursor: pointer; }
         .modal-item:active { transform: scale(0.95); }
-        
         .modal-item img { width: 65px; height: 65px; object-fit: contain; border-radius: 14px; }
-        .modal-item .fallback-text { 
-            width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; 
-            font-size: 32px; font-weight: 600; color: #1e1e2f; background: rgba(255,255,255,0.5); 
-            border-radius: 14px; 
-        }
+        .modal-item .fallback-text { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; color: #1e1e2f; background: rgba(255,255,255,0.5); border-radius: 14px; }
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; line-height: 1.2; }
 
-        /* 💡 [CẬP NHẬT CSS] Nút Xem thêm */
         #modalMoreBtn { display: none; text-align: center; margin-top: 16px; margin-bottom: 4px; }
         #modalMoreBtn button {
             padding: 10px 0; width: 100%; border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.3);
-            color: #4f46e5; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;
+            font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;
+            color: #1e1e2f; 
         }
         #modalMoreBtn button:active { transform: scale(0.96); background: rgba(255,255,255,0.6); }
 
-        .close-modal { 
-            display: block; width: 100%; margin-top: 16px; padding: 12px; 
-            background: rgba(0,0,0,0.05); border: none; border-radius: 50px; 
-            font-weight: 600; color: #555; cursor: pointer; text-align: center;
-        }
+        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
 
-        #dockMenu {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-radius: 50px;
-            padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 15px rgba(139, 92, 246, 0.1);
-            display: flex; align-items: center; justify-content: center; gap: 12px; z-index: 999; width: fit-content; max-width: 85%;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        #dockMenu { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-radius: 50px; padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 15px rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; gap: 12px; z-index: 999; width: fit-content; max-width: 85%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         #dockMenu.hidden { opacity: 0; transform: translateX(-50%) translateY(30px); pointer-events: none; }
         .dock-item { width: 32px; height: 32px; border-radius: 12px; background: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: all 0.2s; padding: 0; flex-shrink: 0; }
         .dock-item:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
         .dock-item img { width: 90%; height: 90%; object-fit: contain; border-radius: 6px; }
 
-        #dockToggleBtn {
-            position: fixed; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom)); z-index: 998;
-            width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-            background: rgba(255, 255, 255, 0.1); border-radius: 50%; border: none; cursor: pointer; opacity: 0.8;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: bounceDownLoop 4s ease-in-out infinite; 
-        }
+        #dockToggleBtn { position: fixed; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom)); z-index: 998; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); border-radius: 50%; border: none; cursor: pointer; opacity: 0.8; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); animation: bounceDownLoop 4s ease-in-out infinite; }
         #dockToggleBtn:active { transform: translateX(-50%) scale(0.85); background: rgba(255, 255, 255, 0.3); }
         #dockToggleBtn svg { width: 20px; height: 20px; stroke: rgba(255, 255, 255, 0.9); stroke-width: 2.5; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes bounceUpLoop { 0%, 75% { transform: translateX(-50%) translateY(0) scale(1); } 80% { transform: translateX(-50%) translateY(-8px) scale(1.1); } 85% { transform: translateX(-50%) translateY(-3px) scale(1); } 90%, 100% { transform: translateX(-50%) translateY(0) scale(1); } }
@@ -159,12 +148,7 @@
         #dockToggleBtn:not(.arrow-down) { animation: bounceUpLoop 4s ease-in-out infinite; }
         #dockToggleBtn.arrow-down svg { transform: rotate(180deg); }
 
-        .context-menu {
-            position: fixed; z-index: 9999; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border-radius: 14px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; flex-direction: column;
-            transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none;
-        }
+        .context-menu { position: fixed; z-index: 9999; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 14px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; flex-direction: column; transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none; }
         .context-menu.active { display: flex; transform: scale(1); opacity: 1; pointer-events: auto; }
         .context-menu .menu-item { padding: 10px 16px; font-size: 15px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
         .context-menu .menu-item:active { background: rgba(0, 0, 0, 0.08); }
@@ -178,6 +162,7 @@
             .modal-content { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.05); }
             .modal-content h3, .modal-item span { color: #f1f5f9; }
             .modal-item .fallback-text { background: rgba(255,255,255,0.1); color: #f1f5f9; }
+            #modalMoreBtn button { color: #f1f5f9; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.1); }
             #dockMenu { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
             .dock-item { background: rgba(255,255,255,0.05); }
             .dock-item:active { background: rgba(255,255,255,0.15); }
@@ -218,9 +203,9 @@
         <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm ứng dụng..." oninput="searchAppsStatic(this.value)" />
         <div class="modal-list" id="modalList"></div>
         
-        <!-- 💡 [MỚI] Nút Xem thêm để nhảy vào ô tìm kiếm -->
+        <!-- Nút Thêm ứng dụng dùng key ngôn ngữ -->
         <div id="modalMoreBtn">
-            <button onclick="focusSearch()">Xem thêm ứng dụng...</button>
+            <button onclick="focusSearch()">${t('modal.view_more')}</button>
         </div>
 
         <button class="close-modal" id="closeModalBtn" onclick="closeModal()"></button>
@@ -294,6 +279,7 @@
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
     const MAX_APPS = 16;
+    const INITIAL_DISPLAY_COUNT = 12; // 💡 Giới hạn 12 app ban đầu
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
@@ -400,12 +386,10 @@
         return div;
     }
 
-    // 💡 [MỚI] Hàm xử lý nút "Xem thêm"
     function focusSearch() {
         const searchBox = document.getElementById('searchBox');
-        searchBox.value = ''; // Làm sạch ô tìm kiếm trước
-        searchBox.focus(); // Đưa con trỏ chuột vào
-        // Mẹo nhỏ cho iOS để bàn phím bung lên ngay lập tức
+        searchBox.value = ''; 
+        searchBox.focus(); 
         setTimeout(() => { searchBox.click(); }, 150); 
     }
 
@@ -419,7 +403,6 @@
         });
         if (foundIds.length === 0) { modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy ứng dụng. Gửi yêu cầu cho cộng đồng!</div>`; return; }
         
-        // Khi tìm kiếm, không giới hạn 20 mục nữa
         const searchResults = foundIds.slice(0, 80); 
         
         searchResults.forEach(id => {
@@ -438,7 +421,6 @@
             };
             modalList.appendChild(item);
         });
-        
         document.getElementById('modalMoreBtn').style.display = 'none';
     }
 
@@ -470,13 +452,12 @@
 
     function moveAppToTop(id) { let current = getSelectedApps(); const currentIndex = current.indexOf(id); if (currentIndex > 0) { current.splice(currentIndex, 1); current.unshift(id); saveSelectedApps(current); } }
 
-    // 💡 [CẬP NHẬT LOGIC] RenderModal giới hạn 20 app
     function renderModal() {
         if(Object.keys(appDatabase).length === 0) return;
         const selectedIds = getSelectedApps();
         const allAvailableIds = Object.keys(appDatabase).filter(id => !selectedIds.includes(id));
         
-        const initialBatch = allAvailableIds.slice(0, 20);
+        const initialBatch = allAvailableIds.slice(0, INITIAL_DISPLAY_COUNT);
         
         modalList.innerHTML = '';
         document.getElementById('modalTitle').innerText = t('modal.title_add_app');
@@ -484,10 +465,10 @@
         document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
         document.getElementById('searchBox').value = '';
         
-        // Ẩn/Hiện nút Xem thêm
         const moreBtn = document.getElementById('modalMoreBtn');
-        if (allAvailableIds.length > 20) {
+        if (allAvailableIds.length > INITIAL_DISPLAY_COUNT) {
             moreBtn.style.display = 'block';
+            moreBtn.querySelector('button').innerText = t('modal.view_more');
         } else {
             moreBtn.style.display = 'none';
         }
