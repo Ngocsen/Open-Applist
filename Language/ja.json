@@ -1,0 +1,35 @@
+// ja (tiếng Nhật)
+{
+  "common": {
+    "app_title": "AppList",
+    "loading": "読み込み中..."
+  },
+  "header": {
+    "get_plugin": "プラグインを入手"
+  },
+  "button": {
+    "add": "追加",
+    "close": "閉じる",
+    "confirm": "確認",
+    "cancel": "キャンセル"
+  },
+  "app_menu": {
+    "move_top": "先頭に移動",
+    "rename": "名前を変更",
+    "delete": "削除"
+  },
+  "modal": {
+    "title_add_app": "➕ アプリを追加",
+    "search_placeholder": "アプリを検索...",
+    "max_apps_limit": "追加できるアプリは最大 {max} 個までです。"
+  },
+  "messages": {
+    "fallback_data_warning": "⚠️ 代替データを使用中...",
+    "prompt_rename_app": "アプリの新しい名前を入力してください：",
+    "reset_confirm": "現在のアプリリストをクリアしてデフォルトに戻しますか？",
+    "settings_in_development": "⚙️ 設定機能は開発中です！今後のアップデートをお待ちください。"
+  },
+  "dock_info": {
+    "app_version": "アプリ一覧\nバージョン: 1.0\n公開者: Sentechtipsvn\nカスタムアプリリストを作成\nホーム画面に追加してより良い体験を！"
+  }
+}
