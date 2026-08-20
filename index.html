@@ -234,11 +234,43 @@
 
     const basePath = window.location.pathname.replace(/\/+$/, '');
 
-    Promise.all([
-        fetch(basePath + '/db.json').then(res => res.ok ? res.json() : Promise.reject('DB 404')),
-        fetch(basePath + '/social.json').then(res => res.ok ? res.json() : Promise.reject('Social 404')),
-        fetch(basePath + '/Language/vi_VN.json').then(res => res.ok ? res.json() : Promise.reject('Lang 404'))
-    ])
+    const dbUrl = basePath + '/db.json';
+const socialUrl = basePath + '/social.json';
+
+const sysLang = (navigator.language || 'en-US').replace('-', '_');
+const baseLang = sysLang.split('_')[0];
+const langCandidates = [sysLang, baseLang, 'en_US', 'en'];
+
+async function getBestLang() {
+    for (let lang of langCandidates) {
+        try {
+            const res = await fetch(basePath + '/Language/' + lang + '.json');
+            if (res.ok) return await res.json();
+        } catch (e) {}
+    }
+    return null;
+}
+
+Promise.all([
+    fetch(dbUrl).then(res => res.ok ? res.json() : Promise.reject('DB 404')),
+    fetch(socialUrl).then(res => res.ok ? res.json() : Promise.reject('Social 404')),
+    getBestLang()
+])
+.then(([db, social, lang]) => {
+    appDatabase = db;
+    socialData = social;
+    langData = lang || FALLBACK_LANG;
+    renderGrid(); renderDock(); renderModal();
+    applyInitialDockState();
+})
+.catch(error => {
+    console.warn("Load fallback:", error);
+    appDatabase = FALLBACK_DB;
+    socialData = FALLBACK_SOCIAL;
+    langData = FALLBACK_LANG;
+    renderGrid(); renderDock(); renderModal();
+    applyInitialDockState();
+});
     .then(([db, social, lang]) => { 
         appDatabase = db; socialData = social; langData = lang;
         renderGrid(); renderDock(); renderModal(); applyInitialDockState(); 
