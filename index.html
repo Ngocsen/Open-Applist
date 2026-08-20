@@ -11,18 +11,22 @@
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(135deg, #d4bbfc, #8ec5fc, #a78bfa, #7dd3fc);
             background-size: 300% 300%; animation: gradientShift 8s ease infinite;
             min-height: 100vh; padding-bottom: 100px;
-            display: flex; justify-content: center; align-items: flex-start;
-            padding-top: 40px; padding-left: 12px; padding-right: 12px;
+            display: flex;
+            justify-content: center; /* Căn giữa cơ thể */
+            align-items: flex-start;
+            padding-top: 40px; padding-left: 20px; padding-right: 20px;
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
         .app-container {
             width: 100%; max-width: 400px;
-            margin: 0 auto; /* Căn giữa tuyệt đối khung chứa */
+            margin: 0 auto; /* Căn giữa tuyệt đối container */
             background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border-radius: 40px; padding: 24px 20px 20px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
@@ -38,40 +42,39 @@
         }
         .pill-btn:active { transform: scale(0.96); }
         
-        /* 💡 [CẬP NHẬT V8.2] Chỉnh Grid chính xác 4 cột */
+        /* 💡 [CHỐT V8.3] Grid 4 cột, căn giữa tuyệt đối */
         .app-grid { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 18px 10px; 
-            justify-items: center; 
+            gap: 18px 8px; 
+            place-items: center; /* Căn giữa hoàn hảo theo cả chiều ngang và dọc */
+            place-content: center;
         }
-        /* Giữ 4 cột cho mọi kích thước màn hình (đảm bảo 12 app xếp gọn 3 hàng) */
 
-        .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
+        .app-item { 
+            display: flex; flex-direction: column; align-items: center; 
+            width: 100%; position: relative; cursor: pointer; 
+        }
         
-        /* Bỏ khung, bỏ nền cho icon */
+        /* Bỏ khung, nền trong suốt */
         .icon-wrapper { 
             width: 65px; height: 65px; 
             border-radius: 16px; 
-            background: transparent !important; /* Xóa nền trắng */
+            background: transparent !important; 
             display: flex; align-items: center; justify-content: center;
-            box-shadow: none !important; /* Xóa bóng đổ */
+            box-shadow: none !important; 
             margin-bottom: 4px; 
             overflow: hidden; 
-            border: none !important; /* Xóa viền */
+            border: none !important; 
         }
-        .icon-wrapper img { 
-            width: 100%; height: 100%; object-fit: contain; 
-            border-radius: 16px; 
-        }
-        .icon-wrapper .fallback-text { 
-            font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; 
-        }
+        .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 16px; }
+        .icon-wrapper .fallback-text { font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; }
 
         .app-info { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; padding: 0 2px; }
         .app-name {
             font-size: 11px; color: #1e1e2f; opacity: 0.8;
-            flex: 0 0 auto; max-width: 70px;
+            flex: 0 1 auto; /* Không bị co ép bất thường */
+            max-width: 70px;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
             text-align: center; transition: opacity 0.2s;
         }
@@ -203,7 +206,6 @@
         <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm ứng dụng..." oninput="searchAppsStatic(this.value)" />
         <div class="modal-list" id="modalList"></div>
         
-        <!-- Nút Thêm ứng dụng dùng key ngôn ngữ -->
         <div id="modalMoreBtn">
             <button onclick="focusSearch()">${t('modal.view_more')}</button>
         </div>
@@ -279,7 +281,7 @@
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
     const MAX_APPS = 16;
-    const INITIAL_DISPLAY_COUNT = 12; // 💡 Giới hạn 12 app ban đầu
+    const INITIAL_DISPLAY_COUNT = 12; // 💡 12 app mặc định
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
