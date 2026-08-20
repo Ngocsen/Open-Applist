@@ -76,6 +76,9 @@
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px;}
         .hide-add { display: none !important; }
 
+        /* ======================================================== */
+        /* MODAL ĐƯỢC TỐI ƯU LẠI ICON TRONG KHUNG                    */
+        /* ======================================================== */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
             opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000;
@@ -92,12 +95,22 @@
             width: 100%; padding: 10px 14px; border-radius: 50px; border: none;
             background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none;
         }
-        .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-        .modal-item { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 16px; cursor: pointer; border: 1px solid transparent; }
+        
+        /* 💡 [UPDATE] TĂNG KÍCH THƯỚC CHO ICON ĐẦY KHUNG HƠN */
+        .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .modal-item { 
+            display: flex; flex-direction: column; align-items: center; 
+            background: rgba(255,255,255,0.5); padding: 14px 8px; border-radius: 18px; 
+            cursor: pointer; border: 1px solid transparent; width: 100%; 
+        }
         .modal-item:active { background: rgba(255,255,255,0.9); border-color: #4f46e5; transform: scale(0.95); }
-        .modal-item img { width: 40px; height: 40px; object-fit: contain; }
-        .modal-item span { font-size: 10px; text-align: center; color: #333; }
-        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; }
+        .modal-item img { width: 50px; height: 50px; object-fit: contain; border-radius: 10px; }
+        .modal-item span { font-size: 10px; text-align: center; color: #333; margin-top: 6px; }
+        .close-modal { 
+            display: block; width: 100%; margin-top: 16px; padding: 12px; 
+            background: rgba(0,0,0,0.05); border: none; border-radius: 50px; 
+            font-weight: 600; color: #555; cursor: pointer; text-align: center;
+        }
 
         #dockMenu {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
@@ -192,11 +205,11 @@
 
 <div class="modal-overlay" id="addAppModal">
     <div class="modal-content">
-        <h3>➕ Thêm ứng dụng</h3>
+        <h3 id="modalTitle">➕ Thêm ứng dụng</h3>
         <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm ứng dụng..." oninput="searchAppsStatic(this.value)" />
         <div class="modal-list" id="modalList"></div>
-        <!-- ✅ [FIXED] Nút Đóng đã được chuyển sang nhận dữ liệu từ Language -->
-        <button class="close-modal" onclick="closeModal()">${t('button.close')}</button>
+        <!-- 💡 [UPDATE] Đã thêm ID cho nút để render text bằng Javascript an toàn hơn -->
+        <button class="close-modal" id="closeModalBtn" onclick="closeModal()"></button>
     </div>
 </div>
 
@@ -208,7 +221,7 @@
     let socialData = {};
     let langData = {};
 
-    // Fallback app data (giữ nguyên)
+    // Fallback app data
     const FALLBACK_DB = {
         "vn.com.vng.zingalo":{"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"},
         "com.deepseek.chat":{"Name":"DeepSeek","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
@@ -217,7 +230,6 @@
         "com.burbn.instagram":{"Name":"Instagram","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c3/c1/dc/c3c1dcd8-7f07-0ec0-c901-7487134a98ad/Prod-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"}
     };
 
-    // Fallback language data
     const FALLBACK_LANG = {
         "button": { "add": "Thêm", "close": "Đóng", "confirm": "Đồng ý", "cancel": "Hủy" }, 
         "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." }
@@ -231,7 +243,7 @@
 
     const basePath = window.location.pathname.replace(/\/+$/, '');
 
-    // Hàm tìm ngôn ngữ phù hợp dựa trên hệ điều hành (Đã tối ưu ở bản V5)
+    // Hàm tìm ngôn ngữ phù hợp dựa trên hệ điều hành
     const sysLang = (navigator.language || 'en-US').replace('-', '_');
     const baseLang = sysLang.split('_')[0];
     const langCandidates = [sysLang, baseLang, 'en_US', 'en'];
@@ -289,7 +301,6 @@
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
     const MAX_APPS = 16;
-    // ✅ [REMOVED] Đã xóa `PROXY_URL` Cloudflare và `searchTimeout` không cần thiết
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
@@ -298,7 +309,6 @@
     let currentSelectedAppId = null;
     let isMenuOpen = false;
 
-    // Hàm lấy danh sách App tự tìm kiếm đã lưu (Custom Apps)
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
         if (stored) { 
@@ -308,13 +318,11 @@
         return [];
     }
 
-    // Hàm thêm App từ kết quả tìm kiếm vào Storage
     function addCustomApp(id, name, icon) {
         let apps = getCustomApps();
         if (apps.find(a => a.bundleId === id)) return; 
         apps.push({ bundleId: id, Name: name, icon: icon });
         localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(apps));
-        
         let current = getSelectedApps();
         if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
         current.push(id);
@@ -420,7 +428,7 @@
         return div;
     }
 
-    // ✅ [NEW] Hàm tìm kiếm nội bộ (Thay thế toàn bộ API Proxy) - Cực nhanh, không lỗi mạng
+    // Hàm tìm kiếm nội bộ (Thay thế toàn bộ API Proxy) - Cực nhanh
     function searchAppsStatic(query) {
         modalList.innerHTML = '';
         if (!query.trim()) {
@@ -431,20 +439,17 @@
         const keyword = query.trim().toLowerCase();
         let foundIds = [];
 
-        // Lọc trong toàn bộ database hiện tại (db.json + Custom App)
         Object.keys(appDatabase).forEach(id => {
             if (appDatabase[id].Name.toLowerCase().includes(keyword)) {
                 foundIds.push(id);
             }
         });
 
-        // Nếu không tìm thấy
         if (foundIds.length === 0) {
             modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy ứng dụng. Gửi yêu cầu cho cộng đồng!</div>`;
             return;
         }
 
-        // Hiển thị kết quả lọc được
         foundIds.forEach(id => {
             const data = appDatabase[id];
             const item = document.createElement('div');
@@ -530,7 +535,11 @@
         const selectedIds = getSelectedApps();
         const available = Object.keys(appDatabase).filter(id => !selectedIds.includes(id));
         modalList.innerHTML = '';
-        document.querySelector('#addAppModal h3').innerText = t('modal.title_add_app');
+        
+        // 💡 [UPDATE] Gán text bằng Javascript an toàn hơn
+        document.getElementById('modalTitle').innerText = t('modal.title_add_app');
+        document.getElementById('closeModalBtn').innerText = t('button.close');
+        
         document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
         document.getElementById('searchBox').value = '';
 
