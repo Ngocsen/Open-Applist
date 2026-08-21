@@ -9,8 +9,7 @@
   "button": {
     "add": "Add",
     "close": "Close",
-    "reset": "Reset",
-    "plugin": "Plugin",
+    "view_more": "Add App",
     "confirm": "Confirm",
     "cancel": "Cancel"
   },
@@ -20,23 +19,24 @@
     "delete": "Delete"
   },
   "modal": {
-    "title_add_app": "Add App",
+    "title_add_app": "➕ Add App",
     "search_placeholder": "Search apps...",
     "max_apps_limit": "You can add a maximum of {max} apps."
   },
   "messages": {
-    "fallback_data_warning": "Using fallback data...",
+    "fallback_data_warning": "⚠️ Using fallback data...",
     "prompt_rename_app": "Enter a new name for the app:",
-    "reset_confirm": "Clear the current app list and restore defaults?",
-    "settings_in_development": "Settings feature is in development! Stay tuned for future updates."
+    "reset_confirm": "Clear current app list and restore defaults?",
+    "settings_in_development": "⚙️ Settings are in development! Stay tuned."
   },
   "dock_info": {
-    "app_version": "App List\nVersion: 1.0\nPublished by: Sentechtipsvn\nCreate custom app list\nAdd to Home Screen for a better experience !"
+    "app_version": "App List\nVersion: 1.0\nPublished by: Sentechtipsvn\nCreate custom app list\nAdd to Home Screen for a better experience!"
   },
-  "info_popup": {
-    "title": "Sentechtipsvn",
-    "contact": "Contact",
-    "follow": "Follow",
-    "info": "Info"
+  "effects": {
+    "title": "Icon Mark Effects",
+    "background": "Enable Background",
+    "shadow": "Enable Shadow",
+    "mark": "Enable Mark Overlay",
+    "save": "Save Effects"
   }
 }
