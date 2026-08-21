@@ -20,7 +20,6 @@
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* Cố định 4 cột 6 hàng, co giãn theo màn hình */
         .app-container {
             position: relative;
             background: rgba(255, 255, 255, 0.25);
@@ -47,9 +46,7 @@
         .add-btn { background: rgba(255, 255, 255, 0.25); border: 2px dashed rgba(255, 255, 255, 0.6); color: #4f46e5; font-size: 28px; cursor: pointer; border-radius: 22%; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; aspect-ratio: 1; transition: all 0.2s; }
         .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px;}
-        .hide-add { display: none !important; }
 
-        /* NÚT "i" (INFO) - Góc trái dưới */
         #infoBtn {
             position: fixed; bottom: 30px; left: 20px; z-index: 999;
             width: 32px; height: 32px; border-radius: 50%;
@@ -59,26 +56,20 @@
         }
         #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* NGĂN KÉO & NÚT SETTING (Góc phải dưới) */
         #drawerWrapper { position: fixed; bottom: 30px; right: 20px; z-index: 999; display: flex; align-items: center; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); gap: 6px; }
         #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
         #drawerWrapper.open #drawerContent { max-width: 200px; opacity: 1; padding-right: 4px; }
         
         #drawerToggle, .drawer-btn { width: 32px; height: 32px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.4); }
-        
-        /* Nút Setting icon full khung, bo tròn */
         #drawerToggle img, .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        
         #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* MODAL */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; }
         
         .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; color: #1e1e2f; }
         
-        /* Các nút trong Popup Info */
         .action-list { display: flex; flex-direction: column; gap: 10px; }
         .action-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border: none; border-radius: 16px; background: rgba(255, 255, 255, 0.5); color: #1e1e2f; font-size: 15px; font-weight: 600; cursor: pointer; }
         .action-btn:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.8); }
@@ -104,15 +95,12 @@
 </head>
 <body>
 
-<!-- Khung Snowboard chính -->
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<!-- Nút "i" (Info) -->
 <button id="infoBtn">i</button>
 
-<!-- Ngăn kéo công cụ -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
@@ -121,57 +109,52 @@
     <button id="drawerToggle"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
-<!-- POPUP INFO (Nút i) -->
+<!-- POPUP INFO -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
-        <h3>Sentechtipsvn</h3>
+        <h3 id="infoModalTitle"></h3>
         <div class="action-list">
-            <button class="action-btn" id="btnMail">📧 Gửi mail</button>
-            <button class="action-btn" id="btnFollow">📣 Tên kênh</button>
-            <button class="action-btn" id="btnInfoDetails">🌐 Thông tin</button>
+            <button class="action-btn" id="btnMail"></button>
+            <button class="action-btn" id="btnFollow"></button>
+            <button class="action-btn" id="btnInfoDetails"></button>
         </div>
-        <button class="close-modal" id="closeInfoModalBtn">Đóng</button>
+        <button class="close-modal" id="closeInfoModalBtn"></button>
     </div>
 </div>
 
-<!-- POPUP THÔNG TIN CHI TIẾT (Nút Thông tin) -->
+<!-- POPUP THÔNG TIN -->
 <div class="modal-overlay" id="infoDetailsModal">
     <div class="modal-content">
-        <h3 id="infoDetailsTitle">Thông tin</h3>
+        <h3 id="infoDetailsTitle"></h3>
         <div id="infoDetailsContent" style="white-space: pre-line; text-align: center; font-size: 14px; color: #555; line-height: 1.6;"></div>
-        <button class="close-modal" id="closeInfoDetailsBtn">Đóng</button>
+        <button class="close-modal" id="closeInfoDetailsBtn"></button>
     </div>
 </div>
 
 <!-- MODAL THÊM APP -->
 <div class="modal-overlay" id="addAppModal">
     <div class="modal-content">
-        <h3 id="modalTitle">➕ Thêm ứng dụng</h3>
-        <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm ứng dụng..." />
+        <h3 id="modalTitle"></h3>
+        <input type="text" class="search-box" id="searchBox" />
         <div class="modal-list" id="modalList"></div>
-        <button class="close-modal" id="closeModalBtn">Đóng</button>
+        <button class="close-modal" id="closeModalBtn"></button>
     </div>
 </div>
 
-<!-- POPUP MENU (Chỉnh sửa app) -->
+<!-- POPUP MENU CONTEXT -->
 <div class="modal-overlay" id="contextMenu">
     <div class="modal-content" style="width: 80%; padding: 16px; text-align: center;">
         <div class="action-list">
-            <button class="action-btn" id="menuMoveTop">Đưa lên đầu</button>
-            <button class="action-btn" id="menuRename">Đổi tên</button>
-            <button class="action-btn" id="menuDelete" style="color: red;">Xoá</button>
+            <button class="action-btn" id="menuMoveTop"></button>
+            <button class="action-btn" id="menuRename"></button>
+            <button class="action-btn" id="menuDelete" style="color: red;"></button>
         </div>
-        <button class="close-modal" id="closeContextMenuBtn">Huỷ</button>
+        <button class="close-modal" id="closeContextMenuBtn"></button>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // 1. 📦 TẢI DỮ LIỆU
-    // ==========================================
-    let appDatabase = {}, socialData = {}, langData = {};
-    let currentSelectedAppId = null;
-
+    // Dữ liệu mặc định (Fallback tiếng Anh)
     const FALLBACK_DB = {
         "vn.com.vng.zingalo":{"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"},
         "com.deepseek.chat":{"Name":"DeepSeek","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
@@ -184,17 +167,25 @@
         "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432"
     };
 
+    // Fallback ngôn ngữ là tiếng Anh
     const FALLBACK_LANG = {
-        "button": { "add": "Thêm", "close": "Đóng" },
-        "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng..." },
-        "dock_info": { "app_version": "App List\nPhiên bản: 1.0\nPhát hành bởi: Sentechtipsvn\nTạo danh sách ứng dụng tuỳ chỉnh\nHãy thêm vào màn hình chính để trải nghiệm tốt hơn !" }
+        "button": { "add": "Add", "close": "Close", "reset": "Reset", "plugin": "Plugin" },
+        "modal": { "title_add_app": "Add App", "search_placeholder": "Search apps...", "max_apps_limit": "You can add a maximum of {max} apps." },
+        "app_menu": { "move_top": "Move to top", "rename": "Rename", "delete": "Delete" },
+        "messages": { "prompt_rename_app": "Enter a new name for the app:", "reset_confirm": "Clear the current app list and restore defaults?" },
+        "info_popup": { "title": "Sentechtipsvn", "contact": "Contact", "follow": "Follow", "info": "Info" },
+        "dock_info": { "app_version": "App List\nVersion: 1.0\nPublished by: Sentechtipsvn\nCreate custom app list\nAdd to Home Screen for a better experience !" }
     };
+
+    let appDatabase = {}, socialData = {}, langData = {};
+    let currentSelectedAppId = null;
 
     const basePath = window.location.pathname.replace(/\/+$/, '');
     const sysLang = (navigator.language || 'en-US').replace('-', '_');
     const baseLang = sysLang.split('_')[0];
     const langCandidates = [sysLang, baseLang, 'en_US', 'en'];
 
+    // Hàm tải ngôn ngữ tốt nhất
     async function getBestLang() {
         for (let lang of langCandidates) {
             try {
@@ -202,7 +193,7 @@
                 if (res.ok) return await res.json();
             } catch (e) {}
         }
-        return null;
+        return null; // Không tìm thấy -> dùng Fallback (Anh)
     }
 
     Promise.all([
@@ -214,7 +205,7 @@
     .then(([db, sysApp, social, lang]) => { 
         appDatabase = { ...db, ...sysApp }; 
         socialData = social; 
-        langData = lang || FALLBACK_LANG;
+        langData = lang || FALLBACK_LANG; // Fallback về tiếng Anh nếu không có file
         initUI(); 
     })
     .catch(error => { 
@@ -234,28 +225,25 @@
     }
 
     // ==========================================
-    // 2. ⚙️ LOGIC CHÍNH
+    // LOGIC CHÍNH
     // ==========================================
     const STORAGE_KEY = 'myAppList';
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
-    const MAX_APPS = 24; // 4x6 = 24 ô (16 app + 8 nút thêm / hoặc đầy 24)
+    const MAX_APPS = 24;
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
 
-    // Xử lý lưu trữ dữ liệu người dùng
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
         return stored ? JSON.parse(stored) : [];
     }
-    
     function getCustomNames() {
         const stored = localStorage.getItem(STORAGE_NAME_KEY);
         return stored ? JSON.parse(stored) : {};
     }
-
     function getSelectedApps() {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
@@ -263,7 +251,6 @@
         }
         return ["com.deepseek.chat", "com.facebook.Messenger", "com.facebook.Facebook", "com.burbn.instagram"];
     }
-
     function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
     function renderGrid() {
@@ -294,7 +281,7 @@
 
         div.innerHTML = `
             <div class="icon-wrapper">
-                <img src="${useIcon ? iconSrc : ''}" alt="${displayName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <img src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="fallback-text">${displayName.charAt(0).toUpperCase()}</span>
             </div>
             <div class="app-info">
@@ -308,30 +295,51 @@
     }
 
     // ==========================================
-    // 3. NÚT "i", SETTING (GEAR) & MODALS
+    // KHỞI TẠO UI & GÁN NGÔN NGỮ
     // ==========================================
     function initUI() {
-        // Nút "i" & Popup Info
+        // Gán ngôn ngữ cho nút "i" popup
+        document.getElementById('infoModalTitle').innerText = t('info_popup.title');
+        document.getElementById('btnMail').innerText = t('info_popup.contact');
+        document.getElementById('btnFollow').innerText = t('info_popup.follow');
+        document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
+        document.getElementById('closeInfoModalBtn').innerText = t('button.close');
+
+        document.getElementById('closeInfoDetailsBtn').innerText = t('button.close');
+        document.getElementById('infoDetailsTitle').innerText = t('info_popup.info');
+
+        // Gán ngôn ngữ cho Menu Context
+        document.getElementById('menuMoveTop').innerText = t('app_menu.move_top');
+        document.getElementById('menuRename').innerText = t('app_menu.rename');
+        document.getElementById('menuDelete').innerText = t('app_menu.delete');
+        document.getElementById('closeContextMenuBtn').innerText = t('button.cancel');
+
+        // Gán ngôn ngữ cho Modal thêm app
+        document.getElementById('modalTitle').innerText = t('modal.title_add_app');
+        document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
+        document.getElementById('closeModalBtn').innerText = t('button.close');
+
+        // Gán ngôn ngữ cho Drawer
+        document.getElementById('btnReset').innerHTML = `<img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" />`;
+        document.getElementById('btnPlugin').innerHTML = `<img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" />`;
+
+        // Xử lý sự kiện
         document.getElementById('infoBtn').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
         document.getElementById('btnMail').onclick = () => { window.open(socialData.email || 'mailto:sentechtips@gmail.com', '_blank'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank'); };
         
-        // Nút "Thông tin" -> Popup thứ 2
         document.getElementById('btnInfoDetails').onclick = () => {
             document.getElementById('infoDetailsContent').innerText = langData.dock_info?.app_version || FALLBACK_LANG.dock_info.app_version;
             document.getElementById('infoModal').classList.remove('active');
             document.getElementById('infoDetailsModal').classList.add('active');
         };
 
-        // Đóng tất cả Modal
         document.getElementById('closeInfoModalBtn').onclick = () => document.getElementById('infoModal').classList.remove('active');
         document.getElementById('closeInfoDetailsBtn').onclick = () => document.getElementById('infoDetailsModal').classList.remove('active');
         document.getElementById('closeContextMenuBtn').onclick = closeContextMenu;
 
-        // Nút Setting (Gear) & Drawer
         const drawerToggle = document.getElementById('drawerToggle');
         const drawerWrapper = document.getElementById('drawerWrapper');
-        
         drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
         
         drawerToggle.onclick = () => {
@@ -340,7 +348,6 @@
             else drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
         };
 
-        // Nút Reset
         document.getElementById('btnReset').onclick = () => {
             if(confirm(t('messages.reset_confirm'))) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
@@ -349,13 +356,11 @@
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
         };
 
-        // Nút Plugin
         document.getElementById('btnPlugin').onclick = () => {
             window.open(socialData.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank');
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
         };
 
-        // Popup Menu Context (Chỉnh sửa)
         document.getElementById('menuMoveTop').onclick = () => { 
             let cur = getSelectedApps(); const idx = cur.indexOf(currentSelectedAppId); 
             if(idx>0){cur.splice(idx,1); cur.unshift(currentSelectedAppId); saveSelectedApps(cur);} 
@@ -372,10 +377,11 @@
             } 
         };
 
-        // Load dữ liệu ngôn ngữ
-        document.getElementById('modalTitle').innerText = t('modal.title_add_app');
-        document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
-        document.getElementById('closeModalBtn').innerText = t('button.close');
+        // Đóng modal khi bấm nền
+        document.getElementById('infoModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
+        document.getElementById('infoDetailsModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
+        document.getElementById('contextMenu').onclick = (e) => { if (e.target === e.currentTarget) closeContextMenu(); };
+        modal.onclick = (e) => { if (e.target === modal) closeModal(); };
         
         renderGrid();
         renderModal();
@@ -388,7 +394,7 @@
     function closeContextMenu() { document.getElementById('contextMenu').classList.remove('active'); }
 
     // ==========================================
-    // 4. MODAL THÊM APP & TÌM KIẾM
+    // MODAL THÊM APP & TÌM KIẾM
     // ==========================================
     function renderModal() {
         modalList.innerHTML = '';
@@ -412,7 +418,7 @@
         modalList.innerHTML = ''; if (!query.trim()) { renderModal(); return; }
         const keyword = query.trim().toLowerCase(); let foundIds = [];
         Object.keys(appDatabase).forEach(id => { if (appDatabase[id].Name.toLowerCase().includes(keyword)) foundIds.push(id); });
-        if (foundIds.length === 0) { modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy ứng dụng.</div>`; return; }
+        if (foundIds.length === 0) { modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">No apps found.</div>`; return; }
         foundIds.forEach(id => {
             const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
             const useIcon = data.icon && data.icon.trim() !== ""; let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
@@ -432,15 +438,7 @@
         window.location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(shortcutName) + "&input=text&text=" + encodeURIComponent(bundleId); 
     }
     
-    // Gắn sự kiện cho Modal & tìm kiếm
-    modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-    document.getElementById('closeModalBtn').onclick = closeModal;
     document.getElementById('searchBox').oninput = (e) => searchAppsStatic(e.target.value);
-    
-    // Đóng modal info khi bấm nền
-    document.getElementById('infoModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
-    document.getElementById('infoDetailsModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
-    document.getElementById('contextMenu').onclick = (e) => { if (e.target === e.currentTarget) closeContextMenu(); };
 </script>
 
 </body>
