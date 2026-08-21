@@ -32,6 +32,12 @@
   "dock_info": {
     "app_version": "App List\nPhiên bản: 1.0\nPhát hành bởi:Sentechtipsvn\nTạo danh sách ứng dụng tuỳ chỉnh\nHãy thêm vào màn hình chính để trải nghiệm tốt hơn !"
   },
+  "info_popup": {
+    "title": "Sentechtipsvn",
+    "contact": "Liên hệ",
+    "follow": "Theo dõi kênh",
+    "info": "Thông tin"
+  },
   "effects": {
     "title": "Hiệu ứng Icon Mark",
     "background": "Bật nền Background",
