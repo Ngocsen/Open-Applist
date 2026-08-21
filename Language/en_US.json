@@ -9,7 +9,7 @@
   "button": {
     "add": "Add",
     "close": "Close",
-    "view_more": "Add App",
+    "view_more": "Add app",
     "confirm": "Confirm",
     "cancel": "Cancel"
   },
@@ -19,18 +19,24 @@
     "delete": "Delete"
   },
   "modal": {
-    "title_add_app": "➕ Add App",
+    "title_add_app": "➕ Add app",
     "search_placeholder": "Search apps...",
-    "max_apps_limit": "You can add a maximum of {max} apps."
+    "max_apps_limit": "You can only add a maximum of {max} apps."
   },
   "messages": {
     "fallback_data_warning": "⚠️ Using fallback data...",
     "prompt_rename_app": "Enter a new name for the app:",
-    "reset_confirm": "Clear current app list and restore defaults?",
-    "settings_in_development": "⚙️ Settings are in development! Stay tuned."
+    "reset_confirm": "Clear the current app list and restore defaults?",
+    "settings_in_development": "⚙️ Settings feature is in development! Stay tuned for future updates."
   },
   "dock_info": {
-    "app_version": "App List\nVersion: 1.0\nPublished by: Sentechtipsvn\nCreate custom app list\nAdd to Home Screen for a better experience!"
+    "app_version": "App List\nVersion: 1.0\nPublished by: Sentechtipsvn\nCreate custom app list\nAdd to Home Screen for a better experience !"
+  },
+  "info_popup": {
+    "title": "Sentechtipsvn",
+    "contact": "Contact",
+    "follow": "Follow",
+    "info": "Info"
   },
   "effects": {
     "title": "Icon Mark Effects",
