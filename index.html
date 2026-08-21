@@ -5,104 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="App List" />
+    <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <title>AppList</title>
+    <title>Snowboard</title>
     
     <style>
+        /* Reset & Cơ bản */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* Nền vẫn giữ nguyên gradient mờ ảo diệu */
             background: linear-gradient(135deg, #d4bbfc, #8ec5fc, #a78bfa, #7dd3fc);
             background-size: 300% 300%; animation: gradientShift 8s ease infinite;
-            min-height: 100vh; padding-bottom: 100px;
-            display: flex;
-            justify-content: center; /* Căn giữa cơ thể */
-            align-items: flex-start;
-            padding-top: 40px; padding-left: 20px; padding-right: 20px;
+            height: 100vh; width: 100vw;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            margin: 0; padding: 0;
+            overflow: hidden; /* Không cho phép cuộn trang */
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
+        /* Khung chứa chính (Snowboard) - Không còn tiêu đề hay header */
         .app-container {
-            width: 100%; max-width: 400px;
-            margin: 0 auto; /* Căn giữa tuyệt đối container */
-            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border-radius: 40px; padding: 24px 20px 20px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
+            /* Kích thước sẽ được tính toán động bằng JS để luôn vừa khít màn hình */
+            position: relative;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
+            /* Sẽ được set style inline bằng JS để padding đều */
         }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .header h1 { font-size: 26px; font-weight: 700; color: #1e1e2f; }
-        .pill-btn {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; border-radius: 50px;
-            padding: 10px 20px; color: white; font-weight: 600; font-size: 14px; cursor: pointer;
-            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2); border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex; align-items: center; gap: 6px;
-        }
-        .pill-btn:active { transform: scale(0.96); }
         
-        /* 💡 [CHỐT V8.3] Grid 4 cột, căn giữa tuyệt đối */
-        .app-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 18px 8px; 
-            place-items: center; /* Căn giữa hoàn hảo theo cả chiều ngang và dọc */
-            place-content: center;
+        .app-grid {
+            display: grid;
+            /* 4 cột mặc định cho iPhone, 5 cột cho iPad mini... */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px; /* Khoảng cách chuẩn */
+            justify-items: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
         }
+        @media (min-width: 640px) { .app-grid { grid-template-columns: repeat(5, 1fr); } }
+        @media (min-width: 900px) { .app-grid { grid-template-columns: repeat(6, 1fr); } }
 
-        .app-item { 
-            display: flex; flex-direction: column; align-items: center; 
-            width: 100%; position: relative; cursor: pointer; 
-        }
+        /* Icon và tên app */
+        .app-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; position: relative; cursor: pointer; }
         
-        /* Bỏ khung, nền trong suốt */
+        /* Icon chuẩn Apple: khung trắng, bo góc */
         .icon-wrapper { 
-            width: 65px; height: 65px; 
-            border-radius: 16px; 
-            background: transparent !important; 
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: none !important; 
-            margin-bottom: 4px; 
-            overflow: hidden; 
-            border: none !important; 
+            width: 60px; height: 60px; border-radius: 14px; /* iOS mới dùng 14px */
+            background: #ffffff; display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05), inset 0 0 2px rgba(0,0,0,0.05);
+            margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.8);
         }
-        .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 16px; }
+        .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 14px; }
         .icon-wrapper .fallback-text { font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; }
 
         .app-info { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; padding: 0 2px; }
-        .app-name {
-            font-size: 11px; color: #1e1e2f; opacity: 0.8;
-            flex: 0 1 auto; /* Không bị co ép bất thường */
-            max-width: 70px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
-            text-align: center; transition: opacity 0.2s;
-        }
+        .app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
         .more-btn {
-            font-size: 16px; line-height: 1; padding: 0; cursor: pointer;
-            color: #1e1e2f; opacity: 0.4;
-            flex-shrink: 0; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; border-radius: 4px; background: transparent; border: none; font-weight: bold;
-            transform: scale(0.8);
+            font-size: 14px; line-height: 1; padding: 0; cursor: pointer;
+            color: #1e1e2f; opacity: 0.3; transition: all 0.2s;
+            background: transparent; border: none; font-weight: bold;
+            transform: scale(0.7);
         }
-        .more-btn:active { opacity: 1; background: rgba(0,0,0,0.1); }
+        .more-btn:active { opacity: 1; background: rgba(0,0,0,0.05); border-radius: 4px; padding: 2px; }
 
+        /* Nút Thêm (+) */
         .add-btn {
-            background: rgba(255, 255, 255, 0.25); border: 2px dashed rgba(255, 255, 255, 0.6);
-            color: #4f46e5; font-size: 28px; cursor: pointer; border-radius: 16px;
+            background: rgba(255, 255, 255, 0.3); border: 2px dashed rgba(255, 255, 255, 0.6);
+            color: #4f46e5; font-size: 28px; cursor: pointer; border-radius: 14px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             width: 60px; height: 60px; transition: all 0.2s;
         }
-        .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
+        .add-btn:active { background: rgba(255, 255, 255, 0.5); transform: scale(0.95); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px;}
-        .hide-add { display: none !important; }
 
         /* ======================================================== */
-        /* MODAL 65px VÀ NÚT THÊM ỨNG DỤNG                          */
+        /* NGĂN KÉO CÔNG CỤ MỚI (GÓC PHẢI) - Đã thêm Get Plugin vào */
         /* ======================================================== */
+        #drawerWrapper {
+            position: fixed;
+            bottom: 30px; right: 20px;
+            z-index: 999;
+            display: flex; align-items: center;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 50px;
+            padding: 6px 8px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            gap: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
+        #drawerWrapper.open #drawerContent { max-width: 400px; opacity: 1; padding-right: 4px; }
+        
+        .drawer-btn, #drawerToggle { 
+            width: 32px; height: 32px; border-radius: 50%; border: none;
+            background: rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; padding: 0; flex-shrink: 0;
+        }
+        .drawer-btn:active, #drawerToggle:active { transform: scale(0.85); background: rgba(255, 255, 255, 0.8); }
+        .drawer-btn img, #drawerToggle img { width: 18px; height: 18px; object-fit: contain; }
+
+        @media (prefers-color-scheme: dark) {
+            #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
+            .drawer-btn, #drawerToggle { background: rgba(255,255,255,0.05); }
+            .drawer-btn:active, #drawerToggle:active { background: rgba(255,255,255,0.15); }
+        }
+
+        /* ======================================================== */
+        /* POPUP MENU & CÁC THÀNH PHẦN PHỤ TRỢ (Giữ nguyên)        */
+        /* ======================================================== */
+        .context-menu {
+            position: fixed; z-index: 9999; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px);
+            border-radius: 14px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.4); min-width: 140px; display: none; flex-direction: column;
+            transform: scale(0.9); opacity: 0; transition: 0.15s; pointer-events: none;
+        }
+        .context-menu.active { display: flex; transform: scale(1); opacity: 1; pointer-events: auto; }
+        .context-menu .menu-item { padding: 10px 16px; font-size: 15px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
+        .context-menu .menu-item:active { background: rgba(0,0,0,0.08); }
+        .context-menu .menu-item.delete { color: #ff3b30; }
+
+        /* Modal thêm app (Giữ nguyên layout của V8) */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
-            opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000;
+            opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1000;
             display: flex; align-items: center; justify-content: center;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -110,65 +143,24 @@
             background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px);
             width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px;
             padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto;
-            scroll-behavior: smooth;
         }
         .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; color: #1e1e2f; }
-        .search-box {
-            width: 100%; padding: 10px 14px; border-radius: 50px; border: none;
-            background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none;
-        }
+        .search-box { width: 100%; padding: 10px 14px; border-radius: 50px; border: none; background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none; }
         .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
-        
         .modal-item { display: flex; flex-direction: column; align-items: center; background: transparent !important; padding: 0 !important; border: none !important; width: 100%; cursor: pointer; }
         .modal-item:active { transform: scale(0.95); }
         .modal-item img { width: 65px; height: 65px; object-fit: contain; border-radius: 14px; }
         .modal-item .fallback-text { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; color: #1e1e2f; background: rgba(255,255,255,0.5); border-radius: 14px; }
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; line-height: 1.2; }
-
-        #modalMoreBtn { display: none; text-align: center; margin-top: 16px; margin-bottom: 4px; }
-        #modalMoreBtn button {
-            padding: 10px 0; width: 100%; border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.3);
-            font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;
-            color: #1e1e2f; 
-        }
-        #modalMoreBtn button:active { transform: scale(0.96); background: rgba(255,255,255,0.6); }
-
         .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
-
-        #dockMenu { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border-radius: 50px; padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 15px rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; gap: 12px; z-index: 999; width: fit-content; max-width: 85%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        #dockMenu.hidden { opacity: 0; transform: translateX(-50%) translateY(30px); pointer-events: none; }
-        .dock-item { width: 32px; height: 32px; border-radius: 12px; background: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: all 0.2s; padding: 0; flex-shrink: 0; }
-        .dock-item:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
-        .dock-item img { width: 90%; height: 90%; object-fit: contain; border-radius: 6px; }
-
-        #dockToggleBtn { position: fixed; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom)); z-index: 998; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); border-radius: 50%; border: none; cursor: pointer; opacity: 0.8; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); animation: bounceDownLoop 4s ease-in-out infinite; }
-        #dockToggleBtn:active { transform: translateX(-50%) scale(0.85); background: rgba(255, 255, 255, 0.3); }
-        #dockToggleBtn svg { width: 20px; height: 20px; stroke: rgba(255, 255, 255, 0.9); stroke-width: 2.5; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes bounceUpLoop { 0%, 75% { transform: translateX(-50%) translateY(0) scale(1); } 80% { transform: translateX(-50%) translateY(-8px) scale(1.1); } 85% { transform: translateX(-50%) translateY(-3px) scale(1); } 90%, 100% { transform: translateX(-50%) translateY(0) scale(1); } }
-        @keyframes bounceDownLoop { 0%, 75% { transform: translateX(-50%) translateY(0) scale(1); } 80% { transform: translateX(-50%) translateY(8px) scale(1.1); } 85% { transform: translateX(-50%) translateY(3px) scale(1); } 90%, 100% { transform: translateX(-50%) translateY(0) scale(1); } }
-        #dockToggleBtn.arrow-down { animation: bounceDownLoop 4s ease-in-out infinite; }
-        #dockToggleBtn:not(.arrow-down) { animation: bounceUpLoop 4s ease-in-out infinite; }
-        #dockToggleBtn.arrow-down svg { transform: rotate(180deg); }
-
-        .context-menu { position: fixed; z-index: 9999; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 14px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; flex-direction: column; transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none; }
-        .context-menu.active { display: flex; transform: scale(1); opacity: 1; pointer-events: auto; }
-        .context-menu .menu-item { padding: 10px 16px; font-size: 15px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
-        .context-menu .menu-item:active { background: rgba(0, 0, 0, 0.08); }
-        .context-menu .menu-item.delete { color: #ff3b30; }
 
         @media (prefers-color-scheme: dark) {
             body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
             .app-container { background: rgba(30, 27, 75, 0.3); border: 1px solid rgba(255,255,255,0.05); }
-            .header h1, .app-name { color: #f1f5f9; }
-            .more-btn { color: #f1f5f9; }
+            .app-name { color: #f1f5f9; }
             .modal-content { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.05); }
             .modal-content h3, .modal-item span { color: #f1f5f9; }
             .modal-item .fallback-text { background: rgba(255,255,255,0.1); color: #f1f5f9; }
-            #modalMoreBtn button { color: #f1f5f9; border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.1); }
-            #dockMenu { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
-            .dock-item { background: rgba(255,255,255,0.05); }
-            .dock-item:active { background: rgba(255,255,255,0.15); }
             .context-menu { background: rgba(30, 27, 75, 0.85); border: 1px solid rgba(255,255,255,0.05); }
             .context-menu .menu-item { color: #f1f5f9; }
             .context-menu .menu-item:active { background: rgba(255,255,255,0.1); }
@@ -178,61 +170,55 @@
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <h1>AppList</h1>
-        <button class="pill-btn" id="getPluginBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-            Get Plugin
-        </button>
-    </div>
+<!-- Khung Snowboard chính -->
+<div class="app-container" id="appContainer">
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<div id="dockMenu"></div>
-<button id="dockToggleBtn">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-</button>
+<!-- Ngăn kéo công cụ (Góc phải) -->
+<div id="drawerWrapper">
+    <div id="drawerContent">
+        <!-- Các nút sẽ được render bằng JavaScript -->
+    </div>
+    <button id="drawerToggle">
+        <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
+    </button>
+</div>
 
+<!-- Popup Menu -->
 <div class="context-menu" id="contextMenu">
     <div class="menu-item" id="menuMoveTop">Đưa lên đầu</div>
     <div class="menu-item" id="menuRename">Đổi tên</div>
     <div class="menu-item delete" id="menuDelete">Xoá</div>
 </div>
 
+<!-- Modal Add App -->
 <div class="modal-overlay" id="addAppModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Thêm ứng dụng</h3>
         <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm ứng dụng..." oninput="searchAppsStatic(this.value)" />
         <div class="modal-list" id="modalList"></div>
-        
-        <!-- Nút Thêm ứng dụng dùng key ngôn ngữ -->
-        <div id="modalMoreBtn">
-            <!-- 💡 [V8.4] Sửa lỗi: HTML tĩnh sẽ được Javascript ghi đè từ file ngôn ngữ -->
-            <button onclick="focusSearch()">Xem thêm</button>
-        </div>
-
-        <button class="close-modal" id="closeModalBtn" onclick="closeModal()"></button>
+        <button class="close-modal" id="closeModalBtn" onclick="closeModal()">Đóng</button>
     </div>
 </div>
 
 <script>
     // ==========================================
-    // 1. 📦 TẢI VÀ GỘP DỮ LIỆU
+    // 1. 📦 TẢI DỮ LIỆU & FALLBACK
     // ==========================================
     let appDatabase = {};
     let socialData = {};
     let langData = {};
 
     const FALLBACK_DB = {
+        "com.deepseek.chat":{"Name":"Bé Code","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
         "vn.com.vng.zingalo":{"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"},
-        "com.deepseek.chat":{"Name":"DeepSeek","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"}
+        "com.facebook.Messenger":{"Name":"Messenger","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5d/51/db/5d51dbf4-6a85-aaf5-ace1-87b698d178da/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
+        "com.facebook.Facebook":{"Name":"Facebook","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/09/1e/e0/091ee060-69ab-37fd-dee8-c62713a89ffc/Icon-Production-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
+        "com.burbn.instagram":{"Name":"Instagram","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c3/c1/dc/c3c1dcd8-7f07-0ec0-c901-7487134a98ad/Prod-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"}
     };
     const FALLBACK_SOCIAL = { "email":"mailto:sentechtips@gmail.com", "Follow":"https://browse.shortcuty.app/user/Sentechtipsvn", "website":"info" };
-    const FALLBACK_LANG = { 
-        "button": { "add": "Thêm", "close": "Đóng", "view_more": "Thêm ứng dụng" }, 
-        "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng..." } 
-    };
+    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng" }, "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng..." }, "messages": { "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?" } };
 
     const basePath = window.location.pathname.replace(/\/+$/, '');
     const sysLang = (navigator.language || 'en-US').replace('-', '_');
@@ -254,25 +240,22 @@
         fetch(basePath + '/system-app.json').then(res => res.ok ? res.json() : Promise.reject('System 404')),
         fetch(basePath + '/social.json').then(res => res.ok ? res.json() : Promise.reject('Social 404')),
         getBestLang()
-    ])
-    .then(([db, sysAppData, social, lang]) => { 
+    ]).then(([db, sysAppData, social, lang]) => { 
         appDatabase = { ...db, ...sysAppData }; 
         socialData = social; 
         langData = lang || FALLBACK_LANG;
-        renderGrid(); renderDock(); renderModal(); applyInitialDockState(); 
-    })
-    .catch(error => { 
+        renderGrid(); renderDrawer(); renderModal(); adjustLayout();
+    }).catch(error => { 
         console.warn("⚠️ Lỗi tải dữ liệu. Đang dùng Fallback:", error);
         appDatabase = FALLBACK_DB; 
         socialData = FALLBACK_SOCIAL; 
         langData = FALLBACK_LANG; 
-        renderGrid(); renderDock(); renderModal(); applyInitialDockState(); 
+        renderGrid(); renderDrawer(); renderModal(); adjustLayout();
     });
 
     function t(key, replacements) {
         if (!langData) return key;
-        const keys = key.split('.');
-        let val = langData;
+        const keys = key.split('.'); let val = langData;
         for (let k of keys) { if (val && val[k] !== undefined) val = val[k]; else return key; }
         if (typeof val !== 'string') return key;
         if (replacements) { for (let [k, v] of Object.entries(replacements)) val = val.replace(`{${k}}`, v); }
@@ -280,257 +263,203 @@
     }
 
     // ==========================================
-    // 2. ⚙️ LOGIC CHÍNH
+    // 2. LOGIC CHÍNH
     // ==========================================
-    const STORAGE_KEY = 'myAppList';
-    const STORAGE_NAME_KEY = 'myAppNames';
-    const STORAGE_CUSTOM_KEY = 'myCustomApps';
-    const MAX_APPS = 16;
-    const INITIAL_DISPLAY_COUNT = 12; // 💡 12 app mặc định
-
+    const STORAGE_KEY = 'myAppList'; const STORAGE_NAME_KEY = 'myAppNames'; const STORAGE_CUSTOM_KEY = 'myCustomApps';
+    const MAX_APPS = 16; // Chốt cứng 16 app như sếp muốn
     const grid = document.getElementById('appGrid');
-    const modal = document.getElementById('addAppModal');
-    const modalList = document.getElementById('modalList');
-    let currentSelectedAppId = null;
-    let isMenuOpen = false;
+    const modal = document.getElementById('addAppModal'); const modalList = document.getElementById('modalList');
+    let currentSelectedAppId = null; let isMenuOpen = false;
 
-    function getCustomApps() {
-        const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
-        if (stored) { try { return JSON.parse(stored); } catch(e) { localStorage.removeItem(STORAGE_CUSTOM_KEY); return []; } }
-        return [];
-    }
-
+    function getCustomApps() { const stored = localStorage.getItem(STORAGE_CUSTOM_KEY); if (stored) { try { return JSON.parse(stored); } catch(e) { localStorage.removeItem(STORAGE_CUSTOM_KEY); return []; } } return []; }
     function addCustomApp(id, name, icon) {
-        let apps = getCustomApps();
-        if (apps.find(a => a.bundleId === id)) return; 
+        let apps = getCustomApps(); if (apps.find(a => a.bundleId === id)) return; 
         apps.push({ bundleId: id, Name: name, icon: icon });
         localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(apps));
-        let current = getSelectedApps();
-        if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
-        current.push(id);
-        saveSelectedApps(current);
-        closeModal();
+        let current = getSelectedApps(); if(current.length >= MAX_APPS) { alert("Đã đạt giới hạn 16 app!"); return; }
+        current.push(id); saveSelectedApps(current); closeModal();
     }
-
-    function getCustomNames() {
-        const stored = localStorage.getItem(STORAGE_NAME_KEY);
-        if (stored) { try { return JSON.parse(stored); } catch(e) { localStorage.removeItem(STORAGE_NAME_KEY); return {}; } }
-        return {};
-    }
-
-    function saveCustomName(id, newName) {
-        let names = getCustomNames();
-        if (newName && newName.trim() !== "") names[id] = newName.trim();
-        else delete names[id]; 
-        localStorage.setItem(STORAGE_NAME_KEY, JSON.stringify(names));
-        renderGrid(); closeContextMenu();
-    }
-
+    function getCustomNames() { const stored = localStorage.getItem(STORAGE_NAME_KEY); if (stored) { try { return JSON.parse(stored); } catch(e) { localStorage.removeItem(STORAGE_NAME_KEY); return {}; } } return {}; }
+    function saveCustomName(id, newName) { let names = getCustomNames(); if (newName && newName.trim() !== "") names[id] = newName.trim(); else delete names[id]; localStorage.setItem(STORAGE_NAME_KEY, JSON.stringify(names)); renderGrid(); closeContextMenu(); }
     function getSelectedApps() {
         const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) { 
-            try { 
-                const parsed = JSON.parse(stored);
-                if (!Array.isArray(parsed) || parsed.length === 0) { localStorage.removeItem(STORAGE_KEY); throw new Error("Rác"); }
-                return parsed;
-            } catch(e) { localStorage.removeItem(STORAGE_KEY); }
-        }
+        if (stored) { try { const parsed = JSON.parse(stored); if (Array.isArray(parsed) && parsed.length > 0) return parsed; } catch(e) { localStorage.removeItem(STORAGE_KEY); } }
         return ["com.deepseek.chat", "com.facebook.Messenger", "com.facebook.Facebook", "com.burbn.instagram"];
     }
+    function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
-    function saveSelectedApps(ids) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
-        renderGrid(); closeContextMenu();
+    // ==========================================
+    // 3. ĐIỀU CHỈNH LAYOUT ĐỘNG (QUAN TRỌNG NHẤT)
+    // ==========================================
+    function adjustLayout() {
+        const container = document.getElementById('appContainer');
+        const w = window.innerWidth; const h = window.innerHeight;
+        
+        // 4 cột, dùng vmin để icon luôn vừa kích thước màn hình (gần gũi với icon 60px Apple)
+        // Dùng 60px làm căn bản cho icon, tính toán khoảng cách và padding để vừa vặn 6 hàng
+        const baseUnit = Math.min(w, h) * 0.08; // Khoảng 60px cho iPhone Pro Max, ~48px cho SE
+        const iconSize = Math.min(60, Math.max(45, baseUnit * 0.85)); 
+        const gap = Math.max(8, baseUnit * 0.08);
+        const rowCount = 6; // 6 hàng (4 app mặc định + 2 nút thêm ở cuối, nhưng mình tính đủ 6 hàng cho đẹp layout)
+
+        // Tính tổng chiều cao cần thiết: (số hàng * iconSize) + ((số hàng - 1) * gap) + 2 * padding
+        const totalContentHeight = (rowCount * iconSize) + ((rowCount - 1) * gap);
+        const verticalPadding = Math.max(16, (h - totalContentHeight) / 3); // padding trên dưới để căn giữa
+        const totalContentWidth = (4 * iconSize) + (3 * gap);
+        const horizontalPadding = Math.max(16, (w - totalContentWidth) / 2.5);
+
+        // Áp dụng cho container
+        const finalPadding = Math.min(horizontalPadding, verticalPadding) - 5; // Trừ đi một chút để vừa vặn hơn
+        
+        // Áp dụng style
+        container.style.padding = `${Math.max(10, finalPadding)}px`;
+        container.style.width = `${Math.min(380, w - 20)}px`;
+        container.style.maxWidth = '100%';
+        container.style.height = `auto`;
+        container.style.borderRadius = '36px';
+        
+        // Cập nhật kích thước icon và gap trong grid
+        grid.style.gap = `${Math.max(6, gap * 0.6)}px`;
+        grid.querySelectorAll('.icon-wrapper, .add-btn').forEach(el => {
+            el.style.width = `${iconSize}px`; el.style.height = `${iconSize}px`;
+        });
+        
+        // Sửa nút style của add-btn
+        document.querySelectorAll('.add-btn').forEach(el => {
+            el.style.width = `${iconSize}px`; el.style.height = `${iconSize}px`;
+        });
     }
 
+    // ==========================================
+    // 4. RENDER GRID & APP ITEMS
+    // ==========================================
     function renderGrid() {
         grid.innerHTML = '';
-        const ids = getSelectedApps();
-        const customApps = getCustomApps();
-
-        ids.forEach((id, index) => {
-            let data = appDatabase[id];
-            if (!data) { const found = customApps.find(a => a.bundleId === id); if (found) data = found; }
+        const ids = getSelectedApps(); const customApps = getCustomApps();
+        ids.forEach(id => {
+            let data = appDatabase[id]; if (!data) { const found = customApps.find(a => a.bundleId === id); if (found) data = found; }
             if(!data) return;
-            const item = createAppItem(id, data, index);
+            const item = createAppItem(id, data);
             grid.appendChild(item);
         });
-
         if (ids.length < MAX_APPS) {
             const addBtn = document.createElement('div');
-            addBtn.className = 'app-item add-btn'; addBtn.id = 'addBtn';
-            addBtn.innerHTML = `<span style="font-size:28px; color:#4f46e5; line-height: 1;">+</span><div class="app-name" style="margin-top:0px;">${t('button.add')}</div>`;
+            addBtn.className = 'add-btn';
+            addBtn.innerHTML = `<span style="font-size:26px; color:#4f46e5; line-height: 1; margin-top:-4px;">+</span>`;
             addBtn.onclick = () => { renderModal(); modal.classList.add('active'); closeContextMenu(); };
             grid.appendChild(addBtn);
-        } else { document.getElementById('addBtn')?.remove(); }
+        }
+        // Re-apply dynamic layout after grid render
+        setTimeout(adjustLayout, 50);
     }
 
-    function createAppItem(id, data, index) {
+    function createAppItem(id, data) {
         const div = document.createElement('div'); div.className = 'app-item'; div.id = 'app-' + id; 
         const useIcon = data.icon && data.icon.trim() !== "";
-        let displayName = data.Name;
-        const customNames = getCustomNames();
-        if (customNames[id]) displayName = customNames[id];
-
-        let iconSrc = data.icon;
-        if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) {
-            iconSrc = basePath + '/' + iconSrc;
-        }
+        let displayName = data.Name; if (getCustomNames()[id]) displayName = getCustomNames()[id];
+        let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
 
         div.innerHTML = `
             <div class="icon-wrapper">
-                <img src="${useIcon ? iconSrc : ''}" alt="${displayName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="${useIcon ? '' : 'display:none;'}">
-                <span class="fallback-text" style="${useIcon ? 'display:none;' : 'display:block;'}">${displayName.charAt(0).toUpperCase()}</span>
+                <img src="${useIcon ? iconSrc : ''}" alt="${displayName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="fallback-text">${displayName.charAt(0).toUpperCase()}</span>
             </div>
             <div class="app-info">
                 <span class="app-name">${displayName}</span>
-                <button class="more-btn" data-id="${id}">&#8942;</button>
+                <button class="more-btn" data-id="${id}">⋮</button>
             </div>
         `;
-
         div.querySelector('.more-btn').onclick = (e) => { e.stopPropagation(); showContextMenu(id, e); };
         div.onclick = (e) => { if(e.target.closest('.more-btn')) return; openApp(id); };
         return div;
     }
 
-    function focusSearch() {
-        const searchBox = document.getElementById('searchBox');
-        searchBox.value = ''; 
-        searchBox.focus(); 
-        setTimeout(() => { searchBox.click(); }, 150); 
+    // ==========================================
+    // 5. NGĂN KÉO CÔNG CỤ (CHỨA GET PLUGIN & SETTING)
+    // ==========================================
+    const drawerContent = document.getElementById('drawerContent'); const drawerToggle = document.getElementById('drawerToggle'); let isDrawerOpen = false;
+
+    function renderDrawer() {
+        drawerContent.innerHTML = '';
+        
+        // 1. Nút Get Plugin
+        const pluginBtn = document.createElement('button'); pluginBtn.className = 'drawer-btn';
+        pluginBtn.innerHTML = `<img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" />`;
+        pluginBtn.onclick = () => { 
+            if(socialData && socialData.links && socialData.links.plugin_shortcut) window.open(socialData.links.plugin_shortcut, '_blank');
+            else window.open("https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", '_blank');
+            closeDrawer();
+        };
+        drawerContent.appendChild(pluginBtn);
+
+        // 2. Nút Reset
+        const resetBtn = document.createElement('button'); resetBtn.className = 'drawer-btn';
+        resetBtn.innerHTML = `<img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" />`;
+        resetBtn.onclick = () => { 
+            if(confirm(t('messages.reset_confirm'))) { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY); renderGrid(); } 
+            closeDrawer();
+        };
+        drawerContent.appendChild(resetBtn);
+
+        // 3. Nút Info
+        const infoBtn = document.createElement('button'); infoBtn.className = 'drawer-btn';
+        infoBtn.innerHTML = `<img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" />`;
+        infoBtn.onclick = () => { alert("Sen Hub - Snowboard Edition"); closeDrawer(); };
+        drawerContent.appendChild(infoBtn);
+    }
+
+    drawerToggle.addEventListener('click', () => {
+        isDrawerOpen = !isDrawerOpen;
+        if (isDrawerOpen) { renderDrawer(); document.getElementById('drawerWrapper').classList.add('open'); drawerToggle.innerHTML = `<span style="font-size:16px; color:#1e1e2f; font-weight:bold;">✕</span>`; }
+        else { closeDrawer(); }
+    });
+    function closeDrawer() { isDrawerOpen = false; document.getElementById('drawerWrapper').classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`; }
+
+    // ==========================================
+    // 6. MODAL, SEARCH & MENU
+    // ==========================================
+    function renderModal() {
+        if(Object.keys(appDatabase).length === 0) return;
+        const selectedIds = getSelectedApps(); const allAvailableIds = Object.keys(appDatabase).filter(id => !selectedIds.includes(id));
+        modalList.innerHTML = ''; document.getElementById('modalTitle').innerText = t('modal.title_add_app'); document.getElementById('closeModalBtn').innerText = t('button.close'); document.getElementById('searchBox').placeholder = t('modal.search_placeholder'); document.getElementById('searchBox').value = '';
+        allAvailableIds.slice(0, 20).forEach(id => {
+            const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
+            const useIcon = data.icon && data.icon.trim() !== ""; let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
+            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" alt="${data.Name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
+            item.onclick = () => { let current = getSelectedApps(); if(current.length >= MAX_APPS) { alert("Đã đạt giới hạn 16 app!"); return; } current.push(id); saveSelectedApps(current); closeModal(); };
+            modalList.appendChild(item);
+        });
     }
 
     function searchAppsStatic(query) {
-        modalList.innerHTML = '';
-        if (!query.trim()) { renderModal(); return; }
-        const keyword = query.trim().toLowerCase();
-        let foundIds = [];
-        Object.keys(appDatabase).forEach(id => {
-            if (appDatabase[id].Name.toLowerCase().includes(keyword)) foundIds.push(id);
-        });
-        if (foundIds.length === 0) { modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy ứng dụng. Gửi yêu cầu cho cộng đồng!</div>`; return; }
-        
-        const searchResults = foundIds.slice(0, 80); 
-        
-        searchResults.forEach(id => {
+        modalList.innerHTML = ''; if (!query.trim()) { renderModal(); return; }
+        const keyword = query.trim().toLowerCase(); let foundIds = []; Object.keys(appDatabase).forEach(id => { if (appDatabase[id].Name.toLowerCase().includes(keyword)) foundIds.push(id); });
+        if (foundIds.length === 0) { modalList.innerHTML = `<div style="grid-column: 1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy ứng dụng.</div>`; return; }
+        foundIds.slice(0, 80).forEach(id => {
             const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
-            const useIcon = data.icon && data.icon.trim() !== "";
-            let iconSrc = data.icon;
-            if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) {
-                iconSrc = basePath + '/' + iconSrc;
-            }
-            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" alt="${data.Name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="${useIcon ? '' : 'display:none;'}">
-                <span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
-            item.onclick = () => {
-                let current = getSelectedApps();
-                if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
-                if(!current.includes(id)) { current.push(id); saveSelectedApps(current); closeModal(); }
-            };
+            const useIcon = data.icon && data.icon.trim() !== ""; let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
+            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" alt="${data.Name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
+            item.onclick = () => { let current = getSelectedApps(); if(current.length >= MAX_APPS) { alert("Đã đạt giới hạn 16 app!"); return; } if(!current.includes(id)) { current.push(id); saveSelectedApps(current); closeModal(); } };
             modalList.appendChild(item);
         });
-        document.getElementById('modalMoreBtn').style.display = 'none';
     }
 
-    function showContextMenu(id, event) {
-        const menu = document.getElementById('contextMenu'); currentSelectedAppId = id; isMenuOpen = true;
-        document.getElementById('menuMoveTop').onclick = () => { moveAppToTop(id); };
-        document.getElementById('menuDelete').onclick = () => { removeApp(id); };
-        document.getElementById('menuRename').onclick = () => {
-            const currentName = getCustomNames()[id] || (appDatabase[id] ? appDatabase[id].Name : "Ứng dụng");
-            const newName = prompt(t('messages.prompt_rename_app'), currentName);
-            if (newName !== null) saveCustomName(id, newName);
-        };
-        let clientX = event.clientX || (event.touches && event.touches[0].clientX);
-        let clientY = event.clientY || (event.touches && event.touches[0].clientY);
+    function showContextMenu(id, event) { const menu = document.getElementById('contextMenu'); currentSelectedAppId = id; isMenuOpen = true;
+        document.getElementById('menuMoveTop').onclick = () => { let cur = getSelectedApps(); const idx = cur.indexOf(id); if(idx>0){cur.splice(idx,1); cur.unshift(id); saveSelectedApps(cur);} };
+        document.getElementById('menuDelete').onclick = () => { let cur = getSelectedApps(); cur = cur.filter(item => item !== id); let custom = getCustomApps(); custom = custom.filter(item => item.bundleId !== id); localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(custom)); saveSelectedApps(cur); };
+        document.getElementById('menuRename').onclick = () => { const newName = prompt("Nhập tên mới:", getCustomNames()[id] || appDatabase[id].Name); if (newName !== null) saveCustomName(id, newName); };
+        let clientX = event.clientX || (event.touches && event.touches[0].clientX); let clientY = event.clientY || (event.touches && event.touches[0].clientY);
         const menuWidth = 160; let leftPos = clientX - (menuWidth / 2), topPos = clientY - 60;
         if (leftPos < 20) leftPos = 20; if (leftPos + menuWidth > window.innerWidth - 20) leftPos = window.innerWidth - menuWidth - 20; if (topPos < 20) topPos = 20;
         menu.style.left = leftPos + 'px'; menu.style.top = topPos + 'px'; menu.classList.add('active');
     }
-
     function closeContextMenu() { const menu = document.getElementById('contextMenu'); menu.classList.remove('active'); isMenuOpen = false; currentSelectedAppId = null; }
     document.addEventListener('click', (e) => { if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu(); });
 
-    function removeApp(id) {
-        let current = getSelectedApps(); current = current.filter(item => item !== id);
-        let custom = getCustomApps(); custom = custom.filter(item => item.bundleId !== id);
-        localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(custom));
-        saveSelectedApps(current);
-    }
-
-    function moveAppToTop(id) { let current = getSelectedApps(); const currentIndex = current.indexOf(id); if (currentIndex > 0) { current.splice(currentIndex, 1); current.unshift(id); saveSelectedApps(current); } }
-
-    function renderModal() {
-        if(Object.keys(appDatabase).length === 0) return;
-        const selectedIds = getSelectedApps();
-        const allAvailableIds = Object.keys(appDatabase).filter(id => !selectedIds.includes(id));
-        
-        const initialBatch = allAvailableIds.slice(0, INITIAL_DISPLAY_COUNT);
-        
-        modalList.innerHTML = '';
-        document.getElementById('modalTitle').innerText = t('modal.title_add_app');
-        document.getElementById('closeModalBtn').innerText = t('button.close');
-        document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
-        document.getElementById('searchBox').value = '';
-        
-        const moreBtn = document.getElementById('modalMoreBtn');
-        if (allAvailableIds.length > INITIAL_DISPLAY_COUNT) {
-            moreBtn.style.display = 'block';
-            // 💡 [V8.4] Đã sửa key từ 'modal.view_more' thành 'button.view_more' để khớp với file JSON của bạn
-            moreBtn.querySelector('button').innerText = t('button.view_more');
-        } else {
-            moreBtn.style.display = 'none';
-        }
-
-        initialBatch.forEach(id => {
-            const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
-            item.dataset.id = id; item.dataset.name = data.Name.toLowerCase();
-            const useIcon = data.icon && data.icon.trim() !== "";
-            let iconSrc = data.icon;
-            if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) {
-                iconSrc = basePath + '/' + iconSrc;
-            }
-            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" alt="${data.Name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" style="${useIcon ? '' : 'display:none;'}">
-                <span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
-            item.onclick = () => {
-                let current = getSelectedApps(); if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
-                current.push(id); saveSelectedApps(current); closeModal();
-            };
-            modalList.appendChild(item);
-        });
-    }
-
     function closeModal() { modal.classList.remove('active'); }
     function openApp(bundleId) { const shortcutName = "Open App Launcher"; window.location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(shortcutName) + "&input=text&text=" + encodeURIComponent(bundleId); }
-
-    document.getElementById('getPluginBtn').onclick = () => { if(socialData && socialData.links && socialData.links.plugin_shortcut) window.open(socialData.links.plugin_shortcut, '_blank'); else window.open("https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", '_blank'); };
     modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-
-    function renderDock() {
-        const dock = document.getElementById('dockMenu'); dock.innerHTML = '';
-        if(socialData) {
-            if(socialData.links && socialData.links.email) { const btn = document.createElement('a'); btn.href = socialData.links.email; btn.className = 'dock-item'; btn.innerHTML = `<img src="icons/icon_email.png" onerror="this.outerHTML='✉️'" />`; dock.appendChild(btn); }
-            if(socialData.links && socialData.links.social_follow) { const btn = document.createElement('a'); btn.href = socialData.links.social_follow; btn.target = '_blank'; btn.className = 'dock-item'; btn.innerHTML = `<img src="icons/icon_sentechtipsvn.png" onerror="this.outerHTML='🔗'" />`; dock.appendChild(btn); }
-            if(socialData.links && socialData.links.app_info) { const btn = document.createElement('button'); btn.className = 'dock-item'; btn.innerHTML = `<img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" />`; btn.onclick = () => { alert(t('dock_info.app_version')); }; dock.appendChild(btn); }
-            const resetBtn = document.createElement('button'); resetBtn.className = 'dock-item'; resetBtn.innerHTML = `<img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" />`; resetBtn.onclick = () => { if(confirm(t('messages.reset_confirm'))) { localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY); renderGrid(); } }; dock.appendChild(resetBtn);
-            const settingsBtn = document.createElement('button'); settingsBtn.className = 'dock-item'; settingsBtn.id = 'settingsBtn'; settingsBtn.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`; settingsBtn.onclick = () => { alert(t('messages.settings_in_development')); }; dock.appendChild(settingsBtn);
-        }
-    }
-
-    let isDockVisible = false;
-    const dockMenu = document.getElementById('dockMenu');
-    const dockToggleBtn = document.getElementById('dockToggleBtn');
-    const toggleIcon = dockToggleBtn.querySelector('svg');
-
-    function applyInitialDockState() {
-        dockMenu.classList.add('hidden'); dockToggleBtn.classList.add('arrow-down');
-        dockToggleBtn.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
-        toggleIcon.innerHTML = `<polyline points="6 9 12 15 18 9"></polyline>`;
-    }
-    dockToggleBtn.addEventListener('click', function() {
-        isDockVisible = !isDockVisible;
-        if (isDockVisible) { dockMenu.classList.remove('hidden'); dockToggleBtn.classList.remove('arrow-down'); dockToggleBtn.style.bottom = 'calc(80px + env(safe-area-inset-bottom, 20px))'; toggleIcon.innerHTML = `<polyline points="18 15 12 9 6 15"></polyline>`; }
-        else { dockMenu.classList.add('hidden'); dockToggleBtn.classList.add('arrow-down'); dockToggleBtn.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))'; toggleIcon.innerHTML = `<polyline points="6 9 12 15 18 9"></polyline>`; }
-    });
+    window.addEventListener('resize', adjustLayout);
 </script>
 </body>
 </html>
