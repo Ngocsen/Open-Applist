@@ -29,15 +29,15 @@
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* Khung chính */
+        /* ==== CHỖ SỬA 1: KHÔI PHỤC KHUNG LỚN (Nền kính mờ bo góc) ==== */
         .app-container {
             position: relative;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             border-radius: 40px;
-            border: none;
-            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
             width: min(92vw, 360px); 
             padding: 24px;
         }
@@ -46,7 +46,7 @@
         .app-grid { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 28px 14px; /* Khoảng cách rộng rãi, đẹp mắt */
+            gap: 28px 14px; 
             justify-items: center; 
         }
 
@@ -59,21 +59,21 @@
             cursor: pointer; 
         }
         
-        /* Icon cố định 65x65 */
+        /* ==== CHỖ SỬA 2: LOẠI BỎ KHUNG NHỎ (Icon hiện trực tiếp lên nền kính mờ) ==== */
         .icon-wrapper { 
             width: 65px; 
             height: 65px; 
-            border-radius: 18%; 
-            background: #ffffff; 
+            /* Xóa background, border, shadow */
+            background: transparent; 
+            border: none; 
+            box-shadow: none; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
             margin-bottom: 8px; 
-            overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.8); 
+            overflow: visible; 
         }
-        .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 18%; }
+        .icon-wrapper img { width: 100%; height: 100%; object-fit: contain; }
         .icon-wrapper .fallback-text { font-size: 24px; font-weight: 600; color: #1e1e2f; display: none; }
 
         /* Tên app căn giữa tuyệt đối */
@@ -94,7 +94,7 @@
             text-overflow: ellipsis; 
         }
 
-        /* Nút dấu cộng to bằng icon */
+        /* Nút dấu cộng (giữ nguyên, chỉnh cho khớp icon lớn) */
         .add-btn { 
             background: rgba(255, 255, 255, 0.25); 
             border: 2px dashed rgba(255, 255, 255, 0.6); 
@@ -172,7 +172,7 @@
         .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
         .modal-item { display: flex; flex-direction: column; align-items: center; background: transparent; padding: 0; border: none; width: 100%; cursor: pointer; }
         .modal-item:active { transform: scale(0.95); }
-        .modal-item img { width: 65px; height: 65px; object-fit: contain; border-radius: 14px; }
+        .modal-item img { width: 65px; height: 65px; object-fit: contain; }
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; }
         .close-modal { 
             display: block; width: 100%; margin-top: 16px; padding: 12px; 
@@ -258,8 +258,9 @@
 </div>
 
 <script>
-    // ... (Phần logic xử lý dữ liệu giữ nguyên như cũ)
-    // Em đã tinh chỉnh lại createAppItem để bỏ nút ⋮ và thêm long press.
+    // ==========================================
+    // (Toàn bộ phần logic JS giữ nguyên 100% như file sếp gửi)
+    // ==========================================
     
     // Dữ liệu Fallback
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
