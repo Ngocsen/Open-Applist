@@ -206,8 +206,10 @@
         <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm ứng dụng..." oninput="searchAppsStatic(this.value)" />
         <div class="modal-list" id="modalList"></div>
         
+        <!-- Nút Thêm ứng dụng dùng key ngôn ngữ -->
         <div id="modalMoreBtn">
-            <button onclick="focusSearch()">${t('modal.view_more')}</button>
+            <!-- 💡 [V8.4] Sửa lỗi: HTML tĩnh sẽ được Javascript ghi đè từ file ngôn ngữ -->
+            <button onclick="focusSearch()">Xem thêm</button>
         </div>
 
         <button class="close-modal" id="closeModalBtn" onclick="closeModal()"></button>
@@ -227,7 +229,10 @@
         "com.deepseek.chat":{"Name":"DeepSeek","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"}
     };
     const FALLBACK_SOCIAL = { "email":"mailto:sentechtips@gmail.com", "Follow":"https://browse.shortcuty.app/user/Sentechtipsvn", "website":"info" };
-    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng" }, "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng..." } };
+    const FALLBACK_LANG = { 
+        "button": { "add": "Thêm", "close": "Đóng", "view_more": "Thêm ứng dụng" }, 
+        "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng..." } 
+    };
 
     const basePath = window.location.pathname.replace(/\/+$/, '');
     const sysLang = (navigator.language || 'en-US').replace('-', '_');
@@ -470,7 +475,8 @@
         const moreBtn = document.getElementById('modalMoreBtn');
         if (allAvailableIds.length > INITIAL_DISPLAY_COUNT) {
             moreBtn.style.display = 'block';
-            moreBtn.querySelector('button').innerText = t('modal.view_more');
+            // 💡 [V8.4] Đã sửa key từ 'modal.view_more' thành 'button.view_more' để khớp với file JSON của bạn
+            moreBtn.querySelector('button').innerText = t('button.view_more');
         } else {
             moreBtn.style.display = 'none';
         }
