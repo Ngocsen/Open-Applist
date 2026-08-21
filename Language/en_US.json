@@ -1,0 +1,35 @@
+{
+  "common": {
+    "app_title": "AppList",
+    "loading": "Loading..."
+  },
+  "header": {
+    "get_plugin": "Get Plugin"
+  },
+  "button": {
+    "add": "Add",
+    "close": "Close",
+    "view_more": "More",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "app_menu": {
+    "move_top": "Move to Top",
+    "rename": "Rename",
+    "delete": "Delete"
+  },
+  "modal": {
+    "title_add_app": "➕ Add App",
+    "search_placeholder": "Search apps...",
+    "max_apps_limit": "You can only add up to {max} apps."
+  },
+  "messages": {
+    "fallback_data_warning": "⚠️ Using fallback data...",
+    "prompt_rename_app": "Enter new name for app:",
+    "reset_confirm": "Clear current app list and restore defaults?",
+    "settings_in_development": "⚙️ Settings feature is under development! Please wait for future updates."
+  },
+  "dock_info": {
+    "app_version": "App List\nVersion: 1.0\nPublished by: Sentechtipsvn\nCreate custom app list\nAdd to Home Screen for better experience !"
+  }
+}
