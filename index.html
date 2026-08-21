@@ -52,12 +52,12 @@
             overflow: visible; 
         }
         
-        /* Các lớp ảnh trong icon */
+        /* Các lớp ảnh trong icon - ĐÃ SỬA THỨ TỰ Z-INDEX CHUẨN */
         .effect-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
-        .icon-bg { z-index: 1; }
-        .icon-img { z-index: 2; }
-        .icon-shadow { z-index: 3; }
-        .icon-mark { z-index: 4; }
+        .icon-bg { z-index: 1; }      /* Nền nằm dưới cùng */
+        .icon-shadow { z-index: 2; }  /* Bóng nằm dưới icon (trên nền) */
+        .icon-img { z-index: 3; }     /* Icon nằm chính giữa */
+        .icon-mark { z-index: 4; }    /* Kính phủ trên cùng */
 
         .app-info { display: flex; align-items: center; justify-content: center; width: 100%; }
         .app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -196,15 +196,15 @@
 <!-- POPUP HIỆU ỨNG ICON MARK -->
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
-        <h3>Hiệu ứng Icon Mark</h3>
+        <h3 id="effectTitle">Hiệu ứng Icon Mark</h3>
         <div class="checkbox-row">
-            <input type="checkbox" id="chkBg"> <label for="chkBg">Bật nền Background</label>
+            <input type="checkbox" id="chkBg"> <label for="chkBg" id="labelBg">Bật nền Background</label>
         </div>
         <div class="checkbox-row">
-            <input type="checkbox" id="chkShadow"> <label for="chkShadow">Bật bóng đổ Shadow</label>
+            <input type="checkbox" id="chkShadow"> <label for="chkShadow" id="labelShadow">Bật bóng đổ Shadow</label>
         </div>
         <div class="checkbox-row">
-            <input type="checkbox" id="chkMark"> <label for="chkMark">Bật lớp kính Mark</label>
+            <input type="checkbox" id="chkMark"> <label for="chkMark" id="labelMark">Bật lớp kính Mark</label>
         </div>
         <button class="close-modal" id="saveEffectBtn">Lưu hiệu ứng</button>
         <button class="close-modal" id="closeEffectBtn">Huỷ</button>
@@ -234,7 +234,7 @@
 </div>
 
 <script>
-    // Dữ liệu Fallback (Thêm tiếng Việt để không lỗi key)
+    // Dữ liệu Fallback (Bổ sung info_popup)
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     const FALLBACK_SOCIAL = { 
         "links": { 
@@ -250,7 +250,8 @@
         "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
         "messages": { "prompt_rename_app": "Nhập tên mới:", "reset_confirm": "Xoá sạch danh sách?" },
         "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
-        "dock_info": { "app_version": "Snowboard v1.0\nPhát hành bởi: Sentechtipsvn" }
+        "dock_info": { "app_version": "Snowboard v1.0\nPhát hành bởi: Sentechtipsvn" },
+        "effects": { "title": "Hiệu ứng Icon Mark", "background": "Bật nền Background", "shadow": "Bật bóng đổ Shadow", "mark": "Bật lớp kính Mark", "save": "Lưu hiệu ứng" }
     };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
@@ -271,7 +272,6 @@
         return null;
     }
 
-    // Load dữ liệu
     Promise.all([
         fetch(basePath + '/db.json').then(res => res.ok ? res.json() : Promise.reject('DB 404')).catch(() => FALLBACK_DB),
         fetch(basePath + '/system-app.json').then(res => res.ok ? res.json() : Promise.reject('Sys 404')).catch(() => ({})),
@@ -311,8 +311,7 @@
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
 
-    // Lấy trạng thái hiệu ứng
-    function isEffectEnabled(key) { return localStorage.getItem(key) !== 'false'; } // Mặc định bật (true) nếu chưa có key
+    function isEffectEnabled(key) { return localStorage.getItem(key) !== 'false'; }
 
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
@@ -331,14 +330,12 @@
     }
     function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
-    // Tạo item app với 4 lớp ảnh
     function createAppItem(id, data) {
         const div = document.createElement('div'); div.className = 'app-item'; 
         const useIcon = data.icon && data.icon.trim() !== "";
         let displayName = data.Name; if (getCustomNames()[id]) displayName = getCustomNames()[id];
         let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
 
-        // Đường dẫn hiệu ứng
         let bgSrc = basePath + '/Effects/Background/icon_khung.png';
         let shadowSrc = basePath + '/Effects/Shadow/icon_shadow.png';
         let markSrc = basePath + '/Effects/Mark/icon_mark.png';
@@ -346,9 +343,9 @@
         div.innerHTML = `
             <div class="icon-wrapper">
                 <img class="effect-layer icon-bg" src="${bgSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_BG_KEY) ? 'block' : 'none'};">
+                <img class="effect-layer icon-shadow" src="${shadowSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_SHADOW_KEY) ? 'block' : 'none'};">
                 <img class="effect-layer icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="fallback-text" style="display:none; position:absolute; width:100%; height:100%; text-align:center; font-size:24px;">${displayName.charAt(0).toUpperCase()}</span>
-                <img class="effect-layer icon-shadow" src="${shadowSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_SHADOW_KEY) ? 'block' : 'none'};">
                 <img class="effect-layer icon-mark" src="${markSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_MARK_KEY) ? 'block' : 'none'};">
             </div>
             <div class="app-info">
@@ -388,24 +385,30 @@
         }
     }
 
-    // Khởi tạo UI
     function initUI() {
-        // Gán ngôn ngữ cho info
+        // Gán ngôn ngữ cho Info Popup (Đã sửa để lấy đúng key)
         document.getElementById('infoModalTitle').innerText = t('info_popup.title');
         document.getElementById('btnMail').innerText = t('info_popup.contact');
         document.getElementById('btnFollow').innerText = t('info_popup.follow');
         document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
         document.getElementById('closeInfoModalBtn').innerText = t('button.close');
+        
         document.getElementById('closeInfoDetailsBtn').innerText = t('button.close');
         document.getElementById('infoDetailsTitle').innerText = t('info_popup.info');
 
-        // Gán ngôn ngữ cho menu
+        // Gán ngôn ngữ cho Effect Popup
+        document.getElementById('effectTitle').innerText = t('effects.title');
+        document.getElementById('labelBg').innerText = t('effects.background');
+        document.getElementById('labelShadow').innerText = t('effects.shadow');
+        document.getElementById('labelMark').innerText = t('effects.mark');
+        document.getElementById('saveEffectBtn').innerText = t('effects.save');
+        document.getElementById('closeEffectBtn').innerText = t('button.cancel');
+
+        // Gán ngôn ngữ cho Menu Context và Modal
         document.getElementById('menuMoveTop').innerText = t('app_menu.move_top');
         document.getElementById('menuRename').innerText = t('app_menu.rename');
         document.getElementById('menuDelete').innerText = t('app_menu.delete');
         document.getElementById('closeContextMenuBtn').innerText = t('button.cancel');
-
-        // Gán ngôn ngữ cho modal thêm app
         document.getElementById('modalTitle').innerText = t('modal.title_add_app');
         document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
         document.getElementById('closeModalBtn').innerText = t('button.close');
@@ -414,8 +417,14 @@
         document.getElementById('infoBtn').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank'); };
+        
+        // Xử lý nút "Thông tin" (Info Details) - Đọc app_info hoặc fallback về dock_info
         document.getElementById('btnInfoDetails').onclick = () => {
-            document.getElementById('infoDetailsContent').innerText = socialData.links?.app_info || langData.dock_info?.app_version || FALLBACK_LANG.dock_info.app_version;
+            let infoText = socialData.links?.app_info;
+            if (infoText === "info" || !infoText) {
+                infoText = langData.dock_info?.app_version || FALLBACK_LANG.dock_info.app_version;
+            }
+            document.getElementById('infoDetailsContent').innerText = infoText;
             document.getElementById('infoModal').classList.remove('active');
             document.getElementById('infoDetailsModal').classList.add('active');
         };
@@ -427,7 +436,6 @@
         const drawerToggle = document.getElementById('drawerToggle');
         const drawerWrapper = document.getElementById('drawerWrapper');
         
-        // Nút hiệu ứng
         document.getElementById('btnEffect').onclick = () => {
             document.getElementById('chkBg').checked = isEffectEnabled(EFFECT_BG_KEY);
             document.getElementById('chkShadow').checked = isEffectEnabled(EFFECT_SHADOW_KEY);
