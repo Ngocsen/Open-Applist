@@ -20,7 +20,7 @@
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* Khung Snowboard chính (6 hàng, 4 cột) */
+        /* Khung Snowboard chính */
         .app-container {
             position: relative;
             background: rgba(255, 255, 255, 0.25);
@@ -29,9 +29,10 @@
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
-            /* Kích thước tính toán để vừa khít 6 hàng */
-            width: 90%; max-width: 380px; height: auto;
+            width: 90%; max-width: 380px;
             padding: 24px;
+            /* Đảm bảo 6 hàng hiển thị đều */
+            height: auto;
         }
 
         .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; justify-items: center; }
@@ -65,7 +66,7 @@
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; }
         .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
 
-        /* NÚT "i" (INFO) - Góc trái dưới */
+        /* NÚT "i" (Info) - Góc trái dưới */
         #infoBtn {
             position: fixed; bottom: 30px; left: 20px; z-index: 999;
             width: 32px; height: 32px; border-radius: 50%;
@@ -78,7 +79,9 @@
         /* NGĂN KÉO CÔNG CỤ (Góc phải dưới) */
         #drawerWrapper { position: fixed; bottom: 30px; right: 20px; z-index: 999; display: flex; align-items: center; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); gap: 6px; }
         #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
-        #drawerWrapper.open #drawerContent { max-width: 200px; opacity: 1; padding-right: 4px; }
+        #drawerWrapper.open #drawerContent { max-width: 150px; opacity: 1; padding-right: 4px; }
+        
+        /* Đảm bảo nút Settings nằm bên trái, Reset ở giữa, Plugin bên phải */
         #drawerToggle, .drawer-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; }
         #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
         .drawer-btn img, #drawerToggle img { width: 18px; height: 18px; object-fit: contain; }
@@ -107,14 +110,14 @@
 
 <!-- Ngăn kéo công cụ -->
 <div id="drawerWrapper">
+    <!-- Nút Settings (Bánh răng) - Ngoài cùng bên trái -->
+    <button id="drawerToggle"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
+    
+    <!-- Các nút bên trong (Reset ở giữa, Plugin bên phải) -->
     <div id="drawerContent">
-        <!-- Nút Reset (Giữa) -->
         <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
-        <!-- Nút Plugin (Phải) -->
         <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
     </div>
-    <!-- Nút Setting (Trái) -->
-    <button id="drawerToggle"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
 <!-- MODAL THÊM APP -->
@@ -137,20 +140,21 @@
 
     const FALLBACK_DB = {
         "vn.com.vng.zingalo":{"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"},
-        "com.deepseek.chat":{"Name":"Bé Code","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
+        "com.deepseek.chat":{"Name":"DeepSeek","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/77/f4/6777f403-5916-d746-c939-d3cc694be352/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
         "com.facebook.Messenger":{"Name":"Messenger","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5d/51/db/5d51dbf4-6a85-aaf5-ace1-87b698d178da/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
         "com.facebook.Facebook":{"Name":"Facebook","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/09/1e/e0/091ee060-69ab-37fd-dee8-c62713a89ffc/Icon-Production-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"},
         "com.burbn.instagram":{"Name":"Instagram","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c3/c1/dc/c3c1dcd8-7f07-0ec0-c901-7487134a98ad/Prod-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/100x100bb.png"}
     };
 
-    // Dữ liệu Social
     const FALLBACK_SOCIAL = {
-        "email":"mailto:sentechtips@gmail.com",
-        "Follow":"https://browse.shortcuty.app/user/Sentechtipsvn",
-        "website":"info"
+        "links": {
+            "email": "mailto:sentechtips@gmail.com",
+            "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn",
+            "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432",
+            "app_info": "info"
+        }
     };
 
-    // Dữ liệu Ngôn ngữ mặc định (để không vỡ khi thiếu file ngôn ngữ)
     const FALLBACK_LANG = {
         "button": { "add": "Thêm", "close": "Đóng" },
         "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng..." }
@@ -292,10 +296,10 @@
         // Nút "i"
         document.getElementById('infoBtn').onclick = () => {
             let infoMsg = "Sen Hub - Snowboard Edition";
-            if(socialData) {
-                if (socialData.email) infoMsg += `\n📧 Email: ${socialData.email}`;
-                if (socialData.Follow) infoMsg += `\n📣 Follow: ${socialData.Follow}`;
-                if (socialData.website) infoMsg += `\n🌐 Website: ${socialData.website}`;
+            if(socialData && socialData.links) {
+                if (socialData.links.email) infoMsg += `\n📧 Email: ${socialData.links.email}`;
+                if (socialData.links.social_follow) infoMsg += `\n📣 Follow: ${socialData.links.social_follow}`;
+                if (socialData.links.plugin_shortcut) infoMsg += `\n🔌 Plugin: ${socialData.links.plugin_shortcut}`;
             }
             alert(infoMsg);
         };
