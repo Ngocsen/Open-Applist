@@ -1,0 +1,23 @@
+{
+  "name": "Snowboard",
+  "short_name": "Snowboard",
+  "description": "Bảng điều khiển tiện ích và Shortcuts của Sentechtipsvn",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1e1b4b",
+  "theme_color": "#8ec5fc",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
