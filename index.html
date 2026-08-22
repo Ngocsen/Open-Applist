@@ -37,7 +37,15 @@
             padding: 24px;
         }
 
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; }
+        /* Đã thêm justify-content: center; để căn giữa toàn bộ lưới */
+        .app-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 28px 14px; 
+            justify-items: center; 
+            justify-content: center; 
+            align-items: center;
+        }
         .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
 
         .icon-wrapper { 
@@ -51,10 +59,10 @@
             isolation: isolate;
         }
 
+        /* Đã xóa background: #fff; để icon trong suốt giống menu thêm ứng dụng */
         .icon-img { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
             z-index: 1;
-            background: #fff;
             border-radius: 22.5%;
         }
 
@@ -194,7 +202,7 @@
     </div>
 </div>
 
-<!-- POPUP HIỆU ỨNG - ĐÃ ĐỒNG BỘ NGÔN NGỮ -->
+<!-- POPUP HIỆU ỨNG -->
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
         <h3 id="effectTitle"></h3>
@@ -257,21 +265,21 @@
 
 <script>
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v1.2\nPhát hành bởi: Sentechtipsvn" } };
+    const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v1.3\nPhát hành bởi: Sentechtipsvn" } };
     const FALLBACK_LANG = {
         "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" },
         "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm..." },
         "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
         "messages": { "prompt_rename_app": "Nhập tên mới:", "reset_confirm": "Xoá sạch danh sách?" },
         "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
-        "dock_info": { "app_version": "Snowboard v1.2\nPhát hành bởi: Sentechtipsvn" },
+        "dock_info": { "app_version": "Snowboard v1.3\nPhát hành bởi: Sentechtipsvn" },
         "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark (Lớp kính phủ)", "shadow_label": "Kiểu Shadow (Bóng đổ)", "radius_label": "Kiểu Bo góc Icon", "mark_options": {"0":"Liquid Glass","1":"Crystal Shine","2":"Holographic","3":"Matte Dark","4":"Classic Glossy"}, "shadow_options": {"0":"Mềm mại","1":"Sâu & Nổi","2":"Phát sáng Neon","3":"Bóng màu"}, "radius_options": {"0":"Squircle (Chuẩn Apple)","1":"Tròn hoàn toàn","2":"Vuông nhẹ"}, "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
     };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
     let currentSelectedAppId = null;
 
-    // Đã fix lỗi PWA: Dùng '.' thay vì window.location.pathname để tránh bị lỗi dấu '/'
+    // Dùng '.' để tránh lỗi đường dẫn trên PWA
     const basePath = '.';
     const sysLang = (navigator.language || 'en-US').replace('-', '_');
     const baseLang = sysLang.split('_')[0];
@@ -319,7 +327,9 @@
     const MARK_KEY = 'effectMarkStyle';
     const SHADOW_KEY = 'effectShadowStyle';
     const RADIUS_KEY = 'effectRadiusStyle';
-    const MAX_APPS = 24;
+    
+    // Đã giới hạn còn 12 app theo yêu cầu sếp
+    const MAX_APPS = 12;
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
@@ -531,7 +541,7 @@
             item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" style="border-radius: 22.5%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
             item.onclick = () => { 
                 let current = getSelectedApps(); 
-                if(current.length >= MAX_APPS) { alert("Chỉ thêm được tối đa 24 app"); return; } 
+                if(current.length >= MAX_APPS) { alert("Bạn chỉ có thể thêm tối đa 12 ứng dụng"); return; } 
                 current.push(id); saveSelectedApps(current); closeModal(); 
             };
             modalList.appendChild(item);
@@ -549,7 +559,7 @@
             item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" style="border-radius: 22.5%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
             item.onclick = () => { 
                 let current = getSelectedApps(); 
-                if(current.length >= MAX_APPS) { alert("Chỉ thêm được tối đa 24 app"); return; } 
+                if(current.length >= MAX_APPS) { alert("Bạn chỉ có thể thêm tối đa 12 ứng dụng"); return; } 
                 if(!current.includes(id)) { current.push(id); saveSelectedApps(current); closeModal(); } 
             };
             modalList.appendChild(item);
