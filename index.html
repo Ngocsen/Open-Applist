@@ -7,7 +7,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     
-    <!-- Khai báo PWA -->
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     
@@ -24,7 +23,8 @@
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* === KHUNG LỚN (Kính mờ) === */
+        :root { --shadow: 0; --mark: 0; --radius: 0; }
+
         .app-container {
             position: relative;
             background: rgba(255, 255, 255, 0.25);
@@ -39,25 +39,50 @@
 
         .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; }
         .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
-        
-        /* === ICON 60x60, Vị trí tương đối để chứa các lớp hiệu ứng === */
+
         .icon-wrapper { 
-            width: 60px; 
-            height: 60px; 
+            width: 72px; 
+            height: 72px; 
             position: relative; 
             background: transparent; 
             border: none; 
-            box-shadow: none; 
             margin-bottom: 8px; 
-            overflow: visible; 
+            overflow: visible;
+            isolation: isolate;
         }
-        
-        /* Các lớp ảnh trong icon - ĐÃ SỬA THỨ TỰ Z-INDEX CHUẨN */
-        .effect-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
-        .icon-bg { z-index: 1; }      /* Nền nằm dưới cùng */
-        .icon-shadow { z-index: 2; }  /* Bóng nằm dưới icon (trên nền) */
-        .icon-img { z-index: 3; }     /* Icon nằm chính giữa */
-        .icon-mark { z-index: 4; }    /* Kính phủ trên cùng */
+
+        .icon-img { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+            z-index: 1;
+            background: #fff;
+            border-radius: 22.5%;
+        }
+
+        .icon-wrapper[data-shadow="0"] .icon-img { filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15)); }
+        .icon-wrapper[data-shadow="1"] .icon-img { filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4)); }
+        .icon-wrapper[data-shadow="2"] .icon-img { filter: drop-shadow(0 0 12px rgba(139,92,246,0.8)); }
+        .icon-wrapper[data-shadow="3"] .icon-img { filter: drop-shadow(0 6px 12px rgba(255,0,0,0.5)); }
+
+        .icon-wrapper[data-radius="0"] .icon-img { border-radius: 22.5%; }
+        .icon-wrapper[data-radius="1"] .icon-img { border-radius: 50%; }
+        .icon-wrapper[data-radius="2"] .icon-img { border-radius: 12px; }
+
+        .icon-wrapper::after {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .icon-wrapper[data-mark="0"]::after { background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1)); mix-blend-mode: overlay; }
+        .icon-wrapper[data-mark="1"]::after { background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.4) 100%); mix-blend-mode: screen; }
+        .icon-wrapper[data-mark="2"]::after { background: linear-gradient(135deg, rgba(255,0,255,0.3), rgba(0,255,255,0.3), rgba(255,255,0,0.3)); mix-blend-mode: overlay; }
+        .icon-wrapper[data-mark="3"]::after { background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.4)); mix-blend-mode: multiply; }
+        .icon-wrapper[data-mark="4"]::after { background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 100%); mix-blend-mode: overlay; }
+
+        .fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
         .app-info { display: flex; align-items: center; justify-content: center; width: 100%; }
         .app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -66,7 +91,7 @@
             background: rgba(255, 255, 255, 0.25); border: 2px dashed rgba(255, 255, 255, 0.6); 
             color: #4f46e5; font-size: 28px; cursor: pointer; border-radius: 18%; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            width: 60px; height: 60px; transition: all 0.2s; 
+            width: 72px; height: 72px; transition: all 0.2s; 
         }
         .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px;}
@@ -80,7 +105,6 @@
         }
         #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* === NGĂN KÉO & NÚT SETTING === */
         #drawerWrapper { 
             position: fixed; bottom: 30px; right: 20px; z-index: 999; 
             display: flex; align-items: center; gap: 6px;
@@ -99,63 +123,41 @@
         #drawerToggle img, .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* === MODAL === */
-        .modal-overlay { 
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); 
-            opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; 
-            display: flex; align-items: center; justify-content: center; 
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { 
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px); 
-            width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; 
-            padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; 
-        }
+        .modal-content { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 80vh; border-radius: 28px; padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; }
         .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; color: #1e1e2f; }
 
         .action-list { display: flex; flex-direction: column; gap: 10px; }
-        .action-btn { 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
-            width: 100%; padding: 14px; border: none; border-radius: 16px; 
-            background: rgba(255, 255, 255, 0.5); color: #1e1e2f; 
-            font-size: 15px; font-weight: 600; cursor: pointer; 
-        }
+        .action-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border: none; border-radius: 16px; background: rgba(255, 255, 255, 0.5); color: #1e1e2f; font-size: 15px; font-weight: 600; cursor: pointer; }
         .action-btn:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.8); }
-        .checkbox-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 15px; color: #333; cursor: pointer; }
-        .checkbox-row input { width: 20px; height: 20px; accent-color: #4f46e5; }
 
-        .search-box { 
-            width: 100%; padding: 10px 14px; border-radius: 50px; border: none; 
-            background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none; 
-        }
+        .control-group { margin-bottom: 16px; }
+        .control-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px; }
+        .control-group select { width: 100%; padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.8); font-size: 14px; color: #333; outline: none; -webkit-appearance: none; }
+
+        .search-box { width: 100%; padding: 10px 14px; border-radius: 50px; border: none; background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none; }
         .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
         .modal-item { display: flex; flex-direction: column; align-items: center; background: transparent; padding: 0; border: none; width: 100%; cursor: pointer; }
         .modal-item:active { transform: scale(0.95); }
-        .modal-item img { width: 60px; height: 60px; object-fit: contain; }
+        .modal-item img { width: 72px; height: 72px; object-fit: cover; border-radius: 22.5%; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; }
-        .close-modal { 
-            display: block; width: 100%; margin-top: 16px; padding: 12px; 
-            background: rgba(0,0,0,0.05); border: none; border-radius: 50px; 
-            font-weight: 600; color: #555; cursor: pointer; text-align: center; 
-        }
-
-        #infoDetailsContent { color: #333; } 
+        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
         
         @media (prefers-color-scheme: dark) {
             body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
             .app-container { background: rgba(30, 27, 75, 0.3); border: 1px solid rgba(255,255,255,0.05); }
-            .app-name, .modal-content h3, .modal-item span, .action-btn, .close-modal, .checkbox-row { color: #f1f5f9; }
+            .app-name, .modal-content h3, .modal-item span, .action-btn, .close-modal, .control-group label { color: #f1f5f9; }
             .modal-content { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.05); }
             #infoBtn { color: #f1f5f9; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.05); }
             #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
             #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.05); }
-            #infoDetailsContent { color: #f1f5f9; }
+            .control-group select { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.1); }
         }
     </style>
 </head>
 <body>
 
-<!-- Khung Snowboard chính -->
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
@@ -184,7 +186,6 @@
     </div>
 </div>
 
-<!-- POPUP THÔNG TIN CHI TIẾT -->
 <div class="modal-overlay" id="infoDetailsModal">
     <div class="modal-content">
         <h3 id="infoDetailsTitle">Thông tin</h3>
@@ -193,21 +194,43 @@
     </div>
 </div>
 
-<!-- POPUP HIỆU ỨNG ICON MARK -->
+<!-- POPUP HIỆU ỨNG - ĐÃ ĐỒNG BỘ NGÔN NGỮ -->
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
-        <h3 id="effectTitle">Hiệu ứng Icon Mark</h3>
-        <div class="checkbox-row">
-            <input type="checkbox" id="chkBg"> <label for="chkBg" id="labelBg">Bật nền Background</label>
+        <h3 id="effectTitle"></h3>
+        
+        <div class="control-group">
+            <label id="markLabel"></label>
+            <select id="markStyle">
+                <option value="0" data-lang-key="effects.mark_options.0"></option>
+                <option value="1" data-lang-key="effects.mark_options.1"></option>
+                <option value="2" data-lang-key="effects.mark_options.2"></option>
+                <option value="3" data-lang-key="effects.mark_options.3"></option>
+                <option value="4" data-lang-key="effects.mark_options.4"></option>
+            </select>
         </div>
-        <div class="checkbox-row">
-            <input type="checkbox" id="chkShadow"> <label for="chkShadow" id="labelShadow">Bật bóng đổ Shadow</label>
+
+        <div class="control-group">
+            <label id="shadowLabel"></label>
+            <select id="shadowStyle">
+                <option value="0" data-lang-key="effects.shadow_options.0"></option>
+                <option value="1" data-lang-key="effects.shadow_options.1"></option>
+                <option value="2" data-lang-key="effects.shadow_options.2"></option>
+                <option value="3" data-lang-key="effects.shadow_options.3"></option>
+            </select>
         </div>
-        <div class="checkbox-row">
-            <input type="checkbox" id="chkMark"> <label for="chkMark" id="labelMark">Bật lớp kính Mark</label>
+
+        <div class="control-group">
+            <label id="radiusLabel"></label>
+            <select id="radiusStyle">
+                <option value="0" data-lang-key="effects.radius_options.0"></option>
+                <option value="1" data-lang-key="effects.radius_options.1"></option>
+                <option value="2" data-lang-key="effects.radius_options.2"></option>
+            </select>
         </div>
-        <button class="close-modal" id="saveEffectBtn">Lưu hiệu ứng</button>
-        <button class="close-modal" id="closeEffectBtn">Huỷ</button>
+
+        <button class="close-modal" id="saveEffectBtn"></button>
+        <button class="close-modal" id="closeEffectBtn"></button>
     </div>
 </div>
 
@@ -221,7 +244,6 @@
     </div>
 </div>
 
-<!-- POPUP MENU (Long Press) -->
 <div class="modal-overlay" id="contextMenu">
     <div class="modal-content" style="width: 80%; padding: 16px; text-align: center;">
         <div class="action-list">
@@ -234,24 +256,16 @@
 </div>
 
 <script>
-    // Dữ liệu Fallback (Bổ sung info_popup)
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    const FALLBACK_SOCIAL = { 
-        "links": { 
-            "email": "mailto:sentechtips@gmail.com", 
-            "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", 
-            "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432",
-            "app_info": "Snowboard v1.0\nPhát hành bởi: Sentechtipsvn"
-        } 
-    };
+    const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v1.1\nPhát hành bởi: Sentechtipsvn" } };
     const FALLBACK_LANG = {
         "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" },
         "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm..." },
         "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
         "messages": { "prompt_rename_app": "Nhập tên mới:", "reset_confirm": "Xoá sạch danh sách?" },
         "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
-        "dock_info": { "app_version": "Snowboard v1.0\nPhát hành bởi: Sentechtipsvn" },
-        "effects": { "title": "Hiệu ứng Icon Mark", "background": "Bật nền Background", "shadow": "Bật bóng đổ Shadow", "mark": "Bật lớp kính Mark", "save": "Lưu hiệu ứng" }
+        "dock_info": { "app_version": "Snowboard v1.1\nPhát hành bởi: Sentechtipsvn" },
+        "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark (Lớp kính phủ)", "shadow_label": "Kiểu Shadow (Bóng đổ)", "radius_label": "Kiểu Bo góc Icon", "mark_options": {"0":"Liquid Glass","1":"Crystal Shine","2":"Holographic","3":"Matte Dark","4":"Classic Glossy"}, "shadow_options": {"0":"Mềm mại","1":"Sâu & Nổi","2":"Phát sáng Neon","3":"Bóng màu"}, "radius_options": {"0":"Squircle (Chuẩn Apple)","1":"Tròn hoàn toàn","2":"Vuông nhẹ"}, "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
     };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
@@ -298,20 +312,17 @@
         return typeof val === 'string' ? val : key;
     }
 
-    // Logic chính
     const STORAGE_KEY = 'myAppList';
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
-    const EFFECT_BG_KEY = 'effectBgEnabled';
-    const EFFECT_SHADOW_KEY = 'effectShadowEnabled';
-    const EFFECT_MARK_KEY = 'effectMarkEnabled';
+    const MARK_KEY = 'effectMarkStyle';
+    const SHADOW_KEY = 'effectShadowStyle';
+    const RADIUS_KEY = 'effectRadiusStyle';
     const MAX_APPS = 24;
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
-
-    function isEffectEnabled(key) { return localStorage.getItem(key) !== 'false'; }
 
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
@@ -336,17 +347,14 @@
         let displayName = data.Name; if (getCustomNames()[id]) displayName = getCustomNames()[id];
         let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
 
-        let bgSrc = basePath + '/Effects/Background/icon_khung.png';
-        let shadowSrc = basePath + '/Effects/Shadow/icon_shadow.png';
-        let markSrc = basePath + '/Effects/Mark/icon_mark.png';
+        const mark = localStorage.getItem(MARK_KEY) || '0';
+        const shadow = localStorage.getItem(SHADOW_KEY) || '0';
+        const radius = localStorage.getItem(RADIUS_KEY) || '0';
 
         div.innerHTML = `
-            <div class="icon-wrapper">
-                <img class="effect-layer icon-bg" src="${bgSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_BG_KEY) ? 'block' : 'none'};">
-                <img class="effect-layer icon-shadow" src="${shadowSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_SHADOW_KEY) ? 'block' : 'none'};">
-                <img class="effect-layer icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="fallback-text" style="display:none; position:absolute; width:100%; height:100%; text-align:center; font-size:24px;">${displayName.charAt(0).toUpperCase()}</span>
-                <img class="effect-layer icon-mark" src="${markSrc}" onerror="this.style.display='none'" style="display: ${isEffectEnabled(EFFECT_MARK_KEY) ? 'block' : 'none'};">
+            <div class="icon-wrapper" data-mark="${mark}" data-shadow="${shadow}" data-radius="${radius}">
+                <img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="fallback-text" style="display:none;">${displayName.charAt(0).toUpperCase()}</span>
             </div>
             <div class="app-info">
                 <span class="app-name">${displayName}</span>
@@ -386,7 +394,6 @@
     }
 
     function initUI() {
-        // Gán ngôn ngữ cho Info Popup (Đã sửa để lấy đúng key)
         document.getElementById('infoModalTitle').innerText = t('info_popup.title');
         document.getElementById('btnMail').innerText = t('info_popup.contact');
         document.getElementById('btnFollow').innerText = t('info_popup.follow');
@@ -396,15 +403,26 @@
         document.getElementById('closeInfoDetailsBtn').innerText = t('button.close');
         document.getElementById('infoDetailsTitle').innerText = t('info_popup.info');
 
-        // Gán ngôn ngữ cho Effect Popup
         document.getElementById('effectTitle').innerText = t('effects.title');
-        document.getElementById('labelBg').innerText = t('effects.background');
-        document.getElementById('labelShadow').innerText = t('effects.shadow');
-        document.getElementById('labelMark').innerText = t('effects.mark');
+        document.getElementById('markLabel').innerText = t('effects.mark_label');
+        document.getElementById('shadowLabel').innerText = t('effects.shadow_label');
+        document.getElementById('radiusLabel').innerText = t('effects.radius_label');
         document.getElementById('saveEffectBtn').innerText = t('effects.save');
-        document.getElementById('closeEffectBtn').innerText = t('button.cancel');
+        document.getElementById('closeEffectBtn').innerText = t('effects.cancel');
+        
+        const fillOptions = (selectId) => {
+            const select = document.getElementById(selectId);
+            const options = select.querySelectorAll('option');
+            options.forEach(opt => {
+                const key = opt.getAttribute('data-lang-key');
+                if (key) opt.innerText = t(key);
+            });
+        };
+        
+        fillOptions('markStyle');
+        fillOptions('shadowStyle');
+        fillOptions('radiusStyle');
 
-        // Gán ngôn ngữ cho Menu Context và Modal
         document.getElementById('menuMoveTop').innerText = t('app_menu.move_top');
         document.getElementById('menuRename').innerText = t('app_menu.rename');
         document.getElementById('menuDelete').innerText = t('app_menu.delete');
@@ -413,12 +431,10 @@
         document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
         document.getElementById('closeModalBtn').innerText = t('button.close');
 
-        // Xử lý nút Info (Đọc đúng social.links)
         document.getElementById('infoBtn').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank'); };
         
-        // Xử lý nút "Thông tin" (Info Details) - Đọc app_info hoặc fallback về dock_info
         document.getElementById('btnInfoDetails').onclick = () => {
             let infoText = socialData.links?.app_info;
             if (infoText === "info" || !infoText) {
@@ -432,22 +448,22 @@
         document.getElementById('closeInfoDetailsBtn').onclick = () => document.getElementById('infoDetailsModal').classList.remove('active');
         document.getElementById('closeContextMenuBtn').onclick = closeContextMenu;
 
-        // Drawer và nút hiệu ứng
         const drawerToggle = document.getElementById('drawerToggle');
         const drawerWrapper = document.getElementById('drawerWrapper');
         
         document.getElementById('btnEffect').onclick = () => {
-            document.getElementById('chkBg').checked = isEffectEnabled(EFFECT_BG_KEY);
-            document.getElementById('chkShadow').checked = isEffectEnabled(EFFECT_SHADOW_KEY);
-            document.getElementById('chkMark').checked = isEffectEnabled(EFFECT_MARK_KEY);
+            document.getElementById('markStyle').value = localStorage.getItem(MARK_KEY) || '0';
+            document.getElementById('shadowStyle').value = localStorage.getItem(SHADOW_KEY) || '0';
+            document.getElementById('radiusStyle').value = localStorage.getItem(RADIUS_KEY) || '0';
+
             document.getElementById('effectModal').classList.add('active');
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
         };
         document.getElementById('closeEffectBtn').onclick = () => document.getElementById('effectModal').classList.remove('active');
         document.getElementById('saveEffectBtn').onclick = () => {
-            localStorage.setItem(EFFECT_BG_KEY, document.getElementById('chkBg').checked);
-            localStorage.setItem(EFFECT_SHADOW_KEY, document.getElementById('chkShadow').checked);
-            localStorage.setItem(EFFECT_MARK_KEY, document.getElementById('chkMark').checked);
+            localStorage.setItem(MARK_KEY, document.getElementById('markStyle').value);
+            localStorage.setItem(SHADOW_KEY, document.getElementById('shadowStyle').value);
+            localStorage.setItem(RADIUS_KEY, document.getElementById('radiusStyle').value);
             document.getElementById('effectModal').classList.remove('active');
             renderGrid();
         };
@@ -461,6 +477,7 @@
         document.getElementById('btnReset').onclick = () => {
             if(confirm(t('messages.reset_confirm'))) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
+                localStorage.removeItem(MARK_KEY); localStorage.removeItem(SHADOW_KEY); localStorage.removeItem(RADIUS_KEY);
                 renderGrid();
             }
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
@@ -487,7 +504,6 @@
             } 
         };
 
-        // Đóng modal
         document.getElementById('infoModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
         document.getElementById('infoDetailsModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
         document.getElementById('effectModal').onclick = (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('active'); };
@@ -511,10 +527,10 @@
         allAvailableIds.slice(0, 20).forEach(id => {
             const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
             const useIcon = data.icon && data.icon.trim() !== ""; let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
-            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
+            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" style="border-radius: 22.5%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
             item.onclick = () => { 
                 let current = getSelectedApps(); 
-                if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit').replace('{max}', MAX_APPS)); return; } 
+                if(current.length >= MAX_APPS) { alert("Chỉ thêm được tối đa 24 app"); return; } 
                 current.push(id); saveSelectedApps(current); closeModal(); 
             };
             modalList.appendChild(item);
@@ -529,10 +545,10 @@
         foundIds.forEach(id => {
             const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
             const useIcon = data.icon && data.icon.trim() !== ""; let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
-            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
+            item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" style="border-radius: 22.5%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
             item.onclick = () => { 
                 let current = getSelectedApps(); 
-                if(current.length >= MAX_APPS) { alert(t('modal.max_apps_limit').replace('{max}', MAX_APPS)); return; } 
+                if(current.length >= MAX_APPS) { alert("Chỉ thêm được tối đa 24 app"); return; } 
                 if(!current.includes(id)) { current.push(id); saveSelectedApps(current); closeModal(); } 
             };
             modalList.appendChild(item);
