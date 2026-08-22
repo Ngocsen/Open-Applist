@@ -4,7 +4,7 @@
   "button": { "add": "Thêm", "close": "Đóng", "view_more": "Thêm ứng dụng", "confirm": "Đồng ý", "cancel": "Hủy" },
   "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
   "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." },
-  "messages": { "fallback_data_warning": "⚠️ Đang dùng dữ liệu dự phòng...", "prompt_rename_app": "Nhập tên mới cho ứng dụng:", "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?", "settings_in_development": "⚙️ Chức năng cài đặt đang được phát triển!" },
+  "messages": { "prompt_rename_app": "Nhập tên mới cho ứng dụng:", "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?" },
   "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" },
   "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
   "effects": {
