@@ -1,3 +1,4 @@
+// sw.js
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open('snowboard-v2').then((cache) => {
@@ -29,7 +30,6 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Dữ liệu JSON luôn ưu tiên mạng trước để luôn mới
   if (e.request.url.includes('.json')) {
     e.respondWith(
       fetch(e.request)
@@ -43,7 +43,6 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // Ảnh và static cache trước, mạng sau
   e.respondWith(
     caches.match(e.request).then((response) => {
       return (
