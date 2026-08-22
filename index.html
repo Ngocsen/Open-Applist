@@ -47,16 +47,19 @@
         .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px; }
 
+        /* ===== NÚT INFO (góc trái) ===== */
         #infoBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); left: 20px; z-index: 999; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 18px; color: #1e1e2f; font-family: serif; }
         #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        #drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
-        #drawerWrapper.open #drawerContent { max-width: 200px; opacity: 1; padding-right: 4px; }
+        /* ===== SỬA THEO YÊU CẦU 3: BỎ KHUNG NÚT SETTING, CHỈ GIỮ ICON MỘT MÌNH ===== */
+        #drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999; display: flex; align-items: center; background: transparent; border: none; padding: 0; box-shadow: none; backdrop-filter: none; }
+        
+        #drawerContent { display: flex; gap: 10px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; background: rgba(255,255,255,0.3); backdrop-filter: blur(20px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); }
+        #drawerWrapper.open #drawerContent { max-width: 200px; opacity: 1; padding-right: 8px; }
 
-        #drawerToggle, .drawer-btn { width: 40px; height: 40px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.4); }
+        #drawerToggle, .drawer-btn { width: 44px; height: 44px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         #drawerToggle img, .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
-        #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
+        #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.9); }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -64,21 +67,18 @@
         
         /* === PHẦN MÀU SẮC MỚI CHO MODAL (LIGHT MODE) === */
         .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; }
-        /* Tiêu đề "Sentechtipsvn" màu xanh nước biển */
-        #infoModalTitle { color: #0071e3; }
-        /* Tiêu đề "Hiệu ứng Icon" màu xanh ngọc */
+        /* YÊU CẦU 2: TĂNG KÍCH THƯỚC CHỮ TRONG MỤC INFO */
+        #infoModalTitle { color: #0071e3; font-size: 22px; font-weight: 700; }
         #effectTitle { color: #20b2aa; }
-        /* Các Label (Kiểu Mark, Độ đậm nhạt) màu xanh ngọc */
         label { color: #20b2aa; font-weight: 600; }
-        /* Chữ ghi chú (Chỉ được phép nhập...) màu đỏ nhạt */
         .input-help { color: #ff6b6b; font-size: 11px; margin-top: 4px; }
         
-        /* Nút hành động trong popup Info */
-        #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #20b2aa; }
-        /* Nút Lưu hiệu ứng màu xanh ngọc */
-        #saveEffectBtn { color: #20b2aa; font-weight: bold; }
-        /* Nút Huỷ màu đỏ nhạt */
-        #closeEffectBtn { color: #ff6b6b; }
+        /* Nút hành động trong popup Info: To hơn */
+        #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #20b2aa; font-size: 17px; font-weight: 600; }
+        
+        /* YÊU CẦU 1: NÚT LƯU & HUỶ NỔI KHỐI (THÊM BÓNG ĐỔ) */
+        #saveEffectBtn { color: #20b2aa; font-weight: bold; box-shadow: 0 4px 15px rgba(32, 178, 170, 0.3); }
+        #closeEffectBtn { color: #ff6b6b; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2); }
         
         .search-box { width: 100%; padding: 10px 14px; border-radius: 50px; border: none; background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none; }
         .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
@@ -113,12 +113,13 @@
             .app-container { background: rgba(30, 27, 75, 0.3); border: 1px solid rgba(255,255,255,0.05); }
             .app-name, .modal-content h3, .modal-item span { color: #f1f5f9; }
             
-            /* Khung modal đậm hơn để chữ nổi rõ */
             .modal-content { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1); }
             
             #infoBtn { color: #f1f5f9; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.05); }
-            #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
-            #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.05); }
+            #drawerWrapper { background: transparent; }
+            #drawerContent { background: rgba(30, 27, 75, 0.8); border-color: rgba(255,255,255,0.2); }
+            #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.15); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+            
             .modal-item .fallback-text { background: rgba(255,255,255,0.1); color: #f1f5f9; }
             .context-menu { background: rgba(30, 27, 75, 0.9); border: 1px solid rgba(255,255,255,0.05); }
             .context-menu .menu-item { color: #f1f5f9; }
@@ -127,14 +128,13 @@
             .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; }
             .input-num { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
 
-            /* Màu sắc chỉnh riêng cho Dark Mode */
             #infoModalTitle { color: #ffffff; }
             #effectTitle { color: #ffffff; }
             label { color: #7ce3d3; }
             .input-help { color: #ff6b6b; }
             #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #7ce3d3; }
-            #saveEffectBtn { color: #7ce3d3; font-weight: bold; }
-            #closeEffectBtn { color: #ff6b6b; }
+            #saveEffectBtn { color: #7ce3d3; font-weight: bold; box-shadow: 0 4px 15px rgba(124, 227, 211, 0.2); }
+            #closeEffectBtn { color: #ff6b6b; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2); }
             .close-modal { background: rgba(255,255,255,0.05); }
             .close-modal:active { background: rgba(255,255,255,0.1); }
         }
