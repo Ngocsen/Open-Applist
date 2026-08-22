@@ -10,7 +10,7 @@
   "effects": { 
     "title": "Hiệu ứng Icon", 
     "mark_label": "Kiểu Mark (Lớp kính phủ)", 
-    "shadow_label": "Hướng đổ bóng:", 
+    "effects. shadow_direction_ label": "Hướng đổ bóng:", 
     "shadow_direction_options": {
       "center": "🎯 Chính giữa",
       "left": "⬅️ Nghiêng trái",
