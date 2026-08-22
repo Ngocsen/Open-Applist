@@ -1,5 +1,5 @@
-// sw.js - Bản tối ưu cho PWA
-const CACHE_NAME = 'snowboard-v3';
+// sw.js - Bản tối ưu cho PWA (Cache V4 - Ép tải mới hoàn toàn)
+const CACHE_NAME = 'snowboard-v4';
 const APP_SHELL = [
     './',
     './index.html',
@@ -12,7 +12,6 @@ const APP_SHELL = [
     './Language/en_US.json'
 ];
 
-// Cài đặt Service Worker
 self.addEventListener('install', (e) => {
     e.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
@@ -21,7 +20,6 @@ self.addEventListener('install', (e) => {
     );
 });
 
-// Kích hoạt và xóa cache cũ
 self.addEventListener('activate', (e) => {
     e.waitUntil(
         caches.keys().then((keys) => {
@@ -32,7 +30,6 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-// Chiến lược fetch: Cache trước, mạng sau
 self.addEventListener('fetch', (e) => {
     if (e.request.url.includes('.json')) {
         e.respondWith(
