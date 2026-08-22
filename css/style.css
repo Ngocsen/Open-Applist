@@ -176,3 +176,9 @@ input:checked + .slider:before { transform: translateX(20px); }
     .close-modal { background: rgba(255,255,255,0.05); }
     .close-modal:active { background: rgba(255,255,255,0.1); }
 }
+   /* MÀU NÚT "XÁC NHẬN" (✔️)
+#btnDelete {
+    background-color: #34c759 !important; /* Màu nền xanh lá (giống nút check của iOS) */
+    color: #ffffff !important;             /* Màu dấu ✔️ (màu trắng) */
+    border: none;
+}
