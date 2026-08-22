@@ -10,18 +10,20 @@
   "effects": { 
     "title": "Hiệu ứng Icon", 
     "mark_label": "Kiểu Mark (Lớp kính phủ)", 
-    "shadow_label": "Kiểu Shadow (Bóng đổ)", 
-    "shadow_direction_label": "Hướng đổ bóng:",
+    "shadow_label": "Hướng đổ bóng:", 
     "shadow_direction_options": {
-      "left": "Nghiêng trái",
-      "right": "Nghiêng phải",
-      "top": "Đổ lên trên",
-      "bottom": "Đổ xuống dưới"
+      "center": "🎯 Chính giữa",
+      "left": "⬅️ Nghiêng trái",
+      "right": "➡️ Nghiêng phải",
+      "top": "⬆️ Đổ lên trên",
+      "bottom": "⬇️ Đổ xuống dưới"
     },
     "shadow_blur_label": "Độ đậm nhạt (Blur):",
     "shadow_blur_helper": "Chỉ được phép nhập từ 1 đến 100",
     "shadow_offset_label": "Độ xa gần (Offset):",
     "shadow_offset_helper": "Chỉ được phép nhập từ 1 đến 100",
+    "shadow_opacity_label": "Độ đậm (Opacity):",
+    "shadow_opacity_helper": "Chỉ được phép nhập từ 1 đến 100",
     "radius_label": "Kiểu Bo góc Icon", 
     "mark_options": { "0": "Liquid Glass", "1": "Crystal Shine", "2": "Holographic", "3": "Matte Dark", "4": "Classic Glossy" }, 
     "shadow_options": { "0": "Mềm mại", "1": "Sâu & Nổi", "2": "Phát sáng Neon", "3": "Bóng màu" }, 
