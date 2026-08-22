@@ -1,5 +1,5 @@
-// sw.js - Bản tối ưu cho PWA (Cache V4 - Ép tải mới hoàn toàn)
-const CACHE_NAME = 'snowboard-v4';
+// sw.js - Bản nâng cấp Cache V5
+const CACHE_NAME = 'snowboard-v5';
 const APP_SHELL = [
     './',
     './index.html',
@@ -43,7 +43,6 @@ self.addEventListener('fetch', (e) => {
         );
         return;
     }
-
     e.respondWith(
         caches.match(e.request).then((response) => {
             return (
