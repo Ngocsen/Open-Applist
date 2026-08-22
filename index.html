@@ -60,8 +60,25 @@
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; }
-        .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; color: #1e1e2f; }
+        .modal-content { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; }
+        
+        /* === PHẦN MÀU SẮC MỚI CHO MODAL (LIGHT MODE) === */
+        .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; }
+        /* Tiêu đề "Sentechtipsvn" màu xanh nước biển */
+        #infoModalTitle { color: #0071e3; }
+        /* Tiêu đề "Hiệu ứng Icon" màu xanh ngọc */
+        #effectTitle { color: #20b2aa; }
+        /* Các Label (Kiểu Mark, Độ đậm nhạt) màu xanh ngọc */
+        label { color: #20b2aa; font-weight: 600; }
+        /* Chữ ghi chú (Chỉ được phép nhập...) màu đỏ nhạt */
+        .input-help { color: #ff6b6b; font-size: 11px; margin-top: 4px; }
+        
+        /* Nút hành động trong popup Info */
+        #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #20b2aa; }
+        /* Nút Lưu hiệu ứng màu xanh ngọc */
+        #saveEffectBtn { color: #20b2aa; font-weight: bold; }
+        /* Nút Huỷ màu đỏ nhạt */
+        #closeEffectBtn { color: #ff6b6b; }
         
         .search-box { width: 100%; padding: 10px 14px; border-radius: 50px; border: none; background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none; }
         .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
@@ -73,7 +90,8 @@
 
         #loadMoreBtn { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
         #loadMoreBtn:active { background: rgba(255,255,255,0.9); }
-        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
+        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-align: center; }
+        .close-modal:active { background: rgba(0,0,0,0.1); }
 
         .context-menu { position: fixed; z-index: 1001; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(30px); border-radius: 16px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none; }
         .context-menu.active { display: flex; flex-direction: column; transform: scale(1); opacity: 1; pointer-events: auto; }
@@ -88,13 +106,16 @@
         .input-group { margin-bottom: 16px; }
         .input-row { display: flex; align-items: center; gap: 10px; }
         .input-num { width: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 10px; text-align: center; background: rgba(255,255,255,0.8); color: #333; }
-        .input-help { font-size: 11px; color: #888; margin-top: 4px; }
 
+        /* === PHẦN MÀU SẮC MỚI CHO DARK MODE === */
         @media (prefers-color-scheme: dark) {
             body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
             .app-container { background: rgba(30, 27, 75, 0.3); border: 1px solid rgba(255,255,255,0.05); }
             .app-name, .modal-content h3, .modal-item span { color: #f1f5f9; }
-            .modal-content { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.05); }
+            
+            /* Khung modal đậm hơn để chữ nổi rõ */
+            .modal-content { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1); }
+            
             #infoBtn { color: #f1f5f9; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.05); }
             #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
             #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.05); }
@@ -105,7 +126,17 @@
             .dir-btn { background: rgba(255,255,255,0.1); color: #f1f5f9; border-color: rgba(255,255,255,0.2); }
             .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; }
             .input-num { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
-            .input-help { color: #aaa; }
+
+            /* Màu sắc chỉnh riêng cho Dark Mode */
+            #infoModalTitle { color: #ffffff; }
+            #effectTitle { color: #ffffff; }
+            label { color: #7ce3d3; }
+            .input-help { color: #ff6b6b; }
+            #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #7ce3d3; }
+            #saveEffectBtn { color: #7ce3d3; font-weight: bold; }
+            #closeEffectBtn { color: #ff6b6b; }
+            .close-modal { background: rgba(255,255,255,0.05); }
+            .close-modal:active { background: rgba(255,255,255,0.1); }
         }
     </style>
 </head>
@@ -143,7 +174,7 @@
         <h3 id="effectTitle">Hiệu ứng Icon</h3>
         
         <div class="control-group" style="margin-bottom: 16px;">
-            <label id="markLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Kiểu Mark</label>
+            <label id="markLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Kiểu Mark</label>
             <select id="markStyle" style="width: 100%; padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.8); font-size: 14px;">
                 <option value="0">Liquid Glass</option>
                 <option value="1">Crystal Shine</option>
@@ -154,7 +185,7 @@
         </div>
 
         <div class="control-group" style="margin-bottom: 16px;">
-            <label id="shadowLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Hướng đổ bóng</label>
+            <label id="shadowLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Hướng đổ bóng</label>
             <div class="direction-container" id="shadowDirectionContainer">
                 <button class="dir-btn" data-dir="center">🎯</button>
                 <button class="dir-btn" data-dir="left">⬅️</button>
@@ -165,25 +196,25 @@
         </div>
 
         <div class="input-group" style="margin-bottom: 16px;">
-            <label id="shadowBlurLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Độ đậm nhạt (Blur)</label>
+            <label id="shadowBlurLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm nhạt (Blur)</label>
             <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10" style="width: 100%;">
             <div class="input-help" id="shadowBlurHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
 
         <div class="input-group" style="margin-bottom: 16px;">
-            <label id="shadowOffsetLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Độ xa gần (Offset)</label>
+            <label id="shadowOffsetLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ xa gần (Offset)</label>
             <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10" style="width: 100%;">
             <div class="input-help" id="shadowOffsetHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
 
         <div class="input-group" style="margin-bottom: 16px;">
-            <label id="shadowOpacityLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Độ đậm (Opacity)</label>
+            <label id="shadowOpacityLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm (Opacity)</label>
             <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30" style="width: 100%;">
             <div class="input-help" id="shadowOpacityHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
         
         <div class="control-group" style="margin-bottom: 16px;">
-            <label id="radiusLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Kiểu Bo góc Icon</label>
+            <label id="radiusLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Kiểu Bo góc Icon</label>
             <select id="radiusStyle" style="width: 100%; padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.8); font-size: 14px;">
                 <option value="0">Squircle (Chuẩn Apple)</option>
                 <option value="1">Tròn hoàn toàn</option>
@@ -321,19 +352,18 @@
         else wrapper.style.borderRadius = '16px';
         img.style.borderRadius = wrapper.style.borderRadius;
 
-        // 2. Tạo bóng đổ với hướng, độ xa, blur và opacity
+        // 2. Tạo bóng đổ
         let offsetX = 0, offsetY = 0;
         if (shadowDir === 'left') offsetX = -shadowOffset;
         else if (shadowDir === 'right') offsetX = shadowOffset;
         else if (shadowDir === 'top') offsetY = -shadowOffset;
         else if (shadowDir === 'bottom') offsetY = shadowOffset;
-        // center: offsetX, offsetY giữ nguyên 0
 
         const opacityValue = Math.min(Math.max(shadowOpacity, 1), 100) / 100;
         const shadowColor = `rgba(0,0,0,${opacityValue})`;
         let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
 
-        // 3. Gộp Mark vào cùng box-shadow (không ghi đè)
+        // 3. Gộp Mark vào cùng box-shadow
         if (mark === '1') shadowBox += `, inset 0 0 20px rgba(255,255,255,0.6)`;
         else if (mark === '2') shadowBox += `, inset 0 0 20px rgba(0,255,255,0.6)`;
         else if (mark === '3') shadowBox += `, inset 0 0 20px rgba(0,0,0,0.6)`;
