@@ -8,7 +8,7 @@ self.addEventListener('install', (e) => {
         './apple-touch-icon.png',
         './db.json',
         './social.json',
-        '.SW.js',
+        '.sw.js',
         './system-app.json',
         './Language/en_US.json',
         './Language/vi_VN.json'
