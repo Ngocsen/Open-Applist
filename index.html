@@ -6,6 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
+    <meta name="format-detection" content="telephone=no" />
     
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -35,8 +36,8 @@
         .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; justify-content: center; align-items: center; }
         .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
 
-        /* Icon bo góc cứng 16px - Không còn khung vuông */
-        .icon-wrapper { width: 72px; height: 72px; position: relative; border-radius: 16px; background: transparent !important; overflow: hidden; box-shadow: none !important; margin-bottom: 8px; isolation: isolate; border: none !important; }
+        /* Icon bo góc cứng 16px - Bỏ overflow: hidden để bóng đổ đúng */
+        .icon-wrapper { width: 72px; height: 72px; position: relative; border-radius: 16px; background: transparent !important; overflow: visible !important; margin-bottom: 8px; isolation: isolate; border: none !important; }
         .icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; background: transparent; border-radius: 16px !important; }
         .fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
@@ -50,7 +51,6 @@
         #infoBtn { position: fixed; bottom: 30px; left: 20px; z-index: 999; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 18px; color: #1e1e2f; font-family: serif; }
         #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* Nút Setting bo tròn tuyệt đối 50% */
         #drawerWrapper { position: fixed; bottom: 30px; right: 20px; z-index: 999; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
         #drawerWrapper.open #drawerContent { max-width: 200px; opacity: 1; padding-right: 4px; }
@@ -59,7 +59,6 @@
         #drawerToggle img, .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
         #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* Modal Kho chứa app + Modal hiệu ứng */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; }
@@ -73,18 +72,17 @@
         .modal-item .fallback-text { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; color: #1e1e2f; background: rgba(255,255,255,0.5); border-radius: 16px !important; }
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; line-height: 1.2; }
 
-        /* Nút Xem thêm */
         #loadMoreBtn { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
         #loadMoreBtn:active { background: rgba(255,255,255,0.9); }
         .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
 
-        /* Context Menu (Long Press) */
         .context-menu { position: fixed; z-index: 1001; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(30px); border-radius: 16px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none; }
         .context-menu.active { display: flex; flex-direction: column; transform: scale(1); opacity: 1; pointer-events: auto; }
         .context-menu .menu-item { padding: 10px 16px; font-size: 15px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
         .context-menu .menu-item:active { background: rgba(0, 0, 0, 0.08); }
         .context-menu .menu-item.delete { color: #ff3b30; }
 
+        /* CẬP NHẬT DARK MODE - Chữ và nền input/select chuẩn hơn */
         @media (prefers-color-scheme: dark) {
             body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
             .app-container { background: rgba(30, 27, 75, 0.3); border: 1px solid rgba(255,255,255,0.05); }
@@ -97,6 +95,16 @@
             .context-menu { background: rgba(30, 27, 75, 0.9); border: 1px solid rgba(255,255,255,0.05); }
             .context-menu .menu-item { color: #f1f5f9; }
             .context-menu .menu-item.delete { color: #ff6b5a; }
+
+            /* Thêm phần này để chữ và nền trong bảng chọn (Select) không bị "chói" */
+            .modal-content select, .modal-content input[type="text"] {
+                background: rgba(255, 255, 255, 0.1);
+                color: #f1f5f9;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .modal-content label {
+                color: #f1f5f9;
+            }
         }
     </style>
 </head>
@@ -106,18 +114,17 @@
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<button id="infoBtn">i</button>
+<button id="infoBtn" aria-label="Thông tin">i</button>
 
 <div id="drawerWrapper">
     <div id="drawerContent">
-        <button class="drawer-btn" id="btnEffect"><img src="icons/icon_setting.png" onerror="this.outerHTML='🎨'" /></button>
-        <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
-        <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
+        <button class="drawer-btn" id="btnEffect" aria-label="Cài đặt hiệu ứng"><img src="icons/icon_setting.png" onerror="this.outerHTML='🎨'" /></button>
+        <button class="drawer-btn" id="btnReset" aria-label="Khôi phục cài đặt"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
+        <button class="drawer-btn" id="btnPlugin" aria-label="Plugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
     </div>
-    <button id="drawerToggle"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
+    <button id="drawerToggle" aria-label="Mở menu"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
-<!-- POPUP INFO -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
         <h3 id="infoModalTitle">Sentechtipsvn</h3>
@@ -130,7 +137,6 @@
     </div>
 </div>
 
-<!-- POPUP HIỆU ỨNG -->
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
         <h3 id="effectTitle">Hiệu ứng Icon</h3>
@@ -166,7 +172,6 @@
     </div>
 </div>
 
-<!-- MODAL THÊM APP -->
 <div class="modal-overlay" id="addAppModal">
     <div class="modal-content">
         <h3 id="modalTitle">➕ Thêm ứng dụng</h3>
@@ -177,7 +182,6 @@
     </div>
 </div>
 
-<!-- CONTEXT MENU -->
 <div class="context-menu" id="contextMenu">
     <div class="menu-item" id="menuMoveTop">Đưa lên đầu</div>
     <div class="menu-item" id="menuRename">Đổi tên</div>
@@ -275,17 +279,34 @@
             <div class="app-info"><span class="app-name">${displayName}</span></div>
         `;
 
-        // Áp dụng hiệu ứng
-        if (radius === '1') div.querySelector('.icon-wrapper').style.borderRadius = '50%';
-        else if (radius === '2') div.querySelector('.icon-wrapper').style.borderRadius = '12px';
-        
-        if (shadow === '1') div.querySelector('.icon-img').style.filter = 'drop-shadow(0 15px 30px rgba(0,0,0,0.4))';
-        else if (shadow === '2') div.querySelector('.icon-img').style.filter = 'drop-shadow(0 0 12px rgba(139,92,246,0.8))';
-        else if (shadow === '3') div.querySelector('.icon-img').style.filter = 'drop-shadow(0 6px 12px rgba(255,0,0,0.5))';
-        
-        if (mark === '1') div.querySelector('.icon-wrapper').style.boxShadow = 'inset 0 0 20px rgba(255,255,255,0.5)';
-        else if (mark === '2') div.querySelector('.icon-wrapper').style.boxShadow = 'inset 0 0 20px rgba(0,255,255,0.5)';
-        else if (mark === '3') div.querySelector('.icon-wrapper').style.boxShadow = 'inset 0 0 20px rgba(0,0,0,0.5)';
+        // ========== CẬP NHẬT LẠI HIỆU ỨNG (Bóng, Mặt Nạ) ==========
+        const wrapper = div.querySelector('.icon-wrapper');
+        const img = div.querySelector('.icon-img');
+
+        // 1. Bo góc
+        if (radius === '1') wrapper.style.borderRadius = '50%';
+        else if (radius === '2') wrapper.style.borderRadius = '12px';
+        else wrapper.style.borderRadius = '16px';
+
+        // 2. Đổ bóng: Áp dụng lên wrapper (không bị cắt ô vuông)
+        if (shadow === '0') {
+            wrapper.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.08))'; // Mềm mại
+        } else if (shadow === '1') {
+            wrapper.style.filter = 'drop-shadow(0 12px 24px rgba(0,0,0,0.15))'; // Sâu & Nổi
+        } else if (shadow === '2') {
+            wrapper.style.filter = 'drop-shadow(0 0 12px rgba(139,92,246,0.5))'; // Neon
+        } else if (shadow === '3') {
+            wrapper.style.filter = 'drop-shadow(0 6px 12px rgba(255,0,0,0.4))'; // Bóng màu
+        }
+
+        // 3. Mặt nạ: Dùng box-shadow inset, đã xóa !important nên hoạt động
+        if (mark === '1') {
+            wrapper.style.boxShadow = 'inset 0 0 20px rgba(255,255,255,0.6)';
+        } else if (mark === '2') {
+            wrapper.style.boxShadow = 'inset 0 0 20px rgba(0,255,255,0.6)';
+        } else if (mark === '3') {
+            wrapper.style.boxShadow = 'inset 0 0 20px rgba(0,0,0,0.6)';
+        }
 
         let longPressTimer;
         div.addEventListener('touchstart', (e) => { 
@@ -409,8 +430,8 @@
         document.getElementById('closeInfoModalBtn').innerText = t('button.close');
         
         document.getElementById('infoBtn').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
-        document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank'); };
-        document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank'); };
+        document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank', 'noopener'); };
+        document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank', 'noopener'); };
         document.getElementById('btnInfoDetails').onclick = () => {
             let infoText = socialData.links?.app_info || FALLBACK_LANG.dock_info.app_version;
             alert(infoText); 
@@ -462,7 +483,7 @@
         };
 
         document.getElementById('btnPlugin').onclick = () => {
-            window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank');
+            window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank', 'noopener');
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
         };
 
@@ -472,6 +493,14 @@
         document.getElementById('searchBox').oninput = (e) => searchAppsStatic(e.target.value);
         
         renderGrid();
+    }
+
+    // ========== THÊM REGISTER SERVICE WORKER (Offline) ==========
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .catch(err => console.log('Service Worker không được hỗ trợ:', err));
+        });
     }
 </script>
 </body>
