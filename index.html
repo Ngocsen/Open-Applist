@@ -47,40 +47,36 @@
         .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px; }
 
-        /* ===== NÚT INFO (góc trái) ===== */
         #infoBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); left: 20px; z-index: 999; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 18px; color: #1e1e2f; font-family: serif; }
         #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
-        /* ===== SỬA THEO YÊU CẦU 3: BỎ KHUNG NÚT SETTING, CHỈ GIỮ ICON MỘT MÌNH ===== */
-        #drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999; display: flex; align-items: center; background: transparent; border: none; padding: 0; box-shadow: none; backdrop-filter: none; }
-        
-        #drawerContent { display: flex; gap: 10px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; background: rgba(255,255,255,0.3); backdrop-filter: blur(20px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); }
-        #drawerWrapper.open #drawerContent { max-width: 200px; opacity: 1; padding-right: 8px; }
+        #drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
+        #drawerWrapper.open #drawerContent { max-width: 250px; opacity: 1; padding-right: 4px; }
 
-        #drawerToggle, .drawer-btn { width: 44px; height: 44px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        #drawerToggle, .drawer-btn { width: 40px; height: 40px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.4); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         #drawerToggle img, .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
-        #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.9); }
+        #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow-y: auto; }
+        .modal-content { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); overflow-y: auto; }
         
-        /* === PHẦN MÀU SẮC MỚI CHO MODAL (LIGHT MODE) === */
+        /* === ĐỔ BÓNG ĐEN XÁM CHO CÁC KHUNG CHỨA NỘI DUNG === */
         .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; }
-        /* YÊU CẦU 2: TĂNG KÍCH THƯỚC CHỮ TRONG MỤC INFO */
-        #infoModalTitle { color: #0071e3; font-size: 22px; font-weight: 700; }
+        #infoModalTitle { color: #0071e3; }
         #effectTitle { color: #20b2aa; }
         label { color: #20b2aa; font-weight: 600; }
         .input-help { color: #ff6b6b; font-size: 11px; margin-top: 4px; }
+        #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #20b2aa; }
+        #saveEffectBtn { color: #20b2aa; font-weight: bold; }
+        #closeEffectBtn { color: #ff6b6b; }
         
-        /* Nút hành động trong popup Info: To hơn */
-        #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #20b2aa; font-size: 17px; font-weight: 600; }
-        
-        /* YÊU CẦU 1: NÚT LƯU & HUỶ NỔI KHỐI (THÊM BÓNG ĐỔ) */
-        #saveEffectBtn { color: #20b2aa; font-weight: bold; box-shadow: 0 4px 15px rgba(32, 178, 170, 0.3); }
-        #closeEffectBtn { color: #ff6b6b; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2); }
-        
-        .search-box { width: 100%; padding: 10px 14px; border-radius: 50px; border: none; background: rgba(255,255,255,0.5); margin-bottom: 12px; font-size: 14px; outline: none; }
+        .search-box, .input-num, select, .close-modal, .dir-btn {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            border-radius: 12px;
+        }
+        .search-box { width: 100%; padding: 10px 14px; border: none; background: rgba(255,255,255,0.9); margin-bottom: 12px; font-size: 14px; outline: none; }
         .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
         .modal-item { display: flex; flex-direction: column; align-items: center; width: 100%; cursor: pointer; }
         .modal-item:active { transform: scale(0.95); }
@@ -88,10 +84,10 @@
         .modal-item .fallback-text { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; color: #1e1e2f; background: rgba(255,255,255,0.5); border-radius: 16px; }
         .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; line-height: 1.2; }
 
-        #loadMoreBtn { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; }
+        #loadMoreBtn { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         #loadMoreBtn:active { background: rgba(255,255,255,0.9); }
-        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.05); border: none; border-radius: 50px; font-weight: 600; cursor: pointer; text-align: center; }
-        .close-modal:active { background: rgba(0,0,0,0.1); }
+        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 14px; font-weight: 600; cursor: pointer; text-align: center; }
+        .close-modal:active { background: rgba(0,0,0,0.05); }
 
         .context-menu { position: fixed; z-index: 1001; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(30px); border-radius: 16px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none; }
         .context-menu.active { display: flex; flex-direction: column; transform: scale(1); opacity: 1; pointer-events: auto; }
@@ -100,41 +96,49 @@
         .context-menu .menu-item.delete { color: #ff3b30; }
 
         .direction-container { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 10px; }
-        .dir-btn { flex: 1; padding: 10px 5px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; cursor: pointer; font-size: 13px; text-align: center; color: #333; }
-        .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; }
+        .dir-btn { flex: 1; padding: 10px 5px; background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-size: 13px; text-align: center; color: #333; }
+        .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; box-shadow: 0 2px 8px rgba(0,113,227,0.3); }
 
         .input-group { margin-bottom: 16px; }
         .input-row { display: flex; align-items: center; gap: 10px; }
-        .input-num { width: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 10px; text-align: center; background: rgba(255,255,255,0.8); color: #333; }
+        .input-num { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 14px; text-align: center; background: rgba(255,255,255,0.9); color: #333; }
 
-        /* === PHẦN MÀU SẮC MỚI CHO DARK MODE === */
+        /* === NÚT THÙNG RÁC KHI XOÁ APP === */
+        .delete-icon {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 26px;
+            height: 26px;
+            background: #ff3b30;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        /* === DARK MODE === */
         @media (prefers-color-scheme: dark) {
             body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
             .app-container { background: rgba(30, 27, 75, 0.3); border: 1px solid rgba(255,255,255,0.05); }
             .app-name, .modal-content h3, .modal-item span { color: #f1f5f9; }
-            
-            .modal-content { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1); }
-            
+            .modal-content { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
             #infoBtn { color: #f1f5f9; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.05); }
-            #drawerWrapper { background: transparent; }
-            #drawerContent { background: rgba(30, 27, 75, 0.8); border-color: rgba(255,255,255,0.2); }
-            #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.15); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-            
+            #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
+            #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
             .modal-item .fallback-text { background: rgba(255,255,255,0.1); color: #f1f5f9; }
             .context-menu { background: rgba(30, 27, 75, 0.9); border: 1px solid rgba(255,255,255,0.05); }
             .context-menu .menu-item { color: #f1f5f9; }
             .context-menu .menu-item.delete { color: #ff6b5a; }
             .dir-btn { background: rgba(255,255,255,0.1); color: #f1f5f9; border-color: rgba(255,255,255,0.2); }
-            .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; }
-            .input-num { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
-
-            #infoModalTitle { color: #ffffff; }
-            #effectTitle { color: #ffffff; }
-            label { color: #7ce3d3; }
-            .input-help { color: #ff6b6b; }
-            #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: #7ce3d3; }
-            #saveEffectBtn { color: #7ce3d3; font-weight: bold; box-shadow: 0 4px 15px rgba(124, 227, 211, 0.2); }
-            #closeEffectBtn { color: #ff6b6b; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2); }
+            .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; box-shadow: 0 2px 8px rgba(0,113,227,0.3); }
+            .search-box, .input-num, select, .close-modal, .dir-btn { box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+            .search-box, .input-num, select { background: rgba(255,255,255,0.1); color: #f1f5f9; border-color: rgba(255,255,255,0.2); }
             .close-modal { background: rgba(255,255,255,0.05); }
             .close-modal:active { background: rgba(255,255,255,0.1); }
         }
@@ -153,6 +157,8 @@
         <button class="drawer-btn" id="btnEffect" aria-label="Cài đặt hiệu ứng"><img src="icons/icon_setting.png" onerror="this.outerHTML='🎨'" /></button>
         <button class="drawer-btn" id="btnReset" aria-label="Khôi phục cài đặt"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
         <button class="drawer-btn" id="btnPlugin" aria-label="Plugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
+        <!-- Nút xoá ứng dụng (sẽ dùng icon_delete.png nếu có, fallback 🗑️) -->
+        <button class="drawer-btn" id="btnDelete" aria-label="Xoá ứng dụng"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
     </div>
     <button id="drawerToggle" aria-label="Mở menu"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
@@ -197,19 +203,19 @@
 
         <div class="input-group" style="margin-bottom: 16px;">
             <label id="shadowBlurLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm nhạt (Blur)</label>
-            <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10" style="width: 100%;">
+            <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10">
             <div class="input-help" id="shadowBlurHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
 
         <div class="input-group" style="margin-bottom: 16px;">
             <label id="shadowOffsetLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ xa gần (Offset)</label>
-            <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10" style="width: 100%;">
+            <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10">
             <div class="input-help" id="shadowOffsetHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
 
         <div class="input-group" style="margin-bottom: 16px;">
             <label id="shadowOpacityLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm (Opacity)</label>
-            <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30" style="width: 100%;">
+            <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30">
             <div class="input-help" id="shadowOpacityHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
         
@@ -244,9 +250,18 @@
 </div>
 
 <script>
+    // Dữ liệu dự phòng (chỉ dùng khi không load được db.json)
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
-    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." }, "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" }, "messages": { "prompt_rename_app": "Nhập tên mới:", "reset_confirm": "Xoá sạch danh sách?" }, "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Kiểu Shadow", "radius_label": "Kiểu Bo góc", "mark_options": { "0": "Liquid Glass", "1": "Crystal Shine", "2": "Holographic", "3": "Matte Dark", "4": "Classic Glossy" }, "shadow_options": { "0": "Mềm mại", "1": "Sâu & Nổi", "2": "Phát sáng Neon", "3": "Bóng màu" }, "radius_options": { "0": "Squircle", "1": "Tròn hoàn toàn", "2": "Vuông nhẹ" }, "save": "Lưu hiệu ứng", "cancel": "Huỷ" } };
+    const FALLBACK_LANG = {
+        "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ", "delete_app": "Xoá ứng dụng" },
+        "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." },
+        "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
+        "messages": { "prompt_rename_app": "Nhập tên mới:", "reset_confirm": "Xoá sạch danh sách?" },
+        "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
+        "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" },
+        "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Kiểu Shadow", "radius_label": "Kiểu Bo góc", "mark_options": { "0": "Liquid Glass", "1": "Crystal Shine", "2": "Holographic", "3": "Matte Dark", "4": "Classic Glossy" }, "shadow_options": { "0": "Mềm mại", "1": "Sâu & Nổi", "2": "Phát sáng Neon", "3": "Bóng màu" }, "radius_options": { "0": "Squircle", "1": "Tròn hoàn toàn", "2": "Vuông nhẹ" }, "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
+    };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
     const basePath = '.';
@@ -291,17 +306,16 @@
     const MARK_KEY = 'effectMarkStyle';
     const SHADOW_KEY = 'effectShadowStyle';
     const RADIUS_KEY = 'effectRadiusStyle';
-    
     const SHADOW_DIRECTION_KEY = 'effectShadowDirection';
     const SHADOW_BLUR_KEY = 'effectShadowBlur';
     const SHADOW_OFFSET_KEY = 'effectShadowOffset';
     const SHADOW_OPACITY_KEY = 'effectShadowOpacity';
-
     const MAX_APPS = 12;
     const INITIAL_DISPLAY_COUNT = 12;
     let currentDisplayCount = INITIAL_DISPLAY_COUNT;
     let currentSelectedAppId = null;
     let isMenuOpen = false;
+    let isDeleteMode = false;
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
@@ -318,7 +332,7 @@
     function getSelectedApps() {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) { try { const parsed = JSON.parse(stored); if (Array.isArray(parsed)) return parsed; } catch(e) { localStorage.removeItem(STORAGE_KEY); } }
-        return ["com.deepseek.chat", "com.facebook.Messenger", "com.facebook.Facebook", "com.burbn.instagram"];
+        return []; // Sửa: trả về rỗng thay vì danh sách cứng
     }
     function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
@@ -339,6 +353,7 @@
             <div class="icon-wrapper" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
                 <img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="fallback-text" style="display:none;">${displayName.charAt(0).toUpperCase()}</span>
+                ${isDeleteMode ? '<div class="delete-icon" onclick="deleteApp(\'' + id + '\')">🗑️</div>' : ''}
             </div>
             <div class="app-info"><span class="app-name">${displayName}</span></div>
         `;
@@ -346,13 +361,11 @@
         const wrapper = div.querySelector('.icon-wrapper');
         const img = div.querySelector('.icon-img');
 
-        // 1. Bo góc
         if (radius === '1') wrapper.style.borderRadius = '50%';
         else if (radius === '2') wrapper.style.borderRadius = '12px';
         else wrapper.style.borderRadius = '16px';
         img.style.borderRadius = wrapper.style.borderRadius;
 
-        // 2. Tạo bóng đổ
         let offsetX = 0, offsetY = 0;
         if (shadowDir === 'left') offsetX = -shadowOffset;
         else if (shadowDir === 'right') offsetX = shadowOffset;
@@ -363,7 +376,6 @@
         const shadowColor = `rgba(0,0,0,${opacityValue})`;
         let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
 
-        // 3. Gộp Mark vào cùng box-shadow
         if (mark === '1') shadowBox += `, inset 0 0 20px rgba(255,255,255,0.6)`;
         else if (mark === '2') shadowBox += `, inset 0 0 20px rgba(0,255,255,0.6)`;
         else if (mark === '3') shadowBox += `, inset 0 0 20px rgba(0,0,0,0.6)`;
@@ -377,7 +389,7 @@
         });
         div.addEventListener('touchend', () => clearTimeout(longPressTimer));
         div.addEventListener('touchmove', () => clearTimeout(longPressTimer));
-        div.onclick = (e) => { if (longPressTimer) clearTimeout(longPressTimer); openApp(id); };
+        div.onclick = (e) => { if (longPressTimer) clearTimeout(longPressTimer); if (!isDeleteMode) openApp(id); };
         return div;
     }
 
@@ -396,6 +408,12 @@
             addBtn.onclick = () => { currentDisplayCount = INITIAL_DISPLAY_COUNT; renderModal(); modal.classList.add('active'); closeContextMenu(); };
             grid.appendChild(addBtn);
         }
+    }
+
+    function deleteApp(id) {
+        let current = getSelectedApps();
+        current = current.filter(item => item !== id);
+        saveSelectedApps(current);
     }
 
     function renderModal() {
@@ -483,6 +501,21 @@
 
     function closeModal() { modal.classList.remove('active'); }
     function openApp(bundleId) { const shortcutName = "Open App Launcher"; window.location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(shortcutName) + "&input=text&text=" + encodeURIComponent(bundleId); }
+
+    // Hàm bật/tắt chế độ xoá
+    function toggleDeleteMode() {
+        isDeleteMode = !isDeleteMode;
+        renderGrid();
+        const btnDelete = document.getElementById('btnDelete');
+        if (isDeleteMode) {
+            btnDelete.innerHTML = '✔️'; // Đổi thành dấu check khi đang ở chế độ xoá
+        } else {
+            btnDelete.innerHTML = '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
+        }
+        // Đóng drawer sau khi chọn
+        drawerWrapper.classList.remove('open');
+        drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
+    }
 
     function initUI() {
         document.getElementById('infoModalTitle').innerText = t('info_popup.title');
@@ -581,6 +614,9 @@
             window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank', 'noopener');
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
         };
+
+        // Nút xoá ứng dụng
+        document.getElementById('btnDelete').onclick = toggleDeleteMode;
 
         document.getElementById('loadMoreBtn').onclick = () => { currentDisplayCount += 12; renderModal(); };
         document.getElementById('closeModalBtn').onclick = closeModal;
