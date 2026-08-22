@@ -16,7 +16,6 @@ const APP_SHELL = [
 self.addEventListener('install', (e) => {
     e.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            // Cache toàn bộ các file thiết yếu
             return cache.addAll(APP_SHELL);
         }).then(() => self.skipWaiting())
     );
@@ -35,7 +34,6 @@ self.addEventListener('activate', (e) => {
 
 // Chiến lược fetch: Cache trước, mạng sau
 self.addEventListener('fetch', (e) => {
-    // Với các file JSON (dữ liệu app) => Network first (luôn lấy dữ liệu mới nhất)
     if (e.request.url.includes('.json')) {
         e.respondWith(
             fetch(e.request)
@@ -49,7 +47,6 @@ self.addEventListener('fetch', (e) => {
         return;
     }
 
-    // Với ảnh (png, jpg) và các file tĩnh khác => Cache first, mạng sau
     e.respondWith(
         caches.match(e.request).then((response) => {
             return (
