@@ -36,9 +36,7 @@
         .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; justify-content: center; align-items: center; }
         .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
 
-        /* SỬA LỖI: Bỏ overflow: hidden để bóng đổ ra ngoài không bị cắt hình vuông */
         .icon-wrapper { width: 72px; height: 72px; position: relative; border-radius: 16px; background: transparent; overflow: visible !important; margin-bottom: 8px; isolation: isolate; border: none; }
-        /* SỬA LỖI: Bỏ !important để JS có thể bo tròn theo yêu cầu */
         .icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; background: transparent; border-radius: inherit; }
         .fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
@@ -49,7 +47,6 @@
         .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
         .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px; }
 
-        /* SỬA LỖI KHUNG SETTING: Đẩy nút lên cao tránh thanh Home, bo tròn tuyệt đối */
         #infoBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); left: 20px; z-index: 999; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 18px; color: #1e1e2f; font-family: serif; }
         #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
@@ -84,9 +81,8 @@
         .context-menu .menu-item:active { background: rgba(0, 0, 0, 0.08); }
         .context-menu .menu-item.delete { color: #ff3b30; }
 
-        /* CẬP NHẬT HIỂN THỊ CHO NÚT HƯỚNG BÓNG */
-        .direction-container { display: flex; gap: 10px; justify-content: space-between; margin-bottom: 10px; }
-        .dir-btn { flex: 1; padding: 10px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; cursor: pointer; font-size: 14px; text-align: center; color: #333; }
+        .direction-container { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 10px; }
+        .dir-btn { flex: 1; padding: 10px 5px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; cursor: pointer; font-size: 13px; text-align: center; color: #333; }
         .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; }
 
         .input-group { margin-bottom: 16px; }
@@ -160,6 +156,7 @@
         <div class="control-group" style="margin-bottom: 16px;">
             <label id="shadowLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Hướng đổ bóng</label>
             <div class="direction-container" id="shadowDirectionContainer">
+                <button class="dir-btn" data-dir="center">🎯</button>
                 <button class="dir-btn" data-dir="left">⬅️</button>
                 <button class="dir-btn" data-dir="right">➡️</button>
                 <button class="dir-btn" data-dir="top">⬆️</button>
@@ -177,6 +174,12 @@
             <label id="shadowOffsetLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Độ xa gần (Offset)</label>
             <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10" style="width: 100%;">
             <div class="input-help" id="shadowOffsetHelper">Chỉ được phép nhập từ 1 đến 100</div>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 16px;">
+            <label id="shadowOpacityLabel" style="display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;">Độ đậm (Opacity)</label>
+            <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30" style="width: 100%;">
+            <div class="input-help" id="shadowOpacityHelper">Chỉ được phép nhập từ 1 đến 100</div>
         </div>
         
         <div class="control-group" style="margin-bottom: 16px;">
@@ -258,10 +261,10 @@
     const SHADOW_KEY = 'effectShadowStyle';
     const RADIUS_KEY = 'effectRadiusStyle';
     
-    // CÁC KEY MỚI CHO BÓNG ĐỔ
     const SHADOW_DIRECTION_KEY = 'effectShadowDirection';
     const SHADOW_BLUR_KEY = 'effectShadowBlur';
     const SHADOW_OFFSET_KEY = 'effectShadowOffset';
+    const SHADOW_OPACITY_KEY = 'effectShadowOpacity';
 
     const MAX_APPS = 12;
     const INITIAL_DISPLAY_COUNT = 12;
@@ -298,10 +301,11 @@
         const shadowDir = localStorage.getItem(SHADOW_DIRECTION_KEY) || 'bottom';
         const shadowBlur = parseInt(localStorage.getItem(SHADOW_BLUR_KEY) || '10');
         const shadowOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
+        const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
         const radius = localStorage.getItem(RADIUS_KEY) || '0';
 
         div.innerHTML = `
-            <div class="icon-wrapper" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-radius="${radius}">
+            <div class="icon-wrapper" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
                 <img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="fallback-text" style="display:none;">${displayName.charAt(0).toUpperCase()}</span>
             </div>
@@ -317,19 +321,25 @@
         else wrapper.style.borderRadius = '16px';
         img.style.borderRadius = wrapper.style.borderRadius;
 
-        // 2. Đổ bóng (Sử dụng Box-shadow để tránh bị cắt, tính toán hướng và độ xa)
+        // 2. Tạo bóng đổ với hướng, độ xa, blur và opacity
         let offsetX = 0, offsetY = 0;
         if (shadowDir === 'left') offsetX = -shadowOffset;
         else if (shadowDir === 'right') offsetX = shadowOffset;
         else if (shadowDir === 'top') offsetY = -shadowOffset;
-        else offsetY = shadowOffset;
-        
-        wrapper.style.boxShadow = `${offsetX}px ${offsetY}px ${shadowBlur}px rgba(0,0,0,0.3)`;
+        else if (shadowDir === 'bottom') offsetY = shadowOffset;
+        // center: offsetX, offsetY giữ nguyên 0
 
-        // 3. Mặt nạ (Sửa lỗi box-shadow bị chặn)
-        if (mark === '1') wrapper.style.boxShadow = 'inset 0 0 20px rgba(255,255,255,0.6)';
-        else if (mark === '2') wrapper.style.boxShadow = 'inset 0 0 20px rgba(0,255,255,0.6)';
-        else if (mark === '3') wrapper.style.boxShadow = 'inset 0 0 20px rgba(0,0,0,0.6)';
+        const opacityValue = Math.min(Math.max(shadowOpacity, 1), 100) / 100;
+        const shadowColor = `rgba(0,0,0,${opacityValue})`;
+        let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
+
+        // 3. Gộp Mark vào cùng box-shadow (không ghi đè)
+        if (mark === '1') shadowBox += `, inset 0 0 20px rgba(255,255,255,0.6)`;
+        else if (mark === '2') shadowBox += `, inset 0 0 20px rgba(0,255,255,0.6)`;
+        else if (mark === '3') shadowBox += `, inset 0 0 20px rgba(0,0,0,0.6)`;
+        else if (mark === '4') shadowBox += `, inset 0 0 15px rgba(255,255,255,0.4)`;
+
+        wrapper.style.boxShadow = shadowBox;
 
         let longPressTimer;
         div.addEventListener('touchstart', (e) => { 
@@ -445,7 +455,6 @@
     function openApp(bundleId) { const shortcutName = "Open App Launcher"; window.location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(shortcutName) + "&input=text&text=" + encodeURIComponent(bundleId); }
 
     function initUI() {
-        // Info Modal
         document.getElementById('infoModalTitle').innerText = t('info_popup.title');
         document.getElementById('btnMail').innerText = t('info_popup.contact');
         document.getElementById('btnFollow').innerText = t('info_popup.follow');
@@ -462,33 +471,33 @@
         };
         document.getElementById('closeInfoModalBtn').onclick = () => document.getElementById('infoModal').classList.remove('active');
 
-        // Effect Modal
         document.getElementById('effectTitle').innerText = t('effects.title');
         document.getElementById('markLabel').innerText = t('effects.mark_label');
         document.getElementById('shadowLabel').innerText = t('effects.shadow_direction_label');
         document.getElementById('radiusLabel').innerText = t('effects.radius_label');
         document.getElementById('saveEffectBtn').innerText = t('effects.save');
         document.getElementById('closeEffectBtn').innerText = t('effects.cancel');
-        
-        // Set nhãn cho các ô nhập mới
+
         document.getElementById('shadowBlurLabel').innerText = t('effects.shadow_blur_label');
         document.getElementById('shadowBlurHelper').innerText = t('effects.shadow_blur_helper');
         document.getElementById('shadowOffsetLabel').innerText = t('effects.shadow_offset_label');
         document.getElementById('shadowOffsetHelper').innerText = t('effects.shadow_offset_helper');
+        document.getElementById('shadowOpacityLabel').innerText = t('effects.shadow_opacity_label');
+        document.getElementById('shadowOpacityHelper').innerText = t('effects.shadow_opacity_helper');
 
         document.getElementById('btnEffect').onclick = () => {
             document.getElementById('markStyle').value = localStorage.getItem(MARK_KEY) || '0';
             document.getElementById('radiusStyle').value = localStorage.getItem(RADIUS_KEY) || '0';
             
-            // Load các giá trị mới
             const savedDir = localStorage.getItem(SHADOW_DIRECTION_KEY) || 'bottom';
             const savedBlur = parseInt(localStorage.getItem(SHADOW_BLUR_KEY) || '10');
             const savedOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
+            const savedOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
             
             document.getElementById('shadowBlurInput').value = savedBlur;
             document.getElementById('shadowOffsetInput').value = savedOffset;
+            document.getElementById('shadowOpacityInput').value = savedOpacity;
             
-            // Active nút hướng
             document.querySelectorAll('.dir-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.dir === savedDir);
             });
@@ -497,7 +506,6 @@
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
         };
         
-        // Xử lý bấm nút hướng bóng
         document.querySelectorAll('.dir-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
@@ -510,17 +518,16 @@
             localStorage.setItem(MARK_KEY, document.getElementById('markStyle').value);
             localStorage.setItem(RADIUS_KEY, document.getElementById('radiusStyle').value);
             
-            // Lưu giá trị mới
             const activeDir = document.querySelector('.dir-btn.active');
             localStorage.setItem(SHADOW_DIRECTION_KEY, activeDir ? activeDir.dataset.dir : 'bottom');
             localStorage.setItem(SHADOW_BLUR_KEY, document.getElementById('shadowBlurInput').value);
             localStorage.setItem(SHADOW_OFFSET_KEY, document.getElementById('shadowOffsetInput').value);
+            localStorage.setItem(SHADOW_OPACITY_KEY, document.getElementById('shadowOpacityInput').value);
             
             document.getElementById('effectModal').classList.remove('active');
             renderGrid();
         };
 
-        // Drawer
         const drawerToggle = document.getElementById('drawerToggle');
         const drawerWrapper = document.getElementById('drawerWrapper');
 
@@ -534,7 +541,7 @@
             if(confirm(t('messages.reset_confirm'))) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
                 localStorage.removeItem(MARK_KEY); localStorage.removeItem(SHADOW_KEY); localStorage.removeItem(RADIUS_KEY);
-                localStorage.removeItem(SHADOW_DIRECTION_KEY); localStorage.removeItem(SHADOW_BLUR_KEY); localStorage.removeItem(SHADOW_OFFSET_KEY);
+                localStorage.removeItem(SHADOW_DIRECTION_KEY); localStorage.removeItem(SHADOW_BLUR_KEY); localStorage.removeItem(SHADOW_OFFSET_KEY); localStorage.removeItem(SHADOW_OPACITY_KEY);
                 renderGrid();
             }
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
