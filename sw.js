@@ -1,7 +1,6 @@
-// sw.js
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open('snowboard-v2').then((cache) => {
+    caches.open('snowboard').then((cache) => {
       return cache.addAll([
         './',
         './index.html',
@@ -35,7 +34,7 @@ self.addEventListener('fetch', (e) => {
       fetch(e.request)
         .then((response) => {
           const clone = response.clone();
-          caches.open('snowboard-v2').then((cache) => cache.put(e.request, clone));
+          caches.open('snowboard').then((cache) => cache.put(e.request, clone));
           return response;
         })
         .catch(() => caches.match(e.request))
@@ -49,7 +48,7 @@ self.addEventListener('fetch', (e) => {
         response ||
         fetch(e.request).then((response) => {
           const clone = response.clone();
-          caches.open('snowboard-v2').then((cache) => cache.put(e.request, clone));
+          caches.open('snowboard').then((cache) => cache.put(e.request, clone));
           return response;
         })
       );
