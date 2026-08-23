@@ -15,6 +15,14 @@
 </head>
 <body>
 
+<!-- Bắt lỗi JavaScript để hiện thông báo nếu có -->
+<script>
+window.onerror = function(message, source, lineno, colno, error) {
+    alert("Lỗi: " + message + " tại dòng " + lineno + " (file " + source + ")");
+    return false;
+};
+</script>
+
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
