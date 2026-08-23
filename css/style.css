@@ -32,9 +32,18 @@ body {
 
 .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; justify-content: center; align-items: center; }
 .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
-.icon-wrapper { width: 72px; height: 72px; position: relative; border-radius: 16px; background: transparent; overflow: visible !important; margin-bottom: 8px; isolation: isolate; border: none; }
-.icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; background: transparent; border-radius: inherit; }
-.fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.icon-wrapper { width: 72px; height: 72px; position: relative; border-radius: 16px; background: transparent; overflow: hidden !important; margin-bottom: 8px; isolation: isolate; border: none; }
+.icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; background: transparent; }
+.fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 2; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+/* Overlay cho hiệu ứng Mark (phủ bề mặt icon) */
+.mark-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
 
 .app-info { display: flex; align-items: center; justify-content: center; width: 100%; }
 .app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -52,7 +61,7 @@ body {
     justify-content: center; 
     width: 72px; 
     height: 72px; 
-    margin-bottom: 8px; /* Căn thẳng hàng với các icon */
+    margin-bottom: 8px;
     transition: all 0.2s; 
 }
 .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
@@ -74,7 +83,7 @@ body {
     cursor: pointer; 
     padding: 0;
 }
-#settingsBtn img { width: 24px; height: 24px; object-fit: contain; }
+#settingsBtn img { width: 28px; height: 28px; object-fit: contain; border-radius: 50%; }
 #settingsBtn:active { transform: scale(0.85); }
 
 /* Ẩn khi Dock bật */
@@ -109,14 +118,14 @@ body.dock-active #settingsBtn {
 #drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 998; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
 #drawerWrapper.open #drawerContent { max-width: 300px; opacity: 1; padding-right: 4px; }
-.drawer-btn { width: 40px; height: 40px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.4); box-shadow: var(--shadow-box); }
+.drawer-btn { width: 44px; height: 44px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.4); box-shadow: var(--shadow-box); }
 .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
 .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
 
 /* Nút X màu xanh để đóng Drawer */
 #drawerClose {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(0, 122, 255, 0.2);
     color: #007AFF;
