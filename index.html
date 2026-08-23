@@ -260,6 +260,7 @@
             <div class="icon-wrapper" style="width:${size}; height:${size};" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
                 <img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="fallback-text" style="display:none;">${displayName.charAt(0).toUpperCase()}</span>
+                <div class="mark-overlay" data-mark="${mark}"></div>
                 ${isDeleteMode ? '<div class="delete-icon" onclick="deleteApp(\'' + id + '\')">🗑️</div>' : ''}
             </div>
             ${isDockItem ? '' : `<div class="app-info"><span class="app-name">${displayName}</span></div>`}
@@ -267,11 +268,13 @@
 
         const wrapper = div.querySelector('.icon-wrapper');
         const img = div.querySelector('.icon-img');
+        const overlay = div.querySelector('.mark-overlay');
 
         if (radius === '1') wrapper.style.borderRadius = '50%';
         else if (radius === '2') wrapper.style.borderRadius = '12px';
         else wrapper.style.borderRadius = '16px';
         img.style.borderRadius = wrapper.style.borderRadius;
+        overlay.style.borderRadius = wrapper.style.borderRadius;
 
         let offsetX = 0, offsetY = 0;
         if (shadowDir === 'left') offsetX = -shadowOffset;
@@ -283,10 +286,18 @@
         const shadowColor = `rgba(0,0,0,${opacityValue})`;
         let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
 
-        if (mark === '1') shadowBox += `, inset 0 0 20px rgba(255,255,255,0.6)`;
-        else if (mark === '2') shadowBox += `, inset 0 0 20px rgba(0,255,255,0.6)`;
-        else if (mark === '3') shadowBox += `, inset 0 0 20px rgba(0,0,0,0.6)`;
-        else if (mark === '4') shadowBox += `, inset 0 0 15px rgba(255,255,255,0.4)`;
+        // Hiệu ứng Mark (phủ bề mặt) - dùng overlay
+        if (mark === '0') { // Liquid Glass
+            overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1))';
+        } else if (mark === '1') { // Crystal Shine
+            overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.6) 100%)';
+        } else if (mark === '2') { // Holographic
+            overlay.style.background = 'conic-gradient(from 180deg, rgba(255,0,255,0.3), rgba(0,255,255,0.3), rgba(255,255,0,0.3), rgba(255,0,255,0.3))';
+        } else if (mark === '3') { // Matte Dark
+            overlay.style.background = 'rgba(0,0,0,0.3)';
+        } else if (mark === '4') { // Classic Glossy
+            overlay.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 70%)';
+        }
 
         wrapper.style.boxShadow = shadowBox;
 
@@ -361,9 +372,11 @@
         if (drawerWrapper.classList.contains('open')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
+            settingsBtn.style.display = 'flex'; // Hiện lại nút Setting khi đóng
         } else {
             drawerWrapper.style.display = 'flex';
             drawerWrapper.classList.add('open');
+            settingsBtn.style.display = 'none'; // Ẩn nút Setting khi mở Drawer
         }
     }
 
@@ -408,14 +421,19 @@
         saveSelectedApps(current);
     }
 
+    // Lọc thông minh: kết hợp cả app chính và app dock vào danh sách loại trừ
+    function getAllUsedAppIds() {
+        return [...getSelectedApps(), ...getDockApps()];
+    }
+
     function renderModal() {
         modalList.innerHTML = '';
         document.getElementById('modalTitle').innerText = t('modal.title_add_app');
         document.getElementById('closeModalBtn').innerText = t('button.close');
         document.getElementById('searchBox').placeholder = t('modal.search_placeholder');
 
-        const selectedIds = isAddingDock ? getDockApps() : getSelectedApps();
-        const allAvailableIds = Object.keys(appDatabase).filter(id => !selectedIds.includes(id));
+        const usedIds = getAllUsedAppIds();
+        const allAvailableIds = Object.keys(appDatabase).filter(id => !usedIds.includes(id));
         const displayIds = allAvailableIds.slice(0, currentDisplayCount);
 
         displayIds.forEach(id => {
@@ -427,12 +445,8 @@
                 if (isAddingDock) {
                     let dockList = getDockApps();
                     if (dockList.length >= MAX_DOCK_APPS) { alert('Dock đã đủ 3 app!'); return; }
-                    if (!getSelectedApps().includes(id)) {
-                        dockList.push(id);
-                        saveDockApps(dockList);
-                    } else {
-                        alert('Ứng dụng này đã có trên khung chính!');
-                    }
+                    dockList.push(id);
+                    saveDockApps(dockList);
                 } else {
                     let current = getSelectedApps();
                     if (current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
@@ -458,8 +472,11 @@
         loadMoreBtn.style.display = 'none';
         if (!query.trim()) { renderModal(); return; }
         const keyword = query.trim().toLowerCase();
+        const usedIds = getAllUsedAppIds();
         let foundIds = [];
-        Object.keys(appDatabase).forEach(id => { if (appDatabase[id].Name.toLowerCase().includes(keyword)) foundIds.push(id); });
+        Object.keys(appDatabase).forEach(id => { 
+            if (!usedIds.includes(id) && appDatabase[id].Name.toLowerCase().includes(keyword)) foundIds.push(id); 
+        });
         if (foundIds.length === 0) { modalList.innerHTML = `<div style="grid-column:1/-1; padding:20px; text-align:center; opacity:0.6;">Không tìm thấy.</div>`; return; }
         foundIds.forEach(id => {
             const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
@@ -470,10 +487,8 @@
                 if (isAddingDock) {
                     let dockList = getDockApps();
                     if (dockList.length >= MAX_DOCK_APPS) { alert('Dock đã đủ 3 app!'); return; }
-                    if (!getSelectedApps().includes(id)) {
-                        dockList.push(id);
-                        saveDockApps(dockList);
-                    }
+                    dockList.push(id);
+                    saveDockApps(dockList);
                 } else {
                     let current = getSelectedApps();
                     if (current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
@@ -509,6 +524,7 @@
         if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-btn')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; // hiện lại nút setting nếu không dock
         }
     });
 
@@ -558,6 +574,7 @@
         document.getElementById('drawerClose').onclick = () => {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; // hiện lại nút setting
         };
         
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank', 'noopener'); };
