@@ -10,27 +10,27 @@
     
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-
-    <!-- LIÊN KẾT CSS RIÊNG -->
     <link rel="stylesheet" href="css/style.css" />
-
     <title>Snowboard</title>
 </head>
 <body>
 
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
-    <div id="dockArea" class="dock-container"></div>
 </div>
 
+<!-- Nút info góc trái -->
 <button id="infoBtn" aria-label="Thông tin">i</button>
 
+<!-- Dock nằm cố định dưới đáy -->
+<div id="dockArea" class="dock-container"></div>
+
+<!-- Nút Setting mặc định (góc phải) - Sẽ ẩn đi khi Dock bật -->
 <div id="drawerWrapper">
     <div id="drawerContent">
-        <button class="drawer-btn" id="btnEffect" aria-label="Cài đặt hiệu ứng"><img src="icons/icon_setting.png" onerror="this.outerHTML='🎨'" /></button>
-        <button class="drawer-btn" id="btnReset" aria-label="Khôi phục cài đặt"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
+        <button class="drawer-btn" id="btnReset" aria-label="Khôi phục"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
         <button class="drawer-btn" id="btnPlugin" aria-label="Plugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
-        <button class="drawer-btn" id="btnDelete" aria-label="Xoá ứng dụng"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
+        <button class="drawer-btn" id="btnDelete" aria-label="Xoá"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
         <button class="drawer-btn" id="btnSettings" aria-label="Mở cài đặt"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
     </div>
     <button id="drawerToggle" aria-label="Mở menu"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
@@ -166,7 +166,6 @@
 </div>
 
 <script>
-    // Dữ liệu dự phòng (chỉ dùng khi không load được db.json)
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
     const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" } } };
@@ -230,6 +229,7 @@
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
     const dockArea = document.getElementById('dockArea');
+    const drawerWrapper = document.getElementById('drawerWrapper');
 
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
@@ -246,29 +246,7 @@
     }
     function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
-    function renderDock() {
-        const currentStyle = localStorage.getItem(DOCK_STYLE_KEY) || 'none';
-        if (currentStyle === 'none') { dockArea.innerHTML = ''; dockArea.className = 'dock-container'; return; }
-        
-        const ids = getSelectedApps().slice(0, 4);
-        const customApps = getCustomApps();
-        dockArea.className = 'dock-container dock-style-' + currentStyle;
-        dockArea.innerHTML = '';
-        
-        ids.forEach(id => {
-            let data = appDatabase[id];
-            if (!data) { const found = customApps.find(a => a.bundleId === id); if (found) data = found; }
-            if (!data) return;
-            const useIcon = data.icon && data.icon.trim() !== "";
-            let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
-            const div = document.createElement('div'); div.className = 'app-item';
-            div.innerHTML = `<div class="icon-wrapper" style="width: 60px; height: 60px;"><img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span></div>`;
-            div.onclick = () => openApp(id);
-            dockArea.appendChild(div);
-        });
-    }
-
-    function createAppItem(id, data) {
+    function createAppItem(id, data, isDockItem = false) {
         const div = document.createElement('div'); div.className = 'app-item';
         const useIcon = data.icon && data.icon.trim() !== "";
         let displayName = data.Name; if (getCustomNames()[id]) displayName = getCustomNames()[id];
@@ -280,14 +258,15 @@
         const shadowOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
         const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
         const radius = localStorage.getItem(RADIUS_KEY) || '0';
+        const size = isDockItem ? '60px' : '72px';
 
         div.innerHTML = `
-            <div class="icon-wrapper" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
+            <div class="icon-wrapper" style="width:${size}; height:${size};" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
                 <img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="fallback-text" style="display:none;">${displayName.charAt(0).toUpperCase()}</span>
                 ${isDeleteMode ? '<div class="delete-icon" onclick="deleteApp(\'' + id + '\')">🗑️</div>' : ''}
             </div>
-            <div class="app-info"><span class="app-name">${displayName}</span></div>
+            ${isDockItem ? '' : `<div class="app-info"><span class="app-name">${displayName}</span></div>`}
         `;
 
         const wrapper = div.querySelector('.icon-wrapper');
@@ -323,6 +302,43 @@
         div.addEventListener('touchmove', () => clearTimeout(longPressTimer));
         div.onclick = (e) => { if (longPressTimer) clearTimeout(longPressTimer); if (!isDeleteMode) openApp(id); };
         return div;
+    }
+
+    function renderDock() {
+        const currentStyle = localStorage.getItem(DOCK_STYLE_KEY) || 'none';
+        
+        // Kiểm tra trạng thái Dock
+        if (currentStyle === 'none') {
+            dockArea.innerHTML = '';
+            dockArea.className = 'dock-container';
+            // Hiện lại nút Setting ở góc phải khi tắt Dock
+            drawerWrapper.style.display = 'flex';
+            return;
+        } else {
+            // Ẩn nút Setting ở góc phải khi bật Dock
+            drawerWrapper.style.display = 'none';
+        }
+        
+        const ids = getSelectedApps().slice(0, 3);
+        const customApps = getCustomApps();
+        dockArea.className = 'dock-container dock-style-' + currentStyle;
+        dockArea.innerHTML = '';
+        
+        ids.forEach(id => {
+            let data = appDatabase[id];
+            if (!data) { const found = customApps.find(a => a.bundleId === id); if (found) data = found; }
+            if (!data) return;
+            dockArea.appendChild(createAppItem(id, data, true));
+        });
+
+        // Thêm nút Setting vào trong Dock
+        const settingsBtn = document.createElement('div');
+        settingsBtn.className = 'dock-setting-btn';
+        settingsBtn.onclick = openSettingsModal;
+        if (!isDeleteMode) {
+            settingsBtn.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
+        }
+        dockArea.appendChild(settingsBtn);
     }
 
     function renderGrid() {
