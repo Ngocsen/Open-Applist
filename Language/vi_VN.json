@@ -11,13 +11,7 @@
     "title": "Hiệu ứng Icon",
     "mark_label": "Kiểu Mark (Lớp kính phủ)",
     "shadow_label": "Hướng đổ bóng:",
-    "shadow_direction_options": {
-      "center": "🎯 Chính giữa",
-      "left": "⬅️ Nghiêng trái",
-      "right": "➡️ Nghiêng phải",
-      "top": "⬆️ Đổ lên trên",
-      "bottom": "⬇️ Đổ xuống dưới"
-    },
+    "shadow_direction_options": { "center": "🎯 Chính giữa", "left": "⬅️ Nghiêng trái", "right": "➡️ Nghiêng phải", "top": "⬆️ Đổ lên trên", "bottom": "⬇️ Đổ xuống dưới" },
     "shadow_blur_label": "Độ đậm nhạt (Blur):",
     "shadow_blur_helper": "Chỉ được phép nhập từ 1 đến 100",
     "shadow_offset_label": "Độ xa gần (Offset):",
@@ -30,18 +24,7 @@
     "radius_options": { "0": "Squircle (Chuẩn Apple)", "1": "Tròn hoàn toàn", "2": "Vuông nhẹ" },
     "save": "Lưu hiệu ứng",
     "cancel": "Huỷ",
-    "settings": {
-      "title": "Cài đặt",
-      "effects_menu": "Icons Effects",
-      "dock_menu": "Dock"
-    },
-    "dock": {
-      "title": "Dock",
-      "glass": "Dock Kính trong suốt",
-      "wood": "Dock Gỗ (iOS 6)",
-      "blur": "Dock Mờ Đen",
-      "save": "Lưu hiệu ứng",
-      "cancel": "Huỷ"
-    }
+    "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" },
+    "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
   }
 }
