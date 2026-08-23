@@ -18,12 +18,9 @@
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<!-- Dock -->
 <div id="dockArea" class="dock-container"></div>
 
-<!-- Nút Setting góc phải (chỉ icon đơn, không khung) -->
 <div id="drawerWrapper">
-    <!-- Drawer ngang (hiện khi Dock tắt, bấm nút setting góc phải) -->
     <div id="drawerContent">
         <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
         <button class="drawer-btn" id="btnReset" aria-label="Khôi phục"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
@@ -34,7 +31,6 @@
     <button id="drawerToggle" aria-label="Mở menu"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
-<!-- Drawer dọc (hiện khi bấm nút setting trong Dock) -->
 <div id="verticalDrawer">
     <button class="drawer-btn" id="btnInfoVertical" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
     <button class="drawer-btn" id="btnResetVertical" aria-label="Khôi phục"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
@@ -43,7 +39,6 @@
     <button class="drawer-btn" id="btnSettingsVertical" aria-label="Mở cài đặt"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
-<!-- MODALS (Các modal giữ nguyên như cũ) -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <h3 id="settingsTitle">Cài đặt</h3>
@@ -153,7 +148,6 @@
 </div>
 
 <script>
-    // Dữ liệu dự phòng
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
     const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" } } };
@@ -474,7 +468,6 @@
         document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
         document.getElementById('closeInfoModalBtn').innerText = t('button.close');
         
-        // Gán sự kiện cho các nút trong Drawer ngang (khi Dock tắt)
         document.getElementById('btnInfo').onclick = () => { document.getElementById('infoModal').classList.add('active'); drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`; };
         document.getElementById('btnInfoVertical').onclick = () => { document.getElementById('infoModal').classList.add('active'); verticalDrawer.classList.remove('active'); isVerticalOpen = false; };
 
@@ -487,7 +480,6 @@
         };
         document.getElementById('closeInfoModalBtn').onclick = () => document.getElementById('infoModal').classList.remove('active');
 
-        // Nút Settings ở Drawer ngang
         document.getElementById('btnSettings').onclick = openSettingsModal;
         document.getElementById('btnSettingsVertical').onclick = openSettingsModal;
 
@@ -519,7 +511,6 @@
             renderGrid();
         };
 
-        // Reset button
         document.getElementById('btnReset').onclick = () => {
             if(confirm(t('messages.reset_confirm'))) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
@@ -533,18 +524,15 @@
         };
         document.getElementById('btnResetVertical').onclick = document.getElementById('btnReset').onclick;
 
-        // Plugin button
         document.getElementById('btnPlugin').onclick = () => {
             window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank', 'noopener');
             drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
         };
         document.getElementById('btnPluginVertical').onclick = document.getElementById('btnPlugin').onclick;
 
-        // Delete button
         document.getElementById('btnDelete').onclick = toggleDeleteMode;
         document.getElementById('btnDeleteVertical').onclick = toggleDeleteMode;
 
-        // Drawer Toggle (nút Setting góc phải)
         const drawerToggle = document.getElementById('drawerToggle');
         drawerToggle.onclick = () => {
             drawerWrapper.classList.toggle('open');
@@ -552,7 +540,6 @@
             else drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
         };
 
-        // Hiệu ứng Icon
         document.getElementById('effectTitle').innerText = t('effects.title');
         document.getElementById('markLabel').innerText = t('effects.mark_label');
         document.getElementById('shadowLabel').innerText = t('effects.shadow_direction_label');
