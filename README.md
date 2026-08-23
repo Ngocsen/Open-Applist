@@ -2,8 +2,8 @@
 
 Danh sách các "Webclip" và Phím tắt (Shortcuts) cho iOS nhằm mở nhanh các ứng dụng thường dùng.
 
-Trang demo: https://ngocsen.github.io/Open-Applist/  
-Liên hệ: sentechtips@gmail.com
+Trang demo : https://ngocsen.github.io/Open-Applist/  
+Liên hệ : sentechtips@gmail.com
 
 ## Mô tả ngắn
 
