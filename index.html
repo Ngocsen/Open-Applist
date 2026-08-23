@@ -152,8 +152,7 @@
 <script>
     // Dữ liệu dự phòng
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
-    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" } } };
+    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
     const basePath = '.';
@@ -171,16 +170,16 @@
     Promise.all([
         fetch(basePath + '/db.json').then(res => res.ok ? res.json() : Promise.reject('DB 404')).catch(() => FALLBACK_DB),
         fetch(basePath + '/system-app.json').then(res => res.ok ? res.json() : Promise.reject('Sys 404')).catch(() => ({})),
-        fetch(basePath + '/social.json').then(res => res.ok ? res.json() : Promise.reject('Social 404')).catch(() => FALLBACK_SOCIAL),
+        fetch(basePath + '/social.json').then(res => res.ok ? res.json() : Promise.reject('Social 404')).catch(() => ({ links: {} })),
         getBestLang()
     ]).then(([db, sysApp, social, lang]) => {
         appDatabase = { ...db, ...sysApp };
-        socialData = social || FALLBACK_SOCIAL;
+        socialData = social || { links: {} };
         langData = lang || FALLBACK_LANG;
         initUI();
     }).catch(error => {
         console.warn("Lỗi dữ liệu:", error);
-        appDatabase = FALLBACK_DB; socialData = FALLBACK_SOCIAL; langData = FALLBACK_LANG;
+        appDatabase = FALLBACK_DB; socialData = { links: {} }; langData = FALLBACK_LANG;
         initUI();
     });
 
@@ -579,11 +578,14 @@
         
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank', 'noopener'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank', 'noopener'); };
+        
+        // *** ĐÃ SỬA: Ưu tiên lấy từ file ngôn ngữ (Language) để hỗ trợ đa ngôn ngữ ***
         document.getElementById('btnInfoDetails').onclick = () => {
-            let infoText = socialData.links?.app_info || FALLBACK_LANG.dock_info.app_version;
+            let infoText = (langData.dock_info?.app_version || FALLBACK_LANG.dock_info.app_version).replace(/\/n/g, '\n');
             alert(infoText); 
             document.getElementById('infoModal').classList.remove('active');
         };
+        
         document.getElementById('closeInfoModalBtn').onclick = () => document.getElementById('infoModal').classList.remove('active');
 
         document.getElementById('closeSettingsBtn').onclick = () => document.getElementById('settingsModal').classList.remove('active');
