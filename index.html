@@ -10,143 +10,11 @@
     
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    <!-- LIÊN KẾT TỚI FILE CSS MỚI -->
+    <link rel="stylesheet" href="css/style.css" />
+
     <title>Snowboard</title>
-    
-    <style>
-        /* =========================================
-           BẢNG MÀU HỆ THỐNG (ĐỔI MÀU TẠI ĐÂY)
-           ========================================= */
-        :root {
-            --bg-gradient-1: #d4bbfc;
-            --bg-gradient-2: #8ec5fc;
-            --bg-container: rgba(255, 255, 255, 0.25);
-            --color-title: #0071e3;
-            --color-channel-name: #20b2aa;
-            --color-help: #ff6b6b;
-            --color-input-bg: rgba(255, 255, 255, 0.8);
-            --color-modal-bg: rgba(255, 255, 255, 0.85);
-            --shadow-box: 0 2px 8px rgba(0, 0, 0, 0.12);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
-            background-size: 300% 300%; animation: gradientShift 8s ease infinite;
-            height: 100vh; width: 100vw; overflow: hidden;
-            display: flex; justify-content: center; align-items: flex-start; padding-top: 50px;
-        }
-        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .app-container {
-            position: relative;
-            background: var(--bg-container);
-            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), 0 0 40px rgba(139, 92, 246, 0.15);
-            width: min(92vw, 360px); padding: 24px;
-        }
-
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; justify-content: center; align-items: center; }
-        .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
-        .icon-wrapper { width: 72px; height: 72px; position: relative; border-radius: 16px; background: transparent; overflow: visible !important; margin-bottom: 8px; isolation: isolate; border: none; }
-        .icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; background: transparent; border-radius: inherit; }
-        .fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .app-info { display: flex; align-items: center; justify-content: center; width: 100%; }
-        .app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .add-btn { background: rgba(255, 255, 255, 0.25); border: 2px dashed rgba(255, 255, 255, 0.6); color: #4f46e5; font-size: 28px; cursor: pointer; border-radius: 16px !important; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 72px; height: 72px; transition: all 0.2s; }
-        .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
-        .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px; }
-
-        /* === NÚT INFO & SETTING === */
-        #infoBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); left: 20px; z-index: 999; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 18px; color: #1e1e2f; font-family: serif; }
-        #infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
-        #drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 998; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        #drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
-        #drawerWrapper.open #drawerContent { max-width: 250px; opacity: 1; padding-right: 4px; }
-        #drawerToggle, .drawer-btn { width: 40px; height: 40px; border-radius: 50% !important; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; overflow: hidden; background: rgba(255,255,255,0.4); box-shadow: var(--shadow-box); }
-        #drawerToggle img, .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
-        #drawerToggle:active, .drawer-btn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
-
-        /* === DOCK MỚI === */
-        .dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 24px; z-index: 997; }
-        .dock-style-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.3); }
-        .dock-style-blur { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .dock-setting-btn { width: 60px; height: 60px; background: rgba(255, 255, 255, 0.4); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-box); cursor: pointer; }
-        .dock-setting-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
-        .dock-setting-btn:active { transform: scale(0.9); }
-
-        /* === MODAL === */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--color-modal-bg); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); overflow-y: auto; }
-        .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; }
-        #infoModalTitle { color: var(--color-title); }
-        #effectTitle { color: var(--color-channel-name); }
-        label { color: var(--color-channel-name); font-weight: 600; }
-        .input-help { color: var(--color-help); font-size: 11px; margin-top: 4px; }
-        #btnMail, #btnFollow, #btnInfoDetails, #closeInfoModalBtn { color: var(--color-channel-name); }
-        #saveEffectBtn { color: var(--color-channel-name); font-weight: bold; }
-        #closeEffectBtn { color: var(--color-help); }
-        .search-box, .input-num, select, .close-modal, .dir-btn { box-shadow: var(--shadow-box); border-radius: 12px; }
-        .search-box { width: 100%; padding: 10px 14px; border: none; background: var(--color-input-bg); margin-bottom: 12px; font-size: 14px; outline: none; }
-        .input-num { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 14px; text-align: center; background: var(--color-input-bg); color: #333; }
-        select { width: 100%; padding: 12px; border: 1px solid rgba(0,0,0,0.1); background: var(--color-input-bg); font-size: 14px; color: #333; }
-        .close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 14px; font-weight: 600; cursor: pointer; text-align: center; }
-        .close-modal:active { background: rgba(0,0,0,0.05); }
-        .modal-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
-        .modal-item { display: flex; flex-direction: column; align-items: center; width: 100%; cursor: pointer; }
-        .modal-item:active { transform: scale(0.95); }
-        .modal-item img { width: 65px; height: 65px; object-fit: cover; border-radius: 16px; background: transparent; }
-        .modal-item .fallback-text { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; color: #1e1e2f; background: rgba(255,255,255,0.5); border-radius: 16px; }
-        .modal-item span { font-size: 11px; text-align: center; color: #333; margin-top: 6px; line-height: 1.2; }
-        #loadMoreBtn { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.6); border: none; border-radius: 50px; font-weight: 600; color: #555; cursor: pointer; text-align: center; box-shadow: var(--shadow-box); }
-        #loadMoreBtn:active { background: rgba(255,255,255,0.9); }
-        .context-menu { position: fixed; z-index: 1001; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(30px); border-radius: 16px; padding: 8px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid rgba(255, 255, 255, 0.4); min-width: 140px; display: none; transform: scale(0.9); opacity: 0; transition: transform 0.15s, opacity 0.15s; transform-origin: top center; pointer-events: none; }
-        .context-menu.active { display: flex; flex-direction: column; transform: scale(1); opacity: 1; pointer-events: auto; }
-        .context-menu .menu-item { padding: 10px 16px; font-size: 15px; color: #1c1c1e; cursor: pointer; text-align: center; font-weight: 500; }
-        .context-menu .menu-item:active { background: rgba(0, 0, 0, 0.08); }
-        .context-menu .menu-item.delete { color: #ff3b30; }
-        .direction-container { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 10px; }
-        .dir-btn { flex: 1; padding: 10px 5px; background: var(--color-input-bg); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; font-size: 13px; text-align: center; color: #333; }
-        .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; box-shadow: 0 2px 8px rgba(0,113,227,0.3); }
-        .delete-icon { position: absolute; top: -6px; right: -6px; width: 26px; height: 26px; background: #ff3b30; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: white; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 10; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 30px; margin-right: 10px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 30px; }
-        .slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #2196F3; }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-container: rgba(30, 27, 75, 0.3);
-                --color-modal-bg: rgba(15, 23, 42, 0.9);
-                --color-input-bg: rgba(255, 255, 255, 0.1);
-                --color-title: #ffffff;
-                --color-channel-name: #7ce3d3;
-            }
-            body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
-            .app-name, .modal-content h3, .modal-item span { color: #f1f5f9; }
-            .modal-content { border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-            #infoBtn { color: #f1f5f9; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.05); }
-            #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
-            #drawerToggle, .drawer-btn { background: rgba(255,255,255,0.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-            .dock-container { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1); }
-            .modal-item .fallback-text { background: rgba(255,255,255,0.1); color: #f1f5f9; }
-            .context-menu { background: rgba(30, 27, 75, 0.9); border: 1px solid rgba(255,255,255,0.05); }
-            .context-menu .menu-item { color: #f1f5f9; }
-            .context-menu .menu-item.delete { color: #ff6b5a; }
-            .dir-btn { background: rgba(255,255,255,0.1); color: #f1f5f9; border-color: rgba(255,255,255,0.2); }
-            .dir-btn.active { background: #0071e3; color: #fff; border-color: #0071e3; box-shadow: 0 2px 8px rgba(0,113,227,0.3); }
-            .search-box, .input-num, select, .close-modal, .dir-btn { box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
-            .search-box, .input-num, select { background: var(--color-input-bg); color: #f1f5f9; border-color: rgba(255,255,255,0.2); }
-            .close-modal { background: rgba(255,255,255,0.05); }
-            .close-modal:active { background: rgba(255,255,255,0.1); }
-        }
-    </style>
 </head>
 <body>
 
@@ -156,10 +24,8 @@
 
 <button id="infoBtn" aria-label="Thông tin">i</button>
 
-<!-- Dock -->
 <div id="dockArea" class="dock-container"></div>
 
-<!-- Drawer Setting (mặc định) -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnReset" aria-label="Khôi phục"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
@@ -170,7 +36,7 @@
     <button id="drawerToggle" aria-label="Mở menu"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
-<!-- Các Modal -->
+<!-- MODALS -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <h3 id="settingsTitle">Cài đặt</h3>
@@ -280,7 +146,7 @@
 </div>
 
 <script>
-    // Dữ liệu mặc định nếu không load được file JSON
+    // Dữ liệu dự phòng
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     const FALLBACK_SOCIAL = { "links": { "email": "mailto:sentechtips@gmail.com", "social_follow": "https://browse.shortcuty.app/user/Sentechtipsvn", "plugin_shortcut": "https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432", "app_info": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
     const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" } } };
@@ -637,27 +503,10 @@
         document.getElementById('shadowOpacityLabel').innerText = t('effects.shadow_opacity_label');
         document.getElementById('shadowOpacityHelper').innerText = t('effects.shadow_opacity_helper');
 
-        document.getElementById('btnEffect').onclick = () => {
-            document.getElementById('markStyle').value = localStorage.getItem(MARK_KEY) || '0';
-            document.getElementById('radiusStyle').value = localStorage.getItem(RADIUS_KEY) || '0';
-            
-            const savedDir = localStorage.getItem(SHADOW_DIRECTION_KEY) || 'bottom';
-            const savedBlur = parseInt(localStorage.getItem(SHADOW_BLUR_KEY) || '10');
-            const savedOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
-            const savedOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
-            
-            document.getElementById('shadowBlurInput').value = savedBlur;
-            document.getElementById('shadowOffsetInput').value = savedOffset;
-            document.getElementById('shadowOpacityInput').value = savedOpacity;
-            
-            document.querySelectorAll('.dir-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.dir === savedDir);
-            });
-            
-            document.getElementById('effectModal').classList.add('active');
-            drawerWrapper.classList.remove('open'); drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
-        };
-        
+        document.getElementById('effectModal').addEventListener('click', function() {
+            // Đảm bảo lưu đúng hiệu ứng
+        });
+
         document.querySelectorAll('.dir-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
