@@ -28,6 +28,7 @@
 
 <div id="drawerWrapper">
     <div id="drawerContent">
+        <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
         <button class="drawer-btn" id="btnReset" aria-label="Khôi phục"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
         <button class="drawer-btn" id="btnPlugin" aria-label="Plugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
         <button class="drawer-btn" id="btnDelete" aria-label="Xoá"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
@@ -94,11 +95,11 @@
         <div class="control-group" style="margin-bottom: 16px;">
             <label id="shadowLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Hướng đổ bóng</label>
             <div class="direction-container" id="shadowDirectionContainer">
-                <button class="dir-btn" data-dir="center">🎯</button>
-                <button class="dir-btn" data-dir="left">⬅️</button>
-                <button class="dir-btn" data-dir="right">➡️</button>
-                <button class="dir-btn" data-dir="top">⬆️</button>
-                <button class="dir-btn" data-dir="bottom">⬇️</button>
+                <button class="dir-btn" data-dir="left">◀︎</button>
+                <button class="dir-btn" data-dir="right">►</button>
+                <button class="dir-btn" data-dir="center">❖</button>
+                <button class="dir-btn" data-dir="top">▲</button>
+                <button class="dir-btn" data-dir="bottom">▼</button>
             </div>
         </div>
         <div class="input-group" style="margin-bottom: 16px;">
