@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Snowboard</title>
 
-    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP HOÀN CHỈNH: FIX LỆCH DOCK & KÍCH THƯỚC NÚT SETTING -->
+    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP HOÀN CHỈNH: FIX 3 LỖI GIAO DIỆN & NÚT XÁC NHẬN XÓA TRONG DOCK -->
     <style>
-        /* 1. Nút Setting đơn (khi tắt dock): Ép to bằng các nút trong ngăn kéo */
+        /* 1. Nút Setting đơn (khi ẩn dock): Ép to bằng các nút trong ngăn kéo (~54px) */
         #settingsBtn {
-            width: 52px !important;
-            height: 52px !important;
-            min-width: 52px !important;
-            min-height: 52px !important;
+            width: 54px !important;
+            height: 54px !important;
+            min-width: 54px !important;
+            min-height: 54px !important;
             border-radius: 50% !important;
             padding: 10px !important;
             display: flex;
@@ -28,30 +28,21 @@
             justify-content: center;
         }
 
-        /* 2. Nút Setting bên trong Dock: Chuẩn hóa hệt như app item để chia đều khoảng cách */
-        .dock-setting-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .dock-setting-item .icon-wrapper {
-            width: 60px !important;
-            height: 60px !important;
-            border-radius: 16px;
+        /* 2. Cân chỉnh thùng rác khi xóa app không bị che khuất */
+        .delete-icon {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .dock-setting-item img {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
+            font-size: 12px;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         /* 3. Chỉnh chữ trong popup / modal to bằng nút info */
@@ -448,14 +439,24 @@ window.onerror = function(message, source, lineno, colno, error) {
             dockArea.appendChild(addBtn);
         }
 
-        /* [QUÂN SƯ AI] CHỈNH NÚT SETTING TRONG DOCK THEO CHUẨN APP ITEM ĐỂ CĂN ĐỀU */
+        /* [QUÂN SƯ AI] XỬ LÝ THÔNG MINH NÚT SETTING TRONG DOCK KHI BẬT CHẾ ĐỘ XÓA */
         const settingsBtnInDock = document.createElement('div');
-        settingsBtnInDock.className = 'dock-setting-item app-item';
-        settingsBtnInDock.onclick = toggleDockMenu;
-        if (!isDeleteMode) {
+        settingsBtnInDock.className = 'app-item';
+        
+        if (isDeleteMode) {
+            // Khi đang xóa, biến thành nút XÁC NHẬN (✔️) trong suốt đồng bộ 60x60
+            settingsBtnInDock.onclick = toggleDeleteMode;
             settingsBtnInDock.innerHTML = `
-                <div class="icon-wrapper">
-                    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
+                <div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(52, 199, 89, 0.3); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:16px; cursor:pointer;">
+                    <span style="font-size:24px; color:#fff;">✔️</span>
+                </div>
+            `;
+        } else {
+            // Bình thường là icon setting kích thước chuẩn 60x60 trong suốt không khung trắng
+            settingsBtnInDock.onclick = toggleDockMenu;
+            settingsBtnInDock.innerHTML = `
+                <div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:16px; cursor:pointer;">
+                    <img src="icons/icon_setting.png" style="width:30px; height:30px; object-fit:contain;" onerror="this.outerHTML='⚙️'" />
                 </div>
             `;
         }
