@@ -11,7 +11,6 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-    <!-- LIÊN KẾT TỚI FILE CSS MỚI -->
     <link rel="stylesheet" href="css/style.css" />
 
     <title>Snowboard</title>
@@ -22,10 +21,16 @@
     <div class="app-grid" id="appGrid"></div>
 </div>
 
+<!-- Nút thông tin (i) – chỉ hiện khi tắt Dock -->
 <button id="infoBtn" aria-label="Thông tin">i</button>
 
+<!-- Nút Setting nhỏ (chỉ hiện khi tắt Dock) -->
+<button id="settingsBtn" aria-label="Cài đặt">⚙️</button>
+
+<!-- Khu vực Dock -->
 <div id="dockArea" class="dock-container"></div>
 
+<!-- Drawer (ngăn kéo) – dùng chung cho cả 2 chế độ -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
@@ -34,7 +39,6 @@
         <button class="drawer-btn" id="btnDelete" aria-label="Xoá"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
         <button class="drawer-btn" id="btnSettings" aria-label="Mở cài đặt"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
     </div>
-    <button id="drawerToggle" aria-label="Mở menu"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 </div>
 
 <!-- MODALS -->
@@ -193,7 +197,6 @@
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
     const MARK_KEY = 'effectMarkStyle';
-    const SHADOW_KEY = 'effectShadowStyle';
     const RADIUS_KEY = 'effectRadiusStyle';
     const SHADOW_DIRECTION_KEY = 'effectShadowDirection';
     const SHADOW_BLUR_KEY = 'effectShadowBlur';
@@ -212,6 +215,12 @@
     const modalList = document.getElementById('modalList');
     const dockArea = document.getElementById('dockArea');
     const drawerWrapper = document.getElementById('drawerWrapper');
+    const drawerContent = document.getElementById('drawerContent');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const infoBtn = document.getElementById('infoBtn');
+
+    // Khởi tạo 4 app mặc định khi chưa có dữ liệu
+    const DEFAULT_APPS = ['com.deepseek.chat', 'vn.com.vng.zingalo', 'com.facebook.Facebook', 'com.apple.mobilesafari'];
 
     function getCustomApps() {
         const stored = localStorage.getItem(STORAGE_CUSTOM_KEY);
@@ -224,7 +233,8 @@
     function getSelectedApps() {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) { try { const parsed = JSON.parse(stored); if (Array.isArray(parsed)) return parsed; } catch(e) { localStorage.removeItem(STORAGE_KEY); } }
-        return [];
+        // Nếu chưa có, trả về mặc định 4 app
+        return DEFAULT_APPS;
     }
     function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
@@ -286,22 +296,26 @@
         return div;
     }
 
-    /* ====== ĐÃ SỬA LOGIC ẨN/HIỆN NÚT INFO KHI BẬT/TẮT DOCK ====== */
     function renderDock() {
         const currentStyle = localStorage.getItem(DOCK_STYLE_KEY) || 'none';
-        const infoBtn = document.getElementById('infoBtn');
         
         if (currentStyle === 'none') {
+            // Tắt Dock: ẩn nút setting trong Dock, hiện nút setting ngoài và nút i
+            document.body.classList.remove('dock-active');
             dockArea.innerHTML = '';
             dockArea.className = 'dock-container';
-            document.body.classList.remove('dock-active');
-            drawerWrapper.style.display = 'flex';
-            infoBtn.style.display = 'flex'; // HIỆN chữ i ở góc trái
+            settingsBtn.style.display = 'flex';
+            infoBtn.style.display = 'flex';
+            // Đóng drawer nếu đang mở
+            drawerWrapper.classList.remove('open');
+            drawerWrapper.style.display = 'none';
             return;
         } else {
+            // Bật Dock: ẩn nút setting ngoài và nút i
             document.body.classList.add('dock-active');
-            drawerWrapper.style.display = 'none'; // Ẩn drawer mặc định, chỉ hiện khi bấm nút setting trong Dock
-            infoBtn.style.display = 'none'; // Ẩn chữ i ở góc trái
+            settingsBtn.style.display = 'none';
+            infoBtn.style.display = 'none';
+            drawerWrapper.style.display = 'none';
         }
         
         const ids = getSelectedApps().slice(0, 3);
@@ -316,18 +330,17 @@
             dockArea.appendChild(createAppItem(id, data, true));
         });
 
-        const settingsBtn = document.createElement('div');
-        settingsBtn.className = 'dock-setting-btn';
-        settingsBtn.onclick = toggleDockMenu; // Đổi từ openSettingsModal sang toggleDockMenu
+        const settingsBtnInDock = document.createElement('div');
+        settingsBtnInDock.className = 'dock-setting-btn';
+        settingsBtnInDock.onclick = toggleDockMenu;
         if (!isDeleteMode) {
-            settingsBtn.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
+            settingsBtnInDock.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
         }
-        dockArea.appendChild(settingsBtn);
+        dockArea.appendChild(settingsBtnInDock);
     }
-    /* ======================================================= */
 
     function toggleDockMenu() {
-        const drawerWrapper = document.getElementById('drawerWrapper');
+        // Khi Dock bật, drawer hiện dạng dọc trên Dock
         if (drawerWrapper.classList.contains('open')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
@@ -434,11 +447,10 @@
 
     function closeContextMenu() { const menu = document.getElementById('contextMenu'); menu.classList.remove('active'); isMenuOpen = false; currentSelectedAppId = null; }
     
-    // Đóng context menu và menu dock khi click ra ngoài
     document.addEventListener('click', (e) => {
         if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu();
         const drawerWrapper = document.getElementById('drawerWrapper');
-        if (document.body.classList.contains('dock-active') && drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('.dock-setting-btn')) {
+        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('.dock-setting-btn')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
         }
@@ -463,7 +475,7 @@
         if (isDeleteMode) btnDelete.innerHTML = '✔️';
         else btnDelete.innerHTML = '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
         drawerWrapper.classList.remove('open');
-        drawerWrapper.style.display = 'flex'; // vẫn hiện khi không có dock-active
+        drawerWrapper.style.display = 'none';
     }
 
     function openSettingsModal() {
@@ -479,10 +491,15 @@
         document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
         document.getElementById('closeInfoModalBtn').innerText = t('button.close');
         
-        // Gán sự kiện cho nút i ở góc trái (bản cũ)
-        document.getElementById('infoBtn').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
-        // Gán sự kiện cho nút i trong Drawer (bản mới)
+        // Nút i (khi tắt Dock)
+        infoBtn.onclick = () => { document.getElementById('infoModal').classList.add('active'); };
+        
+        // Nút Setting nhỏ (khi tắt Dock) -> mở modal cài đặt
+        settingsBtn.onclick = openSettingsModal;
+        
+        // Các nút trong Drawer (khi bật Dock)
         document.getElementById('btnInfo').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
+        document.getElementById('btnSettings').onclick = openSettingsModal;
         
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank', 'noopener'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank', 'noopener'); };
@@ -493,7 +510,6 @@
         };
         document.getElementById('closeInfoModalBtn').onclick = () => document.getElementById('infoModal').classList.remove('active');
 
-        document.getElementById('btnSettings').onclick = openSettingsModal;
         document.getElementById('closeSettingsBtn').onclick = () => document.getElementById('settingsModal').classList.remove('active');
         
         document.getElementById('openEffectsBtn').onclick = () => {
@@ -519,6 +535,9 @@
             else if (document.getElementById('dockBlurToggle').checked) dockStyle = 'blur';
             localStorage.setItem(DOCK_STYLE_KEY, dockStyle);
             document.getElementById('dockModal').classList.remove('active');
+            // Đóng drawer nếu đang mở
+            drawerWrapper.classList.remove('open');
+            drawerWrapper.style.display = 'none';
             renderGrid();
         };
 
@@ -558,33 +577,22 @@
             renderGrid();
         };
 
-        const drawerToggle = document.getElementById('drawerToggle');
-
-        drawerToggle.onclick = () => {
-            if (document.body.classList.contains('dock-active')) return; // Không dùng nút này khi Dock bật
-            drawerWrapper.classList.toggle('open');
-            if (drawerWrapper.classList.contains('open')) drawerToggle.innerHTML = `<span style="font-size:16px; font-weight:bold;">✕</span>`;
-            else drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
-        };
-
         document.getElementById('btnReset').onclick = () => {
             if(confirm(t('messages.reset_confirm'))) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
-                localStorage.removeItem(MARK_KEY); localStorage.removeItem(SHADOW_KEY); localStorage.removeItem(RADIUS_KEY);
+                localStorage.removeItem(MARK_KEY); localStorage.removeItem(RADIUS_KEY);
                 localStorage.removeItem(SHADOW_DIRECTION_KEY); localStorage.removeItem(SHADOW_BLUR_KEY); localStorage.removeItem(SHADOW_OFFSET_KEY); localStorage.removeItem(SHADOW_OPACITY_KEY);
                 localStorage.removeItem(DOCK_STYLE_KEY);
                 renderGrid();
             }
             drawerWrapper.classList.remove('open');
-            drawerWrapper.style.display = 'flex';
-            drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
+            drawerWrapper.style.display = 'none';
         };
 
         document.getElementById('btnPlugin').onclick = () => {
             window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank', 'noopener');
             drawerWrapper.classList.remove('open');
-            drawerWrapper.style.display = 'flex';
-            drawerToggle.innerHTML = `<img src="icons/icon_setting.png" />`;
+            drawerWrapper.style.display = 'none';
         };
 
         document.getElementById('btnDelete').onclick = toggleDeleteMode;
