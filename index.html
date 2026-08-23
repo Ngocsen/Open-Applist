@@ -10,9 +10,7 @@
     
     <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-
     <link rel="stylesheet" href="css/style.css" />
-
     <title>Snowboard</title>
 </head>
 <body>
@@ -21,7 +19,7 @@
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<!-- Nút Setting nhỏ bo tròn 44x44 (chỉ hiện khi tắt Dock) -->
+<!-- Nút Setting nhỏ bo tròn (chỉ hiện khi tắt Dock) -->
 <button id="settingsBtn" aria-label="Cài đặt">
     <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
 </button>
@@ -29,7 +27,7 @@
 <!-- Khu vực Dock -->
 <div id="dockArea" class="dock-container"></div>
 
-<!-- Drawer (ngăn kéo) - dùng chung cho cả 2 chế độ -->
+<!-- Drawer (ngăn kéo) dùng chung cho cả 2 chế độ -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
@@ -37,12 +35,12 @@
         <button class="drawer-btn" id="btnPlugin" aria-label="Plugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
         <button class="drawer-btn" id="btnDelete" aria-label="Xoá"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
         <button class="drawer-btn" id="btnSettings" aria-label="Mở cài đặt"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
-        <!-- Nút X để đóng Drawer -->
+        <!-- Nút X màu xanh để đóng Drawer -->
         <button id="drawerClose" aria-label="Đóng menu">✕</button>
     </div>
 </div>
 
-<!-- MODALS (Giữ nguyên cấu trúc như cũ) -->
+<!-- MODALS -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <h3 id="settingsTitle">Cài đặt</h3>
@@ -97,7 +95,39 @@
                 <option value="4">Classic Glossy</option>
             </select>
         </div>
-        <!-- ... Các hiệu ứng khác giữ nguyên ... -->
+        <div class="control-group" style="margin-bottom: 16px;">
+            <label id="shadowLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Hướng đổ bóng</label>
+            <div class="direction-container" id="shadowDirectionContainer">
+                <button class="dir-btn" data-dir="left">◀︎</button>
+                <button class="dir-btn" data-dir="right">►</button>
+                <button class="dir-btn" data-dir="center">❖</button>
+                <button class="dir-btn" data-dir="top">▲</button>
+                <button class="dir-btn" data-dir="bottom">▼</button>
+            </div>
+        </div>
+        <div class="input-group" style="margin-bottom: 16px;">
+            <label id="shadowBlurLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm nhạt (Blur)</label>
+            <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10">
+            <div class="input-help" id="shadowBlurHelper">Chỉ được phép nhập từ 1 đến 100</div>
+        </div>
+        <div class="input-group" style="margin-bottom: 16px;">
+            <label id="shadowOffsetLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ xa gần (Offset)</label>
+            <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10">
+            <div class="input-help" id="shadowOffsetHelper">Chỉ được phép nhập từ 1 đến 100</div>
+        </div>
+        <div class="input-group" style="margin-bottom: 16px;">
+            <label id="shadowOpacityLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm (Opacity)</label>
+            <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30">
+            <div class="input-help" id="shadowOpacityHelper">Chỉ được phép nhập từ 1 đến 100</div>
+        </div>
+        <div class="control-group" style="margin-bottom: 16px;">
+            <label id="radiusLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Kiểu Bo góc Icon</label>
+            <select id="radiusStyle" style="width: 100%; padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); background: var(--color-input-bg); font-size: 14px;">
+                <option value="0">Squircle (Chuẩn Apple)</option>
+                <option value="1">Tròn hoàn toàn</option>
+                <option value="2">Vuông nhẹ</option>
+            </select>
+        </div>
         <button class="close-modal" id="saveEffectBtn">Lưu hiệu ứng</button>
         <button class="close-modal" id="closeEffectBtn">Huỷ</button>
     </div>
@@ -165,7 +195,7 @@
     const STORAGE_KEY = 'myAppList';
     const STORAGE_NAME_KEY = 'myAppNames';
     const STORAGE_CUSTOM_KEY = 'myCustomApps';
-    const DOCK_KEY = 'myDockApps'; // Thêm key riêng cho Dock
+    const DOCK_KEY = 'myDockApps';
     const MARK_KEY = 'effectMarkStyle';
     const RADIUS_KEY = 'effectRadiusStyle';
     const SHADOW_DIRECTION_KEY = 'effectShadowDirection';
@@ -174,22 +204,20 @@
     const SHADOW_OPACITY_KEY = 'effectShadowOpacity';
     const DOCK_STYLE_KEY = 'dockStyle';
     const MAX_APPS = 12;
-    const MAX_DOCK_APPS = 3; // Tối đa 3 app trên Dock
+    const MAX_DOCK_APPS = 3;
     const INITIAL_DISPLAY_COUNT = 12;
     let currentDisplayCount = INITIAL_DISPLAY_COUNT;
     let currentSelectedAppId = null;
     let isMenuOpen = false;
     let isDeleteMode = false;
-    let isAddingDock = false; // Biến xác định đang thêm cho Dock hay chính
+    let isAddingDock = false;
 
     const grid = document.getElementById('appGrid');
     const modal = document.getElementById('addAppModal');
     const modalList = document.getElementById('modalList');
     const dockArea = document.getElementById('dockArea');
     const drawerWrapper = document.getElementById('drawerWrapper');
-    const drawerContent = document.getElementById('drawerContent');
     const settingsBtn = document.getElementById('settingsBtn');
-
     const DEFAULT_APPS = ['com.deepseek.chat', 'vn.com.vng.zingalo', 'com.facebook.Facebook', 'com.apple.mobilesafari'];
 
     function getCustomApps() {
@@ -205,21 +233,14 @@
         if (stored) { try { const parsed = JSON.parse(stored); if (Array.isArray(parsed)) return parsed; } catch(e) { localStorage.removeItem(STORAGE_KEY); } }
         return DEFAULT_APPS;
     }
-    
-    // Hàm lấy danh sách app trên Dock
+    function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
+
     function getDockApps() {
         const stored = localStorage.getItem(DOCK_KEY);
         if (stored) { try { const parsed = JSON.parse(stored); if (Array.isArray(parsed)) return parsed; } catch(e) { localStorage.removeItem(DOCK_KEY); } }
         return [];
     }
-    
-    // Hàm lưu danh sách app trên Dock
-    function saveDockApps(ids) { 
-        localStorage.setItem(DOCK_KEY, JSON.stringify(ids)); 
-        renderDock(); 
-    }
-
-    function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
+    function saveDockApps(ids) { localStorage.setItem(DOCK_KEY, JSON.stringify(ids)); renderDock(); }
 
     function createAppItem(id, data, isDockItem = false) {
         const div = document.createElement('div'); div.className = 'app-item';
@@ -233,9 +254,7 @@
         const shadowOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
         const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
         const radius = localStorage.getItem(RADIUS_KEY) || '0';
-        
-        // Đổi size thành 72px đồng bộ cho cả Dock và chính
-        const size = '72px'; 
+        const size = '72px'; // Đồng bộ kích thước cho cả Dock và chính
 
         div.innerHTML = `
             <div class="icon-wrapper" style="width:${size}; height:${size};" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
@@ -300,14 +319,12 @@
         
         const mainApps = getSelectedApps();
         const dockApps = getDockApps();
-        
-        // Chỉ hiện app không trùng với khung chính
+        // Chỉ lấy các app không trùng với main
         const filteredDockApps = dockApps.filter(id => !mainApps.includes(id)).slice(0, MAX_DOCK_APPS);
         
         dockArea.className = 'dock-container dock-style-' + currentStyle;
         dockArea.innerHTML = '';
         
-        // Render 3 app trên dock (nếu có)
         filteredDockApps.forEach(id => {
             let data = appDatabase[id];
             if (!data) { const found = getCustomApps().find(a => a.bundleId === id); if (found) data = found; }
@@ -315,13 +332,13 @@
             dockArea.appendChild(createAppItem(id, data, true));
         });
 
-        // Nếu chưa đủ 3 app, hiện dấu cộng để thêm
+        // Nếu chưa đủ 3 app, hiện nút cộng để thêm
         if (filteredDockApps.length < MAX_DOCK_APPS) {
             const addBtn = document.createElement('div'); 
-            addBtn.className = 'app-item add-btn'; // Dùng class add-btn cho đồng bộ kích thước
-            addBtn.innerHTML = `<span style="font-size:28px; color:#4f46e5; line-height:1;">+</span>`;
+            addBtn.className = 'app-item add-btn';
+            addBtn.innerHTML = `<div class="icon-wrapper" style="width:72px; height:72px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div>`;
             addBtn.onclick = () => { 
-                isAddingDock = true; // Bật chế độ thêm cho Dock
+                isAddingDock = true;
                 currentDisplayCount = INITIAL_DISPLAY_COUNT; 
                 renderModal(); 
                 modal.classList.add('active'); 
@@ -330,7 +347,7 @@
             dockArea.appendChild(addBtn);
         }
 
-        // Luôn render nút Setting ở cuối Dock
+        // Luôn hiện nút Setting trong Dock
         const settingsBtnInDock = document.createElement('div');
         settingsBtnInDock.className = 'dock-setting-btn';
         settingsBtnInDock.onclick = toggleDockMenu;
@@ -371,10 +388,10 @@
         });
         if (ids.length < MAX_APPS) {
             const addBtn = document.createElement('div'); addBtn.className = 'app-item add-btn';
-            // Chỉnh lại cấu trúc để thẳng hàng với các icon khác
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:72px; height:72px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5; line-height:1;">+</span></div><div class="app-info"><span class="app-name">${t('button.add')}</span></div>`;
+            // Thêm margin-bottom để thẳng hàng với các icon khác
+            addBtn.innerHTML = `<div class="icon-wrapper" style="width:72px; height:72px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div><div class="app-info"><span class="app-name">${t('button.add')}</span></div>`;
             addBtn.onclick = () => { 
-                isAddingDock = false; // Chuyển về chế độ thêm cho chính
+                isAddingDock = false;
                 currentDisplayCount = INITIAL_DISPLAY_COUNT; 
                 renderModal(); 
                 modal.classList.add('active'); 
@@ -408,20 +425,18 @@
             item.innerHTML = `<img src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="fallback-text" style="display:none;">${data.Name.charAt(0).toUpperCase()}</span><span>${data.Name}</span>`;
             item.onclick = () => {
                 if (isAddingDock) {
-                    // Thêm cho Dock
                     let dockList = getDockApps();
-                    if (dockList.length >= MAX_DOCK_APPS) { alert('Dock đã đủ 3 app, hãy xóa bớt!'); return; }
-                    if (!getSelectedApps().includes(id)) { // Chỉ thêm nếu không trùng với main
+                    if (dockList.length >= MAX_DOCK_APPS) { alert('Dock đã đủ 3 app!'); return; }
+                    if (!getSelectedApps().includes(id)) {
                         dockList.push(id);
                         saveDockApps(dockList);
                     } else {
                         alert('Ứng dụng này đã có trên khung chính!');
                     }
                 } else {
-                    // Thêm cho chính
                     let current = getSelectedApps();
                     if (current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
-                    current.push(id); saveSelectedApps(current); 
+                    current.push(id); saveSelectedApps(current);
                 }
                 closeModal();
             };
@@ -462,7 +477,7 @@
                 } else {
                     let current = getSelectedApps();
                     if (current.length >= MAX_APPS) { alert(t('modal.max_apps_limit', {max: MAX_APPS})); return; }
-                    current.push(id); saveSelectedApps(current); 
+                    current.push(id); saveSelectedApps(current);
                 }
                 closeModal();
             };
@@ -470,7 +485,6 @@
         });
     }
 
-    // ... (Giữ nguyên các hàm showContextMenu, removeApp, moveAppToTop, closeModal, openApp, toggleDeleteMode, openSettingsModal như cũ)
     function showContextMenu(id, event) {
         const menu = document.getElementById('contextMenu'); currentSelectedAppId = id; isMenuOpen = true;
         document.getElementById('menuMoveTop').onclick = () => { moveAppToTop(id); };
@@ -502,11 +516,8 @@
         let current = getSelectedApps(); current = current.filter(item => item !== id);
         let custom = getCustomApps(); custom = custom.filter(item => item.bundleId !== id);
         localStorage.setItem(STORAGE_CUSTOM_KEY, JSON.stringify(custom));
-        
-        // Xóa khỏi Dock nếu có
         let dockList = getDockApps().filter(item => item !== id);
         saveDockApps(dockList);
-        
         saveSelectedApps(current);
     }
 
@@ -543,7 +554,7 @@
         document.getElementById('btnInfo').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
         document.getElementById('btnSettings').onclick = openSettingsModal;
         
-        // Nút X để đóng drawer
+        // Nút X để đóng Drawer
         document.getElementById('drawerClose').onclick = () => {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
@@ -559,7 +570,6 @@
         document.getElementById('closeInfoModalBtn').onclick = () => document.getElementById('infoModal').classList.remove('active');
 
         document.getElementById('closeSettingsBtn').onclick = () => document.getElementById('settingsModal').classList.remove('active');
-        // ... Các phần init còn lại giữ nguyên ...
         document.getElementById('openEffectsBtn').onclick = () => {
             document.getElementById('settingsModal').classList.remove('active');
             document.getElementById('effectModal').classList.add('active');
@@ -626,7 +636,7 @@
         document.getElementById('btnReset').onclick = () => {
             if(confirm(t('messages.reset_confirm'))) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
-                localStorage.removeItem(DOCK_KEY); // Xóa cả Dock
+                localStorage.removeItem(DOCK_KEY);
                 localStorage.removeItem(MARK_KEY); localStorage.removeItem(RADIUS_KEY);
                 localStorage.removeItem(SHADOW_DIRECTION_KEY); localStorage.removeItem(SHADOW_BLUR_KEY); localStorage.removeItem(SHADOW_OFFSET_KEY); localStorage.removeItem(SHADOW_OPACITY_KEY);
                 localStorage.removeItem(DOCK_STYLE_KEY);
