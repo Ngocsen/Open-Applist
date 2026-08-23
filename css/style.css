@@ -130,8 +130,8 @@ input:checked + .slider:before { transform: translateX(20px); }
 /* === CHỈNH ICON TRONG DOCK (CHỐNG BÓP MÉO & CHỈNH SIZE) === */
 .dock-container .app-item {
     flex-shrink: 0;              /* Chặn không cho icon bị co lại */
-    width: 60px !important;      /* Chiều rộng icon (Sếp đổi số này để to lên) */
-    height: 60px !important;     /* Chiều cao icon (Phải giống chiều rộng) */
+    width: 70px !important;      /* Chiều rộng icon (Sếp đổi số này để to lên) */
+    height: 70px !important;     /* Chiều cao icon (Phải giống chiều rộng) */
 }
 
 /* Nút Setting trong Dock */
