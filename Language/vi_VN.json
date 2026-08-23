@@ -1,38 +1,11 @@
 {
-  "common": {
-    "app_title": "AppList",
-    "loading": "Đang tải..."
-  },
-  "button": {
-    "add": "Thêm",
-    "close": "Đóng",
-    "view_more": "Xem thêm",
-    "confirm": "Đồng ý",
-    "cancel": "Hủy"
-  },
-  "app_menu": {
-    "move_top": "Đưa lên đầu",
-    "rename": "Đổi tên",
-    "delete": "Xoá"
-  },
-  "modal": {
-    "title_add_app": "Thêm ứng dụng",
-    "search_placeholder": "Tìm kiếm ứng dụng...",
-    "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng."
-  },
-  "messages": {
-    "prompt_rename_app": "Nhập tên mới cho ứng dụng:",
-    "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?"
-  },
-  "dock_info": {
-    "app_version": "• Tên : Snowboard\n• Tác giả : Sentechtipvn 🇻🇳\n• Webclip giả lập màn hình chính trên iPhone hỗ kết hợp với ứng dụng phím tắt để mở các ứng dụng thường dùng.\n• Với bản Webclip này sẽ được viết để tuỳ chỉnh màn hình hiển thị theo phong cách cá nhân hoá.\n• Cách tốt nhất là thêm nó vào màn hình chính để sử dụng hiệu quả những chức năng bên trong."
-  },
-  "info_popup": {
-    "title": "Sentechtipsvn",
-    "contact": "Liên hệ",
-    "follow": "Theo dõi kênh",
-    "info": "Thông tin"
-  },
+  "common": { "app_title": "AppList", "loading": "Đang tải..." },
+  "button": { "add": "Thêm", "close": "Đóng", "view_more": "Xem thêm", "confirm": "Đồng ý", "cancel": "Hủy" },
+  "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
+  "modal": { "title_add_app": "Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." },
+  "messages": { "prompt_rename_app": "Nhập tên mới cho ứng dụng:", "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?" },
+  "dock_info": { "app_version": "• Tên : Snowboard\n• Tác giả : Sentechtipvn 🇻🇳\n• Webclip giả lập màn hình chính trên iPhone hỗ kết hợp với ứng dụng phím tắt để mở các ứng dụng thường dùng.\n• Với bản Webclip này sẽ được viết để tuỳ chỉnh màn hình hiển thị theo phong cách cá nhân hoá.\n• Cách tốt nhất là thêm nó vào màn hình chính để sử dụng hiệu quả những chức năng bên trong." },
+  "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
   "effects": {
     "title": "Hiệu ứng Icon",
     "mark_label": "Kiểu Mark",
@@ -46,18 +19,7 @@
     "radius_label": "Kiểu Bo góc Icon",
     "save": "Lưu hiệu ứng",
     "cancel": "Huỷ",
-    "settings": {
-      "title": "Cài đặt",
-      "effects_menu": "Icons Effects",
-      "dock_menu": "Dock"
-    },
-    "dock": {
-      "title": "Dock",
-      "glass": "Dock Kính trong suốt",
-      "wood": "Dock Gỗ (iOS 6)",
-      "blur": "Dock Mờ Đen",
-      "save": "Lưu hiệu ứng",
-      "cancel": "Huỷ"
-    }
+    "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" },
+    "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
   }
 }
