@@ -42,16 +42,26 @@ body {
 .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
 .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px; }
 
-/* Nút thông tin (i) – chỉ hiện khi tắt Dock */
-#infoBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); left: 20px; z-index: 999; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; font-size: 18px; color: #1e1e2f; font-family: serif; }
-#infoBtn:active { transform: scale(0.85); background: rgba(255,255,255,0.8); }
-
 /* Nút Setting nhỏ không khung – chỉ hiện khi tắt Dock */
-#settingsBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999; width: 32px; height: 32px; background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; color: #1e1e2f; }
+#settingsBtn { 
+    position: fixed; 
+    bottom: calc(30px + env(safe-area-inset-bottom, 20px)); 
+    right: 20px; 
+    z-index: 999; 
+    width: 32px; 
+    height: 32px; 
+    background: transparent; 
+    border: none; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    padding: 0;
+}
+#settingsBtn img { width: 100%; height: 100%; object-fit: contain; }
 #settingsBtn:active { transform: scale(0.85); }
 
 /* Ẩn khi Dock bật */
-body.dock-active #infoBtn,
 body.dock-active #settingsBtn {
     display: none !important;
 }
@@ -61,7 +71,21 @@ body.dock-active #settingsBtn {
 .dock-style-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.3); }
 .dock-style-blur { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-.dock-setting-btn { width: 60px; height: 60px; background: rgba(255, 255, 255, 0.4); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-box); cursor: pointer; }
+
+/* Sửa nút Setting trong Dock cho hết méo, ép sẹp */
+.dock-setting-btn { 
+    width: 60px; 
+    height: 60px; 
+    flex: 0 0 auto; /* Không co lại */
+    background: rgba(255, 255, 255, 0.4); 
+    border-radius: 16px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    box-shadow: var(--shadow-box); 
+    cursor: pointer; 
+    overflow: hidden;
+}
 .dock-setting-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
 .dock-setting-btn:active { transform: scale(0.9); }
 
@@ -78,7 +102,7 @@ body.dock-active #drawerWrapper {
     display: none;
     flex-direction: column;
     align-items: flex-end;
-    bottom: calc(100px + env(safe-area-inset-bottom, 20px)); /* nằm phía trên dock */
+    bottom: calc(100px + env(safe-area-inset-bottom, 20px));
     right: 10px;
     background: transparent;
     border: none;
@@ -161,7 +185,6 @@ input:checked + .slider:before { transform: translateX(20px); }
     body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
     .app-name, .modal-content h3, .modal-item span { color: #f1f5f9; }
     .modal-content { border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-    #infoBtn { color: #f1f5f9; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.05); }
     #settingsBtn { color: #f1f5f9; }
     #drawerWrapper { background: rgba(30, 27, 75, 0.4); border-color: rgba(255,255,255,0.05); }
     .drawer-btn { background: rgba(255,255,255,0.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
