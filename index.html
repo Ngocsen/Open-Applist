@@ -286,15 +286,20 @@
         return div;
     }
 
+    /* ====== ĐÃ SỬA LOGIC ẨN/HIỆN NÚT INFO KHI BẬT/TẮT DOCK ====== */
     function renderDock() {
         const currentStyle = localStorage.getItem(DOCK_STYLE_KEY) || 'none';
+        const infoBtn = document.getElementById('infoBtn');
+        
         if (currentStyle === 'none') {
             dockArea.innerHTML = '';
             dockArea.className = 'dock-container';
             drawerWrapper.style.display = 'flex';
+            infoBtn.style.display = 'flex'; // HIỆN chữ i ở góc trái
             return;
         } else {
-            drawerWrapper.style.display = 'none';
+            drawerWrapper.style.display = 'flex'; // HIỆN Drawer để lộ nút i
+            infoBtn.style.display = 'none'; // ẨN chữ i ở góc trái
         }
         
         const ids = getSelectedApps().slice(0, 3);
@@ -317,6 +322,7 @@
         }
         dockArea.appendChild(settingsBtn);
     }
+    /* ======================================================= */
 
     function renderGrid() {
         grid.innerHTML = '';
@@ -451,7 +457,11 @@
         document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
         document.getElementById('closeInfoModalBtn').innerText = t('button.close');
         
+        // Gán sự kiện cho nút i ở góc trái (bản cũ)
         document.getElementById('infoBtn').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
+        // Gán sự kiện cho nút i trong Drawer (bản mới)
+        document.getElementById('btnInfo').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
+        
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank', 'noopener'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank', 'noopener'); };
         document.getElementById('btnInfoDetails').onclick = () => {
@@ -503,10 +513,6 @@
         document.getElementById('shadowOffsetHelper').innerText = t('effects.shadow_offset_helper');
         document.getElementById('shadowOpacityLabel').innerText = t('effects.shadow_opacity_label');
         document.getElementById('shadowOpacityHelper').innerText = t('effects.shadow_opacity_helper');
-
-        document.getElementById('effectModal').addEventListener('click', function() {
-            // Đảm bảo lưu đúng hiệu ứng
-        });
 
         document.querySelectorAll('.dir-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
