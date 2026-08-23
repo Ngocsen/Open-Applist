@@ -1,6 +1,5 @@
 {
   "common": { "app_title": "AppList", "loading": "Đang tải..." },
-  "header": { "get_plugin": "Get Plugin" },
   "button": { "add": "Thêm", "close": "Đóng", "view_more": "Thêm ứng dụng", "confirm": "Đồng ý", "cancel": "Hủy" },
   "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
   "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." },
