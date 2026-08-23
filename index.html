@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Snowboard</title>
 
-    <!-- [QUÂN SƯ AI] THÊM CSS OVERRIDE ĐỂ FIX LỖI GIAO DIỆN THEO LỆNH SẾP -->
+    <!-- [QUÂN SƯ AI] THÊM CSS OVERRIDE ĐỂ FIX LỖI GIAO DIỆN -->
     <style>
-        /* Đồng bộ kích thước nút Setting khi không có dock (Vấn đề 3) */
+        /* Đồng bộ kích thước nút Setting khi không có dock */
         #settingsBtn {
             width: 44px !important;
             height: 44px !important;
@@ -26,7 +26,7 @@
             justify-content: center;
         }
 
-        /* Tự động nhận diện Dark Mode (Vấn đề 2) */
+        /* Tự động nhận diện Dark Mode */
         @media (prefers-color-scheme: dark) {
             /* Nền popup theo hệ thống */
             .modal-content, #drawerContent {
@@ -189,8 +189,9 @@ window.onerror = function(message, source, lineno, colno, error) {
 </div>
 
 <script>
+    // [QUÂN SƯ AI]: ĐÃ FIX LẠI LỖI THIẾU NGOẶC Ở CUỐI DÒNG NÀY CHO SẾP (THÊM ĐỦ } } })
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
+    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } } };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
     const basePath = '.';
@@ -292,7 +293,7 @@ window.onerror = function(message, source, lineno, colno, error) {
         const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
         const radius = localStorage.getItem(RADIUS_KEY) || '0';
         
-        /* [QUÂN SƯ AI] CHỈNH KÍCH THƯỚC ICON XUỐNG 60x60 (Vấn đề 1) */
+        /* CHỈNH KÍCH THƯỚC ICON XUỐNG 60x60 */
         const size = '60px'; 
 
         div.innerHTML = `
@@ -356,7 +357,7 @@ window.onerror = function(message, source, lineno, colno, error) {
             document.body.classList.remove('dock-active');
             dockArea.innerHTML = '';
             dockArea.className = 'dock-container';
-            /* [QUÂN SƯ AI] XÓA SỔ DOCK SẸP LÉP BẰNG DISPLAY NONE (Vấn đề 4) */
+            /* XÓA SỔ DOCK SẸP LÉP BẰNG DISPLAY NONE */
             dockArea.style.display = 'none'; 
             settingsBtn.style.display = 'flex';
             drawerWrapper.classList.remove('open');
@@ -364,7 +365,7 @@ window.onerror = function(message, source, lineno, colno, error) {
             return;
         } else {
             document.body.classList.add('dock-active');
-            /* [QUÂN SƯ AI] HIỆN DOCK LẠI KHI CÓ STYLE */
+            /* HIỆN DOCK LẠI KHI CÓ STYLE */
             dockArea.style.display = ''; 
             settingsBtn.style.display = 'none';
             drawerWrapper.style.display = 'none';
