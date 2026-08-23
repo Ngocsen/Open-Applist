@@ -21,16 +21,15 @@
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<!-- Nút thông tin (i) – chỉ hiện khi tắt Dock -->
-<button id="infoBtn" aria-label="Thông tin">i</button>
-
-<!-- Nút Setting nhỏ (chỉ hiện khi tắt Dock) -->
-<button id="settingsBtn" aria-label="Cài đặt">⚙️</button>
+<!-- Nút Setting nhỏ (chỉ hiện khi tắt Dock, không có khung, là icon) -->
+<button id="settingsBtn" aria-label="Cài đặt">
+    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
+</button>
 
 <!-- Khu vực Dock -->
 <div id="dockArea" class="dock-container"></div>
 
-<!-- Drawer (ngăn kéo) – dùng chung cho cả 2 chế độ -->
+<!-- Drawer (ngăn kéo) - dùng chung cho cả 2 chế độ -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
@@ -217,9 +216,8 @@
     const drawerWrapper = document.getElementById('drawerWrapper');
     const drawerContent = document.getElementById('drawerContent');
     const settingsBtn = document.getElementById('settingsBtn');
-    const infoBtn = document.getElementById('infoBtn');
 
-    // Khởi tạo 4 app mặc định khi chưa có dữ liệu
+    // Khởi tạo 4 app mặc định
     const DEFAULT_APPS = ['com.deepseek.chat', 'vn.com.vng.zingalo', 'com.facebook.Facebook', 'com.apple.mobilesafari'];
 
     function getCustomApps() {
@@ -233,8 +231,7 @@
     function getSelectedApps() {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) { try { const parsed = JSON.parse(stored); if (Array.isArray(parsed)) return parsed; } catch(e) { localStorage.removeItem(STORAGE_KEY); } }
-        // Nếu chưa có, trả về mặc định 4 app
-        return DEFAULT_APPS;
+        return DEFAULT_APPS; // Mặc định 4 app
     }
     function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
 
@@ -300,21 +297,19 @@
         const currentStyle = localStorage.getItem(DOCK_STYLE_KEY) || 'none';
         
         if (currentStyle === 'none') {
-            // Tắt Dock: ẩn nút setting trong Dock, hiện nút setting ngoài và nút i
+            // Tắt Dock: ẩn nút setting trong Dock, hiện nút setting ngoài
             document.body.classList.remove('dock-active');
             dockArea.innerHTML = '';
             dockArea.className = 'dock-container';
             settingsBtn.style.display = 'flex';
-            infoBtn.style.display = 'flex';
             // Đóng drawer nếu đang mở
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
             return;
         } else {
-            // Bật Dock: ẩn nút setting ngoài và nút i
+            // Bật Dock: ẩn nút setting ngoài
             document.body.classList.add('dock-active');
             settingsBtn.style.display = 'none';
-            infoBtn.style.display = 'none';
             drawerWrapper.style.display = 'none';
         }
         
@@ -339,8 +334,19 @@
         dockArea.appendChild(settingsBtnInDock);
     }
 
+    // Mở drawer khi bấm nút setting nhỏ (không Dock)
+    function toggleDrawer() {
+        if (drawerWrapper.classList.contains('open')) {
+            drawerWrapper.classList.remove('open');
+            drawerWrapper.style.display = 'none';
+        } else {
+            drawerWrapper.style.display = 'flex';
+            drawerWrapper.classList.add('open');
+        }
+    }
+
+    // Mở drawer khi bấm nút setting trong Dock (Dock bật)
     function toggleDockMenu() {
-        // Khi Dock bật, drawer hiện dạng dọc trên Dock
         if (drawerWrapper.classList.contains('open')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
@@ -450,7 +456,7 @@
     document.addEventListener('click', (e) => {
         if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu();
         const drawerWrapper = document.getElementById('drawerWrapper');
-        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('.dock-setting-btn')) {
+        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-btn')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
         }
@@ -491,13 +497,10 @@
         document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
         document.getElementById('closeInfoModalBtn').innerText = t('button.close');
         
-        // Nút i (khi tắt Dock)
-        infoBtn.onclick = () => { document.getElementById('infoModal').classList.add('active'); };
+        // Nút Setting nhỏ (khi tắt Dock) -> Mở Drawer
+        settingsBtn.onclick = toggleDrawer;
         
-        // Nút Setting nhỏ (khi tắt Dock) -> mở modal cài đặt
-        settingsBtn.onclick = openSettingsModal;
-        
-        // Các nút trong Drawer (khi bật Dock)
+        // Các nút trong Drawer
         document.getElementById('btnInfo').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
         document.getElementById('btnSettings').onclick = openSettingsModal;
         
@@ -535,7 +538,6 @@
             else if (document.getElementById('dockBlurToggle').checked) dockStyle = 'blur';
             localStorage.setItem(DOCK_STYLE_KEY, dockStyle);
             document.getElementById('dockModal').classList.remove('active');
-            // Đóng drawer nếu đang mở
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
             renderGrid();
