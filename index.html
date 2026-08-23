@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Snowboard</title>
 
-    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP HOÀN CHỈNH: FIX 3 LỖI GIAO DIỆN & NÚT XÁC NHẬN XÓA TRONG DOCK -->
+    <!-- [QUÂN SƯ AI] CSS HOÀN CHỈNH TỐI ƯU TOÀN DIỆN -->
     <style>
-        /* 1. Nút Setting đơn (khi ẩn dock): Ép to bằng các nút trong ngăn kéo (~54px) */
+        /* 1. Nút Setting đơn (khi ẩn dock): To bằng các nút trong ngăn kéo (~54px) */
         #settingsBtn {
             width: 54px !important;
             height: 54px !important;
@@ -28,7 +28,7 @@
             justify-content: center;
         }
 
-        /* 2. Cân chỉnh thùng rác khi xóa app không bị che khuất */
+        /* 2. Cân chỉnh vị trí thùng rác để không bị cắt */
         .delete-icon {
             position: absolute;
             top: -6px;
@@ -45,14 +45,34 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* 3. Chỉnh chữ trong popup / modal to bằng nút info */
+        /* 3. Nút Setting trong Dock: Đồng bộ hoàn toàn 60x60, trong suốt, không khung trắng */
+        .dock-setting-container {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .dock-setting-container img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+        }
+
+        /* 4. Chỉnh chữ trong popup to bằng nút info */
         .modal-content button.close-modal, 
         .modal-content .close-modal {
             font-size: 16px !important;
             font-weight: 600 !important;
         }
 
-        /* 4. Tự động nhận diện Dark Mode & Màu chữ Xanh Ngọc cho tiêu đề */
+        /* 5. Tự động nhận diện Dark Mode & Màu chữ Xanh Ngọc cho tiêu đề */
         @media (prefers-color-scheme: dark) {
             .modal-content, #drawerContent {
                 background-color: #1c1c1e !important; 
@@ -439,12 +459,11 @@ window.onerror = function(message, source, lineno, colno, error) {
             dockArea.appendChild(addBtn);
         }
 
-        /* [QUÂN SƯ AI] XỬ LÝ THÔNG MINH NÚT SETTING TRONG DOCK KHI BẬT CHẾ ĐỘ XÓA */
+        // Khôi phục nút Setting chuẩn trong Dock (trong suốt, không khung trắng, bấm ăn ngay)
         const settingsBtnInDock = document.createElement('div');
         settingsBtnInDock.className = 'app-item';
         
         if (isDeleteMode) {
-            // Khi đang xóa, biến thành nút XÁC NHẬN (✔️) trong suốt đồng bộ 60x60
             settingsBtnInDock.onclick = toggleDeleteMode;
             settingsBtnInDock.innerHTML = `
                 <div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(52, 199, 89, 0.3); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:16px; cursor:pointer;">
@@ -452,11 +471,10 @@ window.onerror = function(message, source, lineno, colno, error) {
                 </div>
             `;
         } else {
-            // Bình thường là icon setting kích thước chuẩn 60x60 trong suốt không khung trắng
             settingsBtnInDock.onclick = toggleDockMenu;
             settingsBtnInDock.innerHTML = `
-                <div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:16px; cursor:pointer;">
-                    <img src="icons/icon_setting.png" style="width:30px; height:30px; object-fit:contain;" onerror="this.outerHTML='⚙️'" />
+                <div class="dock-setting-container">
+                    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
                 </div>
             `;
         }
@@ -614,7 +632,7 @@ window.onerror = function(message, source, lineno, colno, error) {
     document.addEventListener('click', (e) => {
         if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu();
         const drawerWrapper = document.getElementById('drawerWrapper');
-        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-item')) {
+        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-container')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
             if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; 
