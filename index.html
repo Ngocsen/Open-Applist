@@ -12,6 +12,37 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Snowboard</title>
+
+    <!-- [QUÂN SƯ AI] THÊM CSS OVERRIDE ĐỂ FIX LỖI GIAO DIỆN THEO LỆNH SẾP -->
+    <style>
+        /* Đồng bộ kích thước nút Setting khi không có dock (Vấn đề 3) */
+        #settingsBtn {
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 50% !important;
+            padding: 8px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tự động nhận diện Dark Mode (Vấn đề 2) */
+        @media (prefers-color-scheme: dark) {
+            /* Nền popup theo hệ thống */
+            .modal-content, #drawerContent {
+                background-color: #1c1c1e !important; 
+                border: 1px solid rgba(255,255,255,0.1);
+            }
+            /* Tiêu đề popup màu Xanh Ngọc */
+            .modal-content h3, #drawerContent h3 {
+                color: #00bcd4 !important; 
+            }
+            /* Màu chữ các mục khác cho dễ nhìn trên nền tối */
+            .modal-content {
+                color: #e5e5ea !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -158,9 +189,8 @@ window.onerror = function(message, source, lineno, colno, error) {
 </div>
 
 <script>
-    // Dữ liệu dự phòng
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } } };
+    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
     const basePath = '.';
@@ -261,7 +291,9 @@ window.onerror = function(message, source, lineno, colno, error) {
         const shadowOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
         const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
         const radius = localStorage.getItem(RADIUS_KEY) || '0';
-        const size = '72px'; // Đồng bộ kích thước cho cả Dock và chính
+        
+        /* [QUÂN SƯ AI] CHỈNH KÍCH THƯỚC ICON XUỐNG 60x60 (Vấn đề 1) */
+        const size = '60px'; 
 
         div.innerHTML = `
             <div class="icon-wrapper" style="width:${size}; height:${size};" data-mark="${mark}" data-shadow-dir="${shadowDir}" data-shadow-blur="${shadowBlur}" data-shadow-offset="${shadowOffset}" data-shadow-opacity="${shadowOpacity}" data-radius="${radius}">
@@ -293,16 +325,15 @@ window.onerror = function(message, source, lineno, colno, error) {
         const shadowColor = `rgba(0,0,0,${opacityValue})`;
         let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
 
-        // Hiệu ứng Mark (phủ bề mặt) - dùng overlay
-        if (mark === '0') { // Liquid Glass
+        if (mark === '0') { 
             overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1))';
-        } else if (mark === '1') { // Crystal Shine
+        } else if (mark === '1') { 
             overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.6) 100%)';
-        } else if (mark === '2') { // Holographic
+        } else if (mark === '2') { 
             overlay.style.background = 'conic-gradient(from 180deg, rgba(255,0,255,0.3), rgba(0,255,255,0.3), rgba(255,255,0,0.3), rgba(255,0,255,0.3))';
-        } else if (mark === '3') { // Matte Dark
+        } else if (mark === '3') { 
             overlay.style.background = 'rgba(0,0,0,0.3)';
-        } else if (mark === '4') { // Classic Glossy
+        } else if (mark === '4') { 
             overlay.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 70%)';
         }
 
@@ -325,19 +356,22 @@ window.onerror = function(message, source, lineno, colno, error) {
             document.body.classList.remove('dock-active');
             dockArea.innerHTML = '';
             dockArea.className = 'dock-container';
+            /* [QUÂN SƯ AI] XÓA SỔ DOCK SẸP LÉP BẰNG DISPLAY NONE (Vấn đề 4) */
+            dockArea.style.display = 'none'; 
             settingsBtn.style.display = 'flex';
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
             return;
         } else {
             document.body.classList.add('dock-active');
+            /* [QUÂN SƯ AI] HIỆN DOCK LẠI KHI CÓ STYLE */
+            dockArea.style.display = ''; 
             settingsBtn.style.display = 'none';
             drawerWrapper.style.display = 'none';
         }
         
         const mainApps = getSelectedApps();
         const dockApps = getDockApps();
-        // Chỉ lấy các app không trùng với main
         const filteredDockApps = dockApps.filter(id => !mainApps.includes(id)).slice(0, MAX_DOCK_APPS);
         
         dockArea.className = 'dock-container dock-style-' + currentStyle;
@@ -350,11 +384,10 @@ window.onerror = function(message, source, lineno, colno, error) {
             dockArea.appendChild(createAppItem(id, data, true));
         });
 
-        // Nếu chưa đủ 3 app, hiện nút cộng để thêm
         if (filteredDockApps.length < MAX_DOCK_APPS) {
             const addBtn = document.createElement('div'); 
             addBtn.className = 'app-item add-btn';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:72px; height:72px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div>`;
+            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div>`;
             addBtn.onclick = () => { 
                 isAddingDock = true;
                 currentDisplayCount = INITIAL_DISPLAY_COUNT; 
@@ -365,7 +398,6 @@ window.onerror = function(message, source, lineno, colno, error) {
             dockArea.appendChild(addBtn);
         }
 
-        // Luôn hiện nút Setting trong Dock
         const settingsBtnInDock = document.createElement('div');
         settingsBtnInDock.className = 'dock-setting-btn';
         settingsBtnInDock.onclick = toggleDockMenu;
@@ -379,11 +411,11 @@ window.onerror = function(message, source, lineno, colno, error) {
         if (drawerWrapper.classList.contains('open')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
-            settingsBtn.style.display = 'flex'; // Hiện lại nút Setting khi đóng
+            settingsBtn.style.display = 'flex'; 
         } else {
             drawerWrapper.style.display = 'flex';
             drawerWrapper.classList.add('open');
-            settingsBtn.style.display = 'none'; // Ẩn nút Setting khi mở Drawer
+            settingsBtn.style.display = 'none'; 
         }
     }
 
@@ -408,8 +440,7 @@ window.onerror = function(message, source, lineno, colno, error) {
         });
         if (ids.length < MAX_APPS) {
             const addBtn = document.createElement('div'); addBtn.className = 'app-item add-btn';
-            // Thêm margin-bottom để thẳng hàng với các icon khác
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:72px; height:72px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div><div class="app-info"><span class="app-name">${t('button.add')}</span></div>`;
+            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; margin-bottom:8px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div><div class="app-info"><span class="app-name">${t('button.add')}</span></div>`;
             addBtn.onclick = () => { 
                 isAddingDock = false;
                 currentDisplayCount = INITIAL_DISPLAY_COUNT; 
@@ -428,7 +459,6 @@ window.onerror = function(message, source, lineno, colno, error) {
         saveSelectedApps(current);
     }
 
-    // Lọc thông minh: kết hợp cả app chính và app dock vào danh sách loại trừ
     function getAllUsedAppIds() {
         return [...getSelectedApps(), ...getDockApps()];
     }
@@ -531,7 +561,7 @@ window.onerror = function(message, source, lineno, colno, error) {
         if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-btn')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
-            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; // hiện lại nút setting nếu không dock
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; 
         }
     });
 
@@ -577,17 +607,15 @@ window.onerror = function(message, source, lineno, colno, error) {
         document.getElementById('btnInfo').onclick = () => { document.getElementById('infoModal').classList.add('active'); };
         document.getElementById('btnSettings').onclick = openSettingsModal;
         
-        // Nút X để đóng Drawer
         document.getElementById('drawerClose').onclick = () => {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
-            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; // hiện lại nút setting
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; 
         };
         
         document.getElementById('btnMail').onclick = () => { window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank', 'noopener'); };
         document.getElementById('btnFollow').onclick = () => { window.open(socialData.links?.social_follow || 'https://browse.shortcuty.app/user/Sentechtipsvn', '_blank', 'noopener'); };
         
-        // *** ĐÃ SỬA: Ưu tiên lấy từ file ngôn ngữ (Language) để hỗ trợ đa ngôn ngữ ***
         document.getElementById('btnInfoDetails').onclick = () => {
             let infoText = (langData.dock_info?.app_version || FALLBACK_LANG.dock_info.app_version).replace(/\/n/g, '\n');
             alert(infoText); 
