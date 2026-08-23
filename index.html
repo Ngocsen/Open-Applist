@@ -13,33 +13,50 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Snowboard</title>
 
-    <!-- [QUÂN SƯ AI] THÊM CSS OVERRIDE ĐỂ FIX LỖI GIAO DIỆN -->
+    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP ĐỒNG BỘ GIAO DIỆN THEO LỆNH SẾP -->
     <style>
-        /* Đồng bộ kích thước nút Setting khi không có dock */
+        /* 1. Nút Setting đơn (khi tắt dock): To bằng các nút trong ngăn kéo */
         #settingsBtn {
-            width: 44px !important;
-            height: 44px !important;
+            width: 50px !important;
+            height: 50px !important;
             border-radius: 50% !important;
-            padding: 8px !important;
+            padding: 10px !important;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* Tự động nhận diện Dark Mode */
+        /* 2. Nút Setting bên trong Dock: Ép chuẩn kích thước 60x60 bằng các icon khác */
+        .dock-setting-btn {
+            width: 60px !important;
+            height: 60px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+        .dock-setting-btn img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        /* 3. Chỉnh chữ trong popup / modal to bằng nút info, rõ ràng hơn */
+        .modal-content button.close-modal, 
+        .modal-content .close-modal {
+            font-size: 16px !important;
+            font-weight: 600 !important;
+        }
+
+        /* 4. Tự động nhận diện Dark Mode & Màu chữ Xanh Ngọc cho tiêu đề */
         @media (prefers-color-scheme: dark) {
-            /* Nền popup theo hệ thống */
             .modal-content, #drawerContent {
                 background-color: #1c1c1e !important; 
-                border: 1px solid rgba(255,255,255,0.1);
+                border: 1px solid rgba(255,255,255,0.1) !important;
+                color: #e5e5ea !important;
             }
-            /* Tiêu đề popup màu Xanh Ngọc */
             .modal-content h3, #drawerContent h3 {
                 color: #00bcd4 !important; 
-            }
-            /* Màu chữ các mục khác cho dễ nhìn trên nền tối */
-            .modal-content {
-                color: #e5e5ea !important;
             }
         }
     </style>
@@ -189,9 +206,31 @@ window.onerror = function(message, source, lineno, colno, error) {
 </div>
 
 <script>
-    // [QUÂN SƯ AI]: ĐÃ FIX LẠI LỖI THIẾU NGOẶC Ở CUỐI DÒNG NÀY CHO SẾP (THÊM ĐỦ } } })
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    const FALLBACK_LANG = { "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" }, "modal": { "title_add_app": "➕ Thêm ứng dụng" }, "effects": { "title": "Hiệu ứng Icon", "mark_label": "Kiểu Mark", "shadow_label": "Hướng đổ bóng", "radius_label": "Kiểu Bo góc", "save": "Lưu hiệu ứng", "cancel": "Huỷ", "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" }, "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }, "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" } } };
+    
+    const FALLBACK_LANG = {
+        "button": { "add": "Thêm", "close": "Đóng", "cancel": "Huỷ" },
+        "modal": { "title_add_app": "➕ Thêm ứng dụng", "search_placeholder": "Tìm kiếm...", "max_apps_limit": "Bạn chỉ được thêm tối đa 12 ứng dụng!", "view_more": "Xem thêm" },
+        "effects": {
+            "title": "Hiệu ứng Icon",
+            "mark_label": "Kiểu Mark",
+            "shadow_direction_label": "Hướng đổ bóng",
+            "shadow_blur_label": "Độ đậm nhạt (Blur)",
+            "shadow_blur_helper": "Chỉ được phép nhập từ 1 đến 100",
+            "shadow_offset_label": "Độ xa gần (Offset)",
+            "shadow_offset_helper": "Chỉ được phép nhập từ 1 đến 100",
+            "shadow_opacity_label": "Độ đậm (Opacity)",
+            "shadow_opacity_helper": "Chỉ được phép nhập từ 1 đến 100",
+            "radius_label": "Kiểu Bo góc",
+            "save": "Lưu hiệu ứng",
+            "cancel": "Huỷ",
+            "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" },
+            "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
+        },
+        "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
+        "messages": { "reset_confirm": "Bạn có chắc chắn muốn khôi phục mặc định?", "prompt_rename_app": "Nhập tên mới:" },
+        "dock_info": { "app_version": "Snowboard v2.0\nPhát hành bởi: Sentechtipsvn" }
+    };
 
     let appDatabase = {}, socialData = { links: {} }, langData = {};
     const basePath = '.';
@@ -293,7 +332,6 @@ window.onerror = function(message, source, lineno, colno, error) {
         const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
         const radius = localStorage.getItem(RADIUS_KEY) || '0';
         
-        /* CHỈNH KÍCH THƯỚC ICON XUỐNG 60x60 */
         const size = '60px'; 
 
         div.innerHTML = `
@@ -326,16 +364,17 @@ window.onerror = function(message, source, lineno, colno, error) {
         const shadowColor = `rgba(0,0,0,${opacityValue})`;
         let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
 
+        /* [QUÂN SƯ AI] NÂNG CẤP LỚP PHỦ (MARK) TRONG SUỐT VÀ TINH TẾ HƠN */
         if (mark === '0') { 
-            overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1))';
+            overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02))';
         } else if (mark === '1') { 
-            overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.6) 100%)';
+            overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.3) 100%)';
         } else if (mark === '2') { 
-            overlay.style.background = 'conic-gradient(from 180deg, rgba(255,0,255,0.3), rgba(0,255,255,0.3), rgba(255,255,0,0.3), rgba(255,0,255,0.3))';
+            overlay.style.background = 'conic-gradient(from 180deg, rgba(255,0,255,0.15), rgba(0,255,255,0.15), rgba(255,255,0,0.15), rgba(255,0,255,0.15))';
         } else if (mark === '3') { 
-            overlay.style.background = 'rgba(0,0,0,0.3)';
+            overlay.style.background = 'rgba(0,0,0,0.15)';
         } else if (mark === '4') { 
-            overlay.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 70%)';
+            overlay.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.05) 70%)';
         }
 
         wrapper.style.boxShadow = shadowBox;
@@ -357,7 +396,6 @@ window.onerror = function(message, source, lineno, colno, error) {
             document.body.classList.remove('dock-active');
             dockArea.innerHTML = '';
             dockArea.className = 'dock-container';
-            /* XÓA SỔ DOCK SẸP LÉP BẰNG DISPLAY NONE */
             dockArea.style.display = 'none'; 
             settingsBtn.style.display = 'flex';
             drawerWrapper.classList.remove('open');
@@ -365,8 +403,7 @@ window.onerror = function(message, source, lineno, colno, error) {
             return;
         } else {
             document.body.classList.add('dock-active');
-            /* HIỆN DOCK LẠI KHI CÓ STYLE */
-            dockArea.style.display = ''; 
+            dockArea.style.display = 'flex'; 
             settingsBtn.style.display = 'none';
             drawerWrapper.style.display = 'none';
         }
@@ -597,11 +634,11 @@ window.onerror = function(message, source, lineno, colno, error) {
     }
 
     function initUI() {
-        document.getElementById('infoModalTitle').innerText = t('info_popup.title');
-        document.getElementById('btnMail').innerText = t('info_popup.contact');
-        document.getElementById('btnFollow').innerText = t('info_popup.follow');
-        document.getElementById('btnInfoDetails').innerText = t('info_popup.info');
-        document.getElementById('closeInfoModalBtn').innerText = t('button.close');
+        document.getElementById('infoModalTitle').innerText = t('info_popup.title') || FALLBACK_LANG.info_popup.title;
+        document.getElementById('btnMail').innerText = t('info_popup.contact') || FALLBACK_LANG.info_popup.contact;
+        document.getElementById('btnFollow').innerText = t('info_popup.follow') || FALLBACK_LANG.info_popup.follow;
+        document.getElementById('btnInfoDetails').innerText = t('info_popup.info') || FALLBACK_LANG.info_popup.info;
+        document.getElementById('closeInfoModalBtn').innerText = t('button.close') || FALLBACK_LANG.button.close;
         
         settingsBtn.onclick = toggleDrawer;
         
@@ -654,18 +691,18 @@ window.onerror = function(message, source, lineno, colno, error) {
             renderGrid();
         };
 
-        document.getElementById('effectTitle').innerText = t('effects.title');
-        document.getElementById('markLabel').innerText = t('effects.mark_label');
-        document.getElementById('shadowLabel').innerText = t('effects.shadow_direction_label');
-        document.getElementById('radiusLabel').innerText = t('effects.radius_label');
-        document.getElementById('saveEffectBtn').innerText = t('effects.save');
-        document.getElementById('closeEffectBtn').innerText = t('effects.cancel');
-        document.getElementById('shadowBlurLabel').innerText = t('effects.shadow_blur_label');
-        document.getElementById('shadowBlurHelper').innerText = t('effects.shadow_blur_helper');
-        document.getElementById('shadowOffsetLabel').innerText = t('effects.shadow_offset_label');
-        document.getElementById('shadowOffsetHelper').innerText = t('effects.shadow_offset_helper');
-        document.getElementById('shadowOpacityLabel').innerText = t('effects.shadow_opacity_label');
-        document.getElementById('shadowOpacityHelper').innerText = t('effects.shadow_opacity_helper');
+        document.getElementById('effectTitle').innerText = t('effects.title') || FALLBACK_LANG.effects.title;
+        document.getElementById('markLabel').innerText = t('effects.mark_label') || FALLBACK_LANG.effects.mark_label;
+        document.getElementById('shadowLabel').innerText = t('effects.shadow_direction_label') || FALLBACK_LANG.effects.shadow_direction_label;
+        document.getElementById('radiusLabel').innerText = t('effects.radius_label') || FALLBACK_LANG.effects.radius_label;
+        document.getElementById('saveEffectBtn').innerText = t('effects.save') || FALLBACK_LANG.effects.save;
+        document.getElementById('closeEffectBtn').innerText = t('effects.cancel') || FALLBACK_LANG.effects.cancel;
+        document.getElementById('shadowBlurLabel').innerText = t('effects.shadow_blur_label') || FALLBACK_LANG.effects.shadow_blur_label;
+        document.getElementById('shadowBlurHelper').innerText = t('effects.shadow_blur_helper') || FALLBACK_LANG.effects.shadow_blur_helper;
+        document.getElementById('shadowOffsetLabel').innerText = t('effects.shadow_offset_label') || FALLBACK_LANG.effects.shadow_offset_label;
+        document.getElementById('shadowOffsetHelper').innerText = t('effects.shadow_offset_helper') || FALLBACK_LANG.effects.shadow_offset_helper;
+        document.getElementById('shadowOpacityLabel').innerText = t('effects.shadow_opacity_label') || FALLBACK_LANG.effects.shadow_opacity_label;
+        document.getElementById('shadowOpacityHelper').innerText = t('effects.shadow_opacity_helper') || FALLBACK_LANG.effects.shadow_opacity_helper;
 
         document.querySelectorAll('.dir-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -690,7 +727,7 @@ window.onerror = function(message, source, lineno, colno, error) {
         };
 
         document.getElementById('btnReset').onclick = () => {
-            if(confirm(t('messages.reset_confirm'))) {
+            if(confirm(t('messages.reset_confirm') || FALLBACK_LANG.messages.reset_confirm)) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
                 localStorage.removeItem(DOCK_KEY);
                 localStorage.removeItem(MARK_KEY); localStorage.removeItem(RADIUS_KEY);
