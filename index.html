@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Snowboard</title>
 
-    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP ĐỒNG BỘ GIAO DIỆN THEO LỆNH SẾP -->
+    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP HOÀN CHỈNH: FIX LỆCH DOCK & KÍCH THƯỚC NÚT SETTING -->
     <style>
-        /* 1. Nút Setting đơn (khi tắt dock): To bằng các nút trong ngăn kéo */
+        /* 1. Nút Setting đơn (khi tắt dock): Ép to bằng các nút trong ngăn kéo */
         #settingsBtn {
-            width: 50px !important;
-            height: 50px !important;
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            min-height: 52px !important;
             border-radius: 50% !important;
             padding: 10px !important;
             display: flex;
@@ -26,22 +28,33 @@
             justify-content: center;
         }
 
-        /* 2. Nút Setting bên trong Dock: Ép chuẩn kích thước 60x60 bằng các icon khác */
-        .dock-setting-btn {
+        /* 2. Nút Setting bên trong Dock: Chuẩn hóa hệt như app item để chia đều khoảng cách */
+        .dock-setting-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .dock-setting-item .icon-wrapper {
             width: 60px !important;
             height: 60px !important;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .dock-setting-btn img {
-            width: 32px;
-            height: 32px;
+        .dock-setting-item img {
+            width: 30px;
+            height: 30px;
             object-fit: contain;
         }
 
-        /* 3. Chỉnh chữ trong popup / modal to bằng nút info, rõ ràng hơn */
+        /* 3. Chỉnh chữ trong popup / modal to bằng nút info */
         .modal-content button.close-modal, 
         .modal-content .close-modal {
             font-size: 16px !important;
@@ -364,7 +377,6 @@ window.onerror = function(message, source, lineno, colno, error) {
         const shadowColor = `rgba(0,0,0,${opacityValue})`;
         let shadowBox = `${offsetX}px ${offsetY}px ${shadowBlur}px ${shadowColor}`;
 
-        /* [QUÂN SƯ AI] NÂNG CẤP LỚP PHỦ (MARK) TRONG SUỐT VÀ TINH TẾ HƠN */
         if (mark === '0') { 
             overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02))';
         } else if (mark === '1') { 
@@ -436,11 +448,16 @@ window.onerror = function(message, source, lineno, colno, error) {
             dockArea.appendChild(addBtn);
         }
 
+        /* [QUÂN SƯ AI] CHỈNH NÚT SETTING TRONG DOCK THEO CHUẨN APP ITEM ĐỂ CĂN ĐỀU */
         const settingsBtnInDock = document.createElement('div');
-        settingsBtnInDock.className = 'dock-setting-btn';
+        settingsBtnInDock.className = 'dock-setting-item app-item';
         settingsBtnInDock.onclick = toggleDockMenu;
         if (!isDeleteMode) {
-            settingsBtnInDock.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />`;
+            settingsBtnInDock.innerHTML = `
+                <div class="icon-wrapper">
+                    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
+                </div>
+            `;
         }
         dockArea.appendChild(settingsBtnInDock);
     }
@@ -596,7 +613,7 @@ window.onerror = function(message, source, lineno, colno, error) {
     document.addEventListener('click', (e) => {
         if (isMenuOpen && !e.target.closest('.context-menu') && !e.target.closest('.more-btn')) closeContextMenu();
         const drawerWrapper = document.getElementById('drawerWrapper');
-        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-btn')) {
+        if (drawerWrapper.classList.contains('open') && !e.target.closest('#drawerWrapper') && !e.target.closest('#settingsBtn') && !e.target.closest('.dock-setting-item')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
             if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; 
