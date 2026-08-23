@@ -41,7 +41,6 @@ body {
 .add-btn:active { background: rgba(255, 255, 255, 0.4); transform: scale(0.9); }
 .add-btn .app-name { margin-top: 6px; font-weight: 600; color: #4f46e5; font-size: 11px; }
 
-/* Nút Setting đơn giản (không khung) khi Dock tắt */
 #drawerWrapper {
     position: fixed;
     bottom: calc(30px + env(safe-area-inset-bottom, 20px));
@@ -59,7 +58,6 @@ body {
 #drawerToggle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
 #drawerToggle:active { transform: scale(0.85); }
 
-/* Drawer ngang (khi Dock tắt) - Mặc định ẩn */
 #drawerContent {
     display: flex;
     gap: 6px;
@@ -80,7 +78,6 @@ body {
 .drawer-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50% !important; }
 .drawer-btn:active { transform: scale(0.85); background: rgba(255, 255, 255, 0.8); }
 
-/* Nút Setting trong Dock */
 .dock-setting-btn {
     width: 60px; height: 60px;
     background: rgba(255, 255, 255, 0.4);
@@ -92,7 +89,6 @@ body {
 .dock-setting-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
 .dock-setting-btn:active { transform: scale(0.9); }
 
-/* Drawer dọc (khi bấm Setting trong Dock) */
 #verticalDrawer {
     position: fixed;
     bottom: calc(90px + env(safe-area-inset-bottom, 20px));
@@ -109,15 +105,12 @@ body {
 }
 #verticalDrawer.active { display: flex; }
 
-/* Dock nằm cố định dưới đáy */
 .dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 24px; z-index: 997; }
 .dock-style-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.3); }
 .dock-style-blur { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-
 .dock-container .app-item { flex-shrink: 0; width: 60px !important; height: 60px !important; }
 
-/* Modal & các phần khác giữ nguyên */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
 .modal-content { background: var(--color-modal-bg); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); overflow-y: auto; }
