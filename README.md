@@ -48,11 +48,3 @@ Open-Applist tổng hợp các mục Webclip (thêm vào Màn hình chính từ 
 ## Báo lỗi & Yêu cầu tính năng
 
 - Mở issue mô tả chi tiết: thiết bị, phiên bản iOS, bước tái tạo lỗi, và link đến mục liên quan nếu có.
-
-## Giấy phép
-
-- Nếu chưa có file LICENSE trong repo, đề xuất sử dụng MIT License hoặc GPL tùy ý bạn. (Mình có thể thêm file LICENSE nếu bạn muốn.)
-
-## Liên hệ
-
-sentechtips@gmail.com
