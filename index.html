@@ -15,12 +15,12 @@
 
     <!-- [QUÂN SƯ AI] CSS HOÀN CHỈNH TỐI ƯU TOÀN DIỆN -->
     <style>
-        /* 1. Nút Setting đơn (khi ẩn dock): To bằng các nút trong ngăn kéo (~54px) */
+        /* 1. Nút Setting đơn (khi ẩn dock): Chỉnh về 46px cho thanh thoát theo lệnh Sếp */
         #settingsBtn {
-            width: 54px !important;
-            height: 54px !important;
-            min-width: 54px !important;
-            min-height: 54px !important;
+            width: 46px !important;
+            height: 46px !important;
+            min-width: 46px !important;
+            min-height: 46px !important;
             border-radius: 50% !important;
             padding: 10px !important;
             display: flex;
@@ -485,7 +485,7 @@ window.onerror = function(message, source, lineno, colno, error) {
         if (drawerWrapper.classList.contains('open')) {
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
-            settingsBtn.style.display = 'flex'; 
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; 
         } else {
             drawerWrapper.style.display = 'flex';
             drawerWrapper.classList.add('open');
@@ -653,6 +653,7 @@ window.onerror = function(message, source, lineno, colno, error) {
     function closeModal() { modal.classList.remove('active'); isAddingDock = false; }
     function openApp(bundleId) { const shortcutName = "Open App Launcher"; window.location.href = "shortcuts://run-shortcut?name=" + encodeURIComponent(shortcutName) + "&input=text&text=" + encodeURIComponent(bundleId); }
 
+    /* [QUÂN SƯ AI] FIX LỖI ẨN NÚT SETTING KHI ĐÓNG DRAWER */
     function toggleDeleteMode() {
         isDeleteMode = !isDeleteMode;
         renderGrid();
@@ -661,11 +662,15 @@ window.onerror = function(message, source, lineno, colno, error) {
         else btnDelete.innerHTML = '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
         drawerWrapper.classList.remove('open');
         drawerWrapper.style.display = 'none';
+        if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex';
     }
 
     function openSettingsModal() {
         drawerWrapper.classList.remove('open');
         drawerWrapper.style.display = 'none';
+        if (!document.body.classList.contains('dock-active')) {
+            settingsBtn.style.display = 'flex';
+        }
         document.getElementById('settingsModal').classList.add('active');
     }
 
@@ -722,8 +727,6 @@ window.onerror = function(message, source, lineno, colno, error) {
             else if (document.getElementById('dockBlurToggle').checked) dockStyle = 'blur';
             localStorage.setItem(DOCK_STYLE_KEY, dockStyle);
             document.getElementById('dockModal').classList.remove('active');
-            drawerWrapper.classList.remove('open');
-            drawerWrapper.style.display = 'none';
             renderGrid();
         };
 
@@ -762,6 +765,7 @@ window.onerror = function(message, source, lineno, colno, error) {
             renderGrid();
         };
 
+        /* [QUÂN SƯ AI] FIX LỖI ẨN NÚT SETTING KHI ĐÓNG DRAWER */
         document.getElementById('btnReset').onclick = () => {
             if(confirm(t('messages.reset_confirm') || FALLBACK_LANG.messages.reset_confirm)) {
                 localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(STORAGE_NAME_KEY); localStorage.removeItem(STORAGE_CUSTOM_KEY);
@@ -773,12 +777,14 @@ window.onerror = function(message, source, lineno, colno, error) {
             }
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex';
         };
 
         document.getElementById('btnPlugin').onclick = () => {
             window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432', '_blank', 'noopener');
             drawerWrapper.classList.remove('open');
             drawerWrapper.style.display = 'none';
+            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex';
         };
 
         document.getElementById('btnDelete').onclick = toggleDeleteMode;
