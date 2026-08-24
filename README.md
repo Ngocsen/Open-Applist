@@ -15,7 +15,6 @@
 </div>
 
 ---
-
 ## 📸 Demo - [⬇️](https://ngocsen.github.io/Open-Applist/)
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="300">

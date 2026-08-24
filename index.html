@@ -2,46 +2,63 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V4</title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="Bảng điều khiển tiện ích và Shortcuts của Sentechtipsvn" />
+    
+    <!-- Icon chuẩn cho Web Clip 180x180 -->
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    
+    <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
-<div id="toast">Thông báo</div>
+<div id="toast" role="status" aria-live="polite">Thông báo</div>
 
-<!-- Lưới App Chính -->
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<!-- Nút Setting Ngoài (Ẩn khi bật Dock) -->
-<button id="settingsBtn" aria-label="Cài đặt">
-    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
+<!-- Nút Setting góc phải dưới (Tắt Dock) -->
+<button id="settingsBtn" aria-label="Mở cài đặt nhanh">
+    <img src="icons/icon_setting.png" alt="Cài đặt" onerror="this.outerHTML='⚙️'" />
 </button>
 
 <!-- Dock -->
-<div id="dockArea" class="dock-container" style="display:none;"></div>
+<div id="dockArea" class="dock-container" style="display:none;" aria-label="Dock ứng dụng"></div>
 
-<!-- Ngăn kéo -->
-<div id="drawerWrapper">
+<!-- Ngăn kéo chung (Drawer) -->
+<div id="drawerWrapper" role="toolbar" aria-label="Thanh công cụ">
     <div id="drawerContent">
-        <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
-        <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
-        <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
-        <button class="drawer-btn" id="btnDelete"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
-        <button class="drawer-btn" id="btnSettings"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
-        <button id="drawerClose">✕</button>
+        <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" alt="Thông tin" onerror="this.outerHTML='ℹ️'" /></button>
+        <button class="drawer-btn" id="btnReset" aria-label="Khôi phục mặc định"><img src="icons/icon_reset.png" alt="Khôi phục" onerror="this.outerHTML='🔄'" /></button>
+        <button class="drawer-btn" id="btnPlugin" aria-label="Plugin shortcut"><img src="icons/icon_plugin.png" alt="Plugin" onerror="this.outerHTML='🔌'" /></button>
+        <button class="drawer-btn" id="btnDelete" aria-label="Chế độ xóa"><img src="icons/icon_delete.png" alt="Xóa" onerror="this.outerHTML='🗑️'" /></button>
+        <button class="drawer-btn" id="btnSettings" aria-label="Cài đặt"><img src="icons/icon_setting.png" alt="Cài đặt" onerror="this.outerHTML='⚙️'" /></button>
+        <button id="drawerClose" aria-label="Đóng ngăn kéo">✕</button>
     </div>
 </div>
 
-<!-- CÁC POPUP (Giữ nguyên cấu trúc HTML, loại bỏ bớt phần thừa) -->
-<div class="modal-overlay" id="settingsModal">
+<!-- Các Modal (đã tối ưu aria) -->
+<div class="modal-overlay" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
     <div class="modal-content">
-        <h3>Cài đặt</h3>
+        <h3 id="infoTitle" style="color: #0071e3; font-size: 20px; margin-bottom: 16px;">Sentechtipsvn</h3>
+        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.2);">
+            <button class="close-modal" id="btnMail" style="margin-top: 0; background: transparent; border: none; color: inherit;">Liên hệ</button>
+            <button class="close-modal" id="btnFollow" style="margin-top: 0; background: transparent; border: none; color: inherit;">Theo dõi kênh</button>
+            <button class="close-modal" id="btnInfoDetails" style="margin-top: 0; background: transparent; border: none; color: inherit;">Thông tin</button>
+        </div>
+        <button class="close-modal" id="closeInfoModal" style="margin-top: 16px;">Đóng</button>
+    </div>
+</div>
+
+<!-- Các modal còn lại giữ nguyên cấu trúc như cũ, chỉ thêm aria-label nếu cần -->
+<div class="modal-overlay" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-content">
+        <h3 id="settingsTitle">Cài đặt</h3>
         <button class="close-modal" id="openEffectsBtn">Icons Effects</button>
         <button class="close-modal" id="openDockBtn">Dock</button>
         <button class="close-modal" id="openLabelsBtn">Quản lý Ứng dụng</button>
@@ -53,52 +70,56 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="labelsModal">
+<div class="modal-overlay" id="labelsModal" role="dialog" aria-modal="true">
     <div class="modal-content">
         <h3>Quản lý Ứng dụng</h3>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label> </div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label> </div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"> <span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label> </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle" aria-label="Ẩn tên"><span class="slider"></span></label></div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked aria-label="Hiện tên"><span class="slider"></span></label></div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"><span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle" aria-label="Bật đổi tên nhanh"><span class="slider"></span></label></div>
         <button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;">Lưu cấu hình</button>
         <button class="close-modal" id="closeLabelsBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="effectModal">
+<div class="modal-overlay" id="effectModal" role="dialog" aria-modal="true">
     <div class="modal-content">
         <h3>Hiệu ứng Icon</h3>
         <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 12px; border-radius: 14px;">
-            <span style="font-weight: 600;">Viền VisionOS</span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label>
+            <span style="font-weight: 600;">Viền VisionOS</span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle" aria-label="Bật viền"><span class="slider"></span></label>
         </div>
-        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Kiểu Mark</label> <select id="markStyle"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select> </div>
+        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;" for="markStyle">Kiểu Mark</label><select id="markStyle" style="width:100%; padding:10px; border-radius:12px; border:none; background:var(--color-input-bg);"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div>
         <div style="margin-bottom: 16px;">
             <label style="display:block; margin-bottom:6px;">Hướng đổ bóng</label>
-            <div class="direction-container">
-                <button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button>
+            <div style="display: flex; gap: 8px;">
+                <button class="dir-btn" data-dir="left" aria-label="Bóng trái" style="flex:1; padding:8px; border-radius:8px; border:none; background:var(--color-input-bg);">◀︎</button>
+                <button class="dir-btn" data-dir="right" aria-label="Bóng phải" style="flex:1; padding:8px; border-radius:8px; border:none; background:var(--color-input-bg);">►</button>
+                <button class="dir-btn" data-dir="center" aria-label="Bóng giữa" style="flex:1; padding:8px; border-radius:8px; border:none; background:var(--color-input-bg);">❖</button>
+                <button class="dir-btn" data-dir="top" aria-label="Bóng trên" style="flex:1; padding:8px; border-radius:8px; border:none; background:var(--color-input-bg);">▲</button>
+                <button class="dir-btn" data-dir="bottom" aria-label="Bóng dưới" style="flex:1; padding:8px; border-radius:8px; border:none; background:var(--color-input-bg);">▼</button>
             </div>
         </div>
-        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Độ đậm nhạt (Blur)</label> <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10"> </div>
-        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Độ xa gần (Offset)</label> <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10"> </div>
-        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Độ đậm (Opacity)</label> <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30"> </div>
-        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Kiểu Bo góc Icon</label> <select id="radiusStyle"><option value="0">Squircle (Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select> </div>
+        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;" for="shadowBlurInput">Blur</label><input type="number" id="shadowBlurInput" style="width:100%; padding:10px; border-radius:12px; border:none; background:var(--color-input-bg); text-align:center;" value="10"></div>
+        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;" for="shadowOffsetInput">Offset</label><input type="number" id="shadowOffsetInput" style="width:100%; padding:10px; border-radius:12px; border:none; background:var(--color-input-bg); text-align:center;" value="10"></div>
+        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;" for="shadowOpacityInput">Opacity</label><input type="number" id="shadowOpacityInput" style="width:100%; padding:10px; border-radius:12px; border:none; background:var(--color-input-bg); text-align:center;" value="30"></div>
+        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;" for="radiusStyle">Bo góc Icon</label><select id="radiusStyle" style="width:100%; padding:10px; border-radius:12px; border:none; background:var(--color-input-bg);"><option value="0">Squircle (Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div>
         <button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;">Lưu hiệu ứng</button>
         <button class="close-modal" id="closeEffectBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="dockModal">
+<div class="modal-overlay" id="dockModal" role="dialog" aria-modal="true">
     <div class="modal-content">
         <h3>Dock</h3>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label> <span>Kính trong suốt</span></div>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label> <span>Gỗ (iOS 6)</span></div>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label> <span>Mờ Đen</span></div>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label> <span>Tắt Dock</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockGlassToggle" aria-label="Dock kính"><span class="slider"></span></label><span>Kính trong suốt</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockWoodToggle" aria-label="Dock gỗ"><span class="slider"></span></label><span>Gỗ (iOS 6)</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockBlurToggle" aria-label="Dock mờ đen"><span class="slider"></span></label><span>Mờ Đen</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockNoneToggle" checked aria-label="Tắt dock"><span class="slider"></span></label><span>Tắt Dock</span></div>
         <button class="close-modal" id="saveDockBtn" style="color: #00bcd4;">Lưu cấu hình</button>
         <button class="close-modal" id="closeDockBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="addAppModal">
+<div class="modal-overlay" id="addAppModal" role="dialog" aria-modal="true">
     <div class="modal-content">
         <h3>➕ Thêm ứng dụng</h3>
         <div class="modal-list" id="modalList" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; margin-top:10px;"></div>
@@ -106,267 +127,17 @@
     </div>
 </div>
 
+<script src="./script.js"></script>
 <script>
-    // Failsafe Database
-    const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
-    let appDatabase = {}, socialData = { links: {} };
-    const basePath = '.';
-    
-    // Storage Keys
-    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels' };
-    const MAX_APPS = 12, MAX_DOCK_APPS = 3;
-    let isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
-    let isDragging = false, dragClone = null, draggedAppId = null, dragType = null;
-
-    const grid = document.getElementById('appGrid'), dockArea = document.getElementById('dockArea'), drawerWrapper = document.getElementById('drawerWrapper');
-    const DEFAULT_APPS = ['com.deepseek.chat', 'vn.com.vng.zingalo', 'com.facebook.Facebook', 'com.apple.mobilesafari'];
-
-    // Load Dữ liệu an toàn
-    Promise.all([
-        fetch(basePath + '/db.json').then(res => res.json()).catch(() => FALLBACK_DB),
-        fetch(basePath + '/system-app.json').then(res => res.json()).catch(() => ({})),
-        fetch(basePath + '/social.json').then(res => res.json()).catch(() => ({ links: { email: '', social_follow: '', plugin_shortcut: '' } }))
-    ]).then(([db, sysApp, social]) => {
-        appDatabase = { ...db, ...sysApp }; socialData = social;
-        initUI();
-    });
-
-    // Helper
-    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
-    function closeDrawerSecure() { 
-        drawerWrapper.classList.remove('open'); 
-        setTimeout(() => drawerWrapper.style.display = 'none', 250); // Đợi CSS transition
-        if (document.body.classList.contains('dock-active')) {
-            const dockSetBtn = document.getElementById('dockSetInner');
-            if(dockSetBtn) dockSetBtn.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain;">`;
-        } else if (!isDeleteMode) {
-            document.getElementById('settingsBtn').style.display = 'flex';
-        }
-    }
-    
-    function getVals(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch(e) { return def; } }
-    function setVals(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
-
-    function swapApps(id1, id2, zone) {
-        let arr = getVals(zone === 'dock' ? ST_KEYS.dock : ST_KEYS.app, zone === 'dock' ? [] : DEFAULT_APPS);
-        let i1 = arr.indexOf(id1), i2 = arr.indexOf(id2);
-        if(i1 > -1 && i2 > -1) { [arr[i1], arr[i2]] = [arr[i2], arr[i1]]; setVals(zone === 'dock' ? ST_KEYS.dock : ST_KEYS.app, arr); zone === 'dock' ? renderDock() : renderGrid(); }
-    }
-
-    function deleteApp(id) {
-        setVals(ST_KEYS.app, getVals(ST_KEYS.app, []).filter(i => i !== id));
-        setVals(ST_KEYS.dock, getVals(ST_KEYS.dock, []).filter(i => i !== id));
-        renderGrid();
-    }
-
-    function createAppItem(id, data, isDockItem = false) {
-        const div = document.createElement('div'); div.className = 'app-item'; div.dataset.id = id; div.dataset.zone = isDockItem ? 'dock' : 'grid';
-        let dName = getVals(ST_KEYS.name, {})[id] || data.Name;
-        let iconSrc = data.icon && !data.icon.startsWith('http') && !data.icon.startsWith('/') ? basePath + '/' + data.icon : data.icon;
-        
-        const mark = localStorage.getItem(ST_KEYS.mark) || '0', sDir = localStorage.getItem(ST_KEYS.dir) || 'bottom', radius = localStorage.getItem(ST_KEYS.radius) || '0';
-        const sBlur = localStorage.getItem(ST_KEYS.blur) || '10', sOff = localStorage.getItem(ST_KEYS.offset) || '10', sOp = (localStorage.getItem(ST_KEYS.opacity) || '30') / 100;
-        const stroke = localStorage.getItem(ST_KEYS.stroke) === 'true';
-
-        // Lấy hiệu ứng CSS
-        let radCSS = radius === '1' ? '50%' : radius === '2' ? '12px' : '16px';
-        let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
-        let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
-
-        div.innerHTML = `
-            <div class="icon-wrapper ${stroke ? 'vision-stroke' : ''}" style="border-radius:${radCSS}; box-shadow:${ox}px ${oy}px ${sBlur}px rgba(0,0,0,${sOp});">
-                <img class="icon-img" style="border-radius:${radCSS};" src="${iconSrc}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="fallback-text" style="display:none; border-radius:${radCSS}; background:rgba(255,255,255,0.2); width:100%; height:100%; display:flex; align-items:center; justify-content:center;">${dName.charAt(0).toUpperCase()}</span>
-                <div class="mark-overlay" style="border-radius:${radCSS}; background:${mark==='0'?'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02))':mark==='1'?'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.3) 100%)':'rgba(0,0,0,0.1)'}"></div>
-                ${isDeleteMode ? '<div class="delete-icon">✕</div>' : ''}
-            </div>
-            ${!isDockItem ? `<div class="app-info"><span class="app-name">${dName}</span></div>` : ''}
-        `;
-
-        if(isDeleteMode) {
-            div.querySelector('.delete-icon').onclick = (e) => { e.stopPropagation(); deleteApp(id); };
-        } else {
-            div.onclick = () => isFastRenameMode ? renameApp(id, dName) : window.location.href = "shortcuts://run-shortcut?name=Open App Launcher&input=text&text=" + encodeURIComponent(id);
-        }
-
-        // Drag & Drop mượt
-        let timer;
-        div.addEventListener('touchstart', (e) => {
-            if(isDeleteMode) return;
-            const t = e.touches[0];
-            timer = setTimeout(() => {
-                isDragging = true; draggedAppId = id; dragType = isDockItem ? 'dock' : 'grid';
-                dragClone = div.querySelector('.icon-wrapper').cloneNode(true);
-                Object.assign(dragClone.style, { position:'fixed', top:t.clientY-30+'px', left:t.clientX-30+'px', zIndex:'9999', transform:'scale(1.15)', pointerEvents:'none', margin:0 });
-                document.body.appendChild(dragClone); div.style.opacity = '0.3';
-                if(navigator.vibrate) navigator.vibrate(50);
-            }, 500);
+    // Đăng ký Service Worker ngay khi trang load
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('./sw.js').then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
         });
-        div.addEventListener('touchmove', (e) => { if(isDragging && dragClone) { e.preventDefault(); dragClone.style.top = e.touches[0].clientY-30+'px'; dragClone.style.left = e.touches[0].clientX-30+'px'; } else clearTimeout(timer); }, {passive: false});
-        div.addEventListener('touchend', (e) => {
-            clearTimeout(timer);
-            if(isDragging && dragClone) {
-                isDragging = false; dragClone.remove(); div.style.opacity = '1'; div.style.visibility = 'hidden';
-                let target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)?.closest('.app-item');
-                div.style.visibility = 'visible';
-                if(target && target.dataset.id && target.dataset.id !== id && target.dataset.id !== 'sys_settings' && dragType === target.dataset.zone) swapApps(id, target.dataset.id, dragType);
-            }
-        });
-        return div;
-    }
-
-    function renderDock() {
-        const style = localStorage.getItem(ST_KEYS.dockStyle) || 'none';
-        dockArea.innerHTML = '';
-        if (style === 'none') {
-            document.body.classList.remove('dock-active'); dockArea.style.display = 'none'; closeDrawerSecure(); return;
-        }
-        document.body.classList.add('dock-active'); dockArea.style.display = 'flex'; document.getElementById('settingsBtn').style.display = 'none';
-        dockArea.className = 'dock-container dock-style-' + style;
-        
-        const main = getVals(ST_KEYS.app, DEFAULT_APPS);
-        const dApps = getVals(ST_KEYS.dock, []).filter(id => !main.includes(id)).slice(0, MAX_DOCK_APPS);
-        dApps.forEach(id => { if(appDatabase[id]) dockArea.appendChild(createAppItem(id, appDatabase[id], true)); });
-
-        if (dApps.length < MAX_DOCK_APPS) {
-            const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2);"><span style="font-size:28px; color:#fff;">+</span></div>`;
-            addBtn.onclick = () => { isAddingDock = true; renderModal(); };
-            dockArea.appendChild(addBtn);
-        }
-
-        // Nút Setting trong Dock (Icon trong suốt, không nền)
-        const setBtn = document.createElement('div'); setBtn.className = 'app-item'; setBtn.dataset.id = 'sys_settings';
-        setBtn.innerHTML = `
-            <div class="icon-wrapper" style="width:60px; height:60px; background:transparent; box-shadow:none; display:flex; align-items:center; justify-content:center;" id="dockSetInner">
-                ${isDeleteMode ? '<span style="font-size:28px; color:#34c759;">✅</span>' : '<img src="icons/icon_setting.png" onerror="this.outerHTML=\'⚙️\'" style="width:100%; height:100%; object-fit:contain;">'}
-            </div>
-        `;
-        setBtn.onclick = () => {
-            if(isDeleteMode) { toggleDeleteMode(); return; }
-            if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
-            else {
-                drawerWrapper.style.display = 'flex'; void drawerWrapper.offsetWidth; drawerWrapper.classList.add('open');
-                document.getElementById('dockSetInner').innerHTML = '<span style="font-size:28px; color:#fff;">✕</span>';
-            }
-        };
-        dockArea.appendChild(setBtn);
-    }
-
-    function renderGrid() {
-        grid.innerHTML = '';
-        document.body.classList.toggle('hide-labels', localStorage.getItem(ST_KEYS.hideLab) === 'true');
-        getVals(ST_KEYS.app, DEFAULT_APPS).slice(0, MAX_APPS).forEach(id => { if(appDatabase[id]) grid.appendChild(createAppItem(id, appDatabase[id])); });
-        
-        if (getVals(ST_KEYS.app, []).length < MAX_APPS) {
-            const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6);"><span style="font-size:28px; color:#4f46e5;">+</span></div><div class="app-info"><span class="app-name">Thêm</span></div>`;
-            addBtn.onclick = () => { isAddingDock = false; renderModal(); };
-            grid.appendChild(addBtn);
-        }
-        renderDock();
-    }
-
-    function toggleDeleteMode() {
-        isDeleteMode = !isDeleteMode; renderGrid();
-        document.getElementById('btnDelete').innerHTML = isDeleteMode ? '<span style="font-size:20px;">✅</span>' : '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
-        // Sửa Bug 3: Đang xoá thì KHÔNG ẨN Drawer. Chỉ ẩn khi thoát.
-    }
-
-    function renderModal() {
-        const ml = document.getElementById('modalList'); ml.innerHTML = '';
-        const used = [...getVals(ST_KEYS.app, []), ...getVals(ST_KEYS.dock, [])];
-        Object.keys(appDatabase).filter(id => !used.includes(id)).forEach(id => {
-            const item = document.createElement('div'); item.className = 'app-item';
-            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px;"><img src="${appDatabase[id].icon}" class="icon-img" onerror="this.style.display='none'"></div><span style="font-size:10px; margin-top:4px;">${appDatabase[id].Name}</span>`;
-            item.onclick = () => {
-                let arr = getVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, []);
-                if(arr.length >= (isAddingDock ? MAX_DOCK_APPS : MAX_APPS)) return showToast('Đã đầy rổ!');
-                arr.push(id); setVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, arr);
-                document.getElementById('addAppModal').classList.remove('active'); isAddingDock = false; renderGrid();
-            };
-            ml.appendChild(item);
-        });
-        document.getElementById('addAppModal').classList.add('active');
-    }
-
-    function renameApp(id, old) {
-        let n = prompt('Nhập tên mới:', old);
-        if(n !== null) { let dict = getVals(ST_KEYS.name, {}); n.trim() ? dict[id] = n.trim() : delete dict[id]; setVals(ST_KEYS.name, dict); renderGrid(); }
-    }
-
-    function openSettings(modalId) { closeDrawerSecure(); document.getElementById(modalId).classList.add('active'); }
-
-    function initUI() {
-        // Nút Setting Ngoài & Nút X Ngăn kéo
-        document.getElementById('settingsBtn').onclick = () => { document.getElementById('settingsBtn').style.display='none'; drawerWrapper.style.display='flex'; void drawerWrapper.offsetWidth; drawerWrapper.classList.add('open'); };
-        document.getElementById('drawerClose').onclick = closeDrawerSecure;
-
-        // Các nút trong ngăn kéo (An toàn)
-        document.getElementById('btnDelete').onclick = toggleDeleteMode;
-        document.getElementById('btnReset').onclick = () => { if(confirm("Khôi phục mặc định?")){ localStorage.clear(); location.reload(); }};
-        document.getElementById('btnInfo').onclick = () => { closeDrawerSecure(); alert("Snowboard V4\nPhát triển bởi Sentechtipsvn"); };
-        document.getElementById('btnPlugin').onclick = () => { closeDrawerSecure(); window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts', '_blank'); };
-        document.getElementById('btnSettings').onclick = () => openSettings('settingsModal');
-
-        // Bảng Settings
-        document.getElementById('openEffectsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('effectModal'); };
-        document.getElementById('openDockBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('dockModal'); };
-        document.getElementById('openLabelsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('labelsModal'); };
-        
-        // Sửa Bug 4: Đổ bóng
-        document.querySelectorAll('.dir-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
-        let currentDir = localStorage.getItem(ST_KEYS.dir) || 'bottom';
-        document.querySelector(`.dir-btn[data-dir="${currentDir}"]`)?.classList.add('active');
-
-        // Save Effects
-        document.getElementById('saveEffectBtn').onclick = () => {
-            localStorage.setItem(ST_KEYS.mark, document.getElementById('markStyle').value);
-            localStorage.setItem(ST_KEYS.radius, document.getElementById('radiusStyle').value);
-            localStorage.setItem(ST_KEYS.stroke, document.getElementById('strokeToggle').checked);
-            localStorage.setItem(ST_KEYS.dir, document.querySelector('.dir-btn.active')?.dataset.dir || 'bottom');
-            localStorage.setItem(ST_KEYS.blur, document.getElementById('shadowBlurInput').value);
-            localStorage.setItem(ST_KEYS.offset, document.getElementById('shadowOffsetInput').value);
-            localStorage.setItem(ST_KEYS.opacity, document.getElementById('shadowOpacityInput').value);
-            document.getElementById('effectModal').classList.remove('active'); renderGrid(); showToast("Đã lưu hiệu ứng");
-        };
-
-        // Save Dock
-        document.getElementById('saveDockBtn').onclick = () => {
-            let style = 'none';
-            if(document.getElementById('dockGlassToggle').checked) style = 'glass';
-            else if(document.getElementById('dockWoodToggle').checked) style = 'wood';
-            else if(document.getElementById('dockBlurToggle').checked) style = 'blur';
-            localStorage.setItem(ST_KEYS.dockStyle, style);
-            document.getElementById('dockModal').classList.remove('active'); renderGrid(); showToast("Đã lưu cấu hình Dock");
-        };
-
-        // Save Labels
-        document.getElementById('saveLabelsBtn').onclick = () => {
-            localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
-            isFastRenameMode = document.getElementById('fastRenameToggle').checked;
-            document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast("Đã lưu tùy chọn");
-        };
-
-        // Nút Đóng Chung
-        document.querySelectorAll('.close-modal').forEach(btn => { if(btn.innerText.includes('Đóng') || btn.innerText.includes('Huỷ')) btn.onclick = (e) => e.target.closest('.modal-overlay').classList.remove('active'); });
-
-        // Xuất / Nhập
-        document.getElementById('exportBtn').onclick = () => {
-            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab) }};
-            navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast("Đã copy cấu hình!"); });
-        };
-        document.getElementById('importBtn').onclick = () => {
-            let code = prompt("Dán mã:"); if(!code) return;
-            try {
-                let d = JSON.parse(decodeURIComponent(atob(code)));
-                if(d.apps) setVals(ST_KEYS.app, d.apps); if(d.dock) setVals(ST_KEYS.dock, d.dock); if(d.names) setVals(ST_KEYS.name, d.names);
-                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); }
-                document.getElementById('settingsModal').classList.remove('active'); showToast("Nhập thành công!"); setTimeout(() => location.reload(), 1000);
-            } catch(e) { alert("Mã không hợp lệ!"); }
-        };
-
-        renderGrid();
     }
 </script>
 </body>

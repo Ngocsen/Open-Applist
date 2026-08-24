@@ -1,4 +1,5 @@
-const CACHE_NAME = 'snowboard-cache-v1';
+// sw.js (Thêm chiến lược cache tốt hơn và fallback cho offline)
+const CACHE_NAME = 'snowboard-cache-v2'; // Nâng cấp version
 const urlsToCache = [
   './',
   './index.html',
@@ -34,6 +35,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith(self.location.origin)) return;
 
+  // Chiến lược cache-first
   event.respondWith(
     caches.match(event.request)
       .then((cached) => {
@@ -41,14 +43,18 @@ self.addEventListener('fetch', (event) => {
 
         return fetch(event.request)
           .then((response) => {
-            if (response.status === 200 && (response.type === 'basic' || response.type === 'cors')) {
+            // Chỉ cache các phản hồi hợp lệ và cùng origin
+            if (response.status === 200 && response.type === 'basic') {
               const clone = response.clone();
               caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
             }
             return response;
           })
           .catch(() => {
-            return caches.match('./index.html');
+            // Fallback về trang chủ khi offline
+            if (event.request.mode === 'navigate') {
+              return caches.match('./index.html');
+            }
           });
       })
   );
