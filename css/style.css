@@ -1,17 +1,16 @@
 /* =========================================
-   [QUÂN SƯ AI] CSS HOÀN CHỈNH V4 
+   [QUÂN SƯ AI] CSS HOÀN CHỈNH V6.2 - CHUẨN GHI CHÚ
    ========================================= */
 
 :root {
-    --bg-gradient-1: #d4bbfc; /* (ĐỔI MÀU: Nền gradient sáng màu 1) */
-    --bg-gradient-2: #8ec5fc; /* (ĐỔI MÀU: Nền gradient sáng màu 2) */
-    --bg-container: rgba(255, 255, 255, 0.25); /* (ĐỔI MÀU: Nền của khung chứa app lớn) */
-    --color-title: #0071e3; /* (ĐỔI MÀU: Chữ tiêu đề popup Info) */
-    --color-channel-name: #20b2aa; /* (ĐỔI MÀU: Chữ tiêu đề popup Effect và các label) */
-    --color-help: #ff6b6b; /* (ĐỔI MÀU: Chữ cảnh báo lỗi màu đỏ) */
-    --color-input-bg: rgba(255, 255, 255, 0.8); /* (ĐỔI MÀU: Nền của ô nhập liệu/dropdown) */
-    --color-modal-bg: rgba(255, 255, 255, 0.85); /* (ĐỔI MÀU: Nền của các bảng Popup) */
-    --shadow-box: 0 2px 8px rgba(0, 0, 0, 0.12); /* (ĐỔI SỐ: Độ đổ bóng của các ô nhập) */
+    --bg-gradient-1: #d4bbfc;                  /* [CHỈNH MÀU]: Màu nền gradient thứ nhất của màn hình chính */
+    --bg-gradient-2: #8ec5fc;                  /* [CHỈNH MÀU]: Màu nền gradient thứ hai của màn hình chính */
+    --bg-container: rgba(255, 255, 255, 0.25); /* [CHỈNH MÀU/KÍNH]: Màu nền khung chứa các icon ứng dụng (hiệu ứng kính mờ) */
+    --color-title: #0071e3;                    /* [CHỈNH MÀU]: Màu chữ tiêu đề trong các popup (ví dụ: Sentechtipsvn) */
+    --color-channel-name: #20b2aa;             /* [CHỈNH MÀU]: Màu chữ tên kênh và các nhãn (label) điều khiển */
+    --color-input-bg: rgba(255, 255, 255, 0.8);/* [CHỈNH MÀU]: Màu nền của các ô nhập liệu, dropdown trong cài đặt */
+    --color-modal-bg: rgba(255, 255, 255, 0.85);/* [CHỈNH MÀU]: Màu nền của các bảng popup/modal */
+    --shadow-box: 0 2px 8px rgba(0, 0, 0, 0.12); /* [CHỈNH SỐ]: Độ đổ bóng cho các nút bấm và ô nhập */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -25,77 +24,100 @@ body {
 @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
 .app-container {
-    background: var(--bg-container);
-    backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+    background: var(--bg-container); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
     border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.6);
     box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 40px rgba(139,92,246,0.15);
-    width: min(92vw, 360px); padding: 24px;
+    width: min(92vw, 360px); padding: 24px; position: relative;
 }
 .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; }
 .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
-.icon-wrapper { width: 60px; height: 60px; position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 8px; isolation: isolate; border: none; } /* (ĐỔI SỐ: Kích thước width/height của icon gốc) */
+
+/* [CHỈNH KÍCH THƯỚC]: Khung chứa icon ứng dụng gốc (mặc định 60x60) */
+.icon-wrapper { width: 60px; height: 60px; position: relative; overflow: hidden; margin-bottom: 8px; isolation: isolate; border: none; }
 .icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
-.fallback-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; font-weight: bold; z-index: 2; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.fallback-text { display: none !important; }
 .mark-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; mix-blend-mode: overlay; }
+
 .app-info { display: flex; align-items: center; justify-content: center; width: 100%; }
-.app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* (ĐỔI SỐ/MÀU: font-size hoặc color của tên app) */
-body.hide-labels .app-info { display: none !important; } /* (CÔNG TẮC: Chế độ ẩn tên) */
+.app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.hide-labels .app-info { display: none !important; }
 .vision-stroke { border: 1px solid rgba(0, 0, 0, 0.15); box-sizing: border-box; }
 
-/* Nút Setting độc lập ngoài màn hình */
-#settingsBtn { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999; width: 46px; height: 46px; background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 10px; } /* (ĐỔI SỐ: width 46px, height 46px của icon setting ngoài) */
+/* [CHỈNH KÍCH THƯỚC]: Nút Setting độc lập ngoài màn hình khi tắt Dock (mặc định 50x50) */
+#settingsBtn {
+    position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999;
+    width: 50px !important; height: 50px !important; min-width: 50px !important; min-height: 50px !important;
+    background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+}
 #settingsBtn img { width: 100%; height: 100%; object-fit: contain; }
-body.dock-active #settingsBtn { display: none !important; } /* (CÔNG TẮC: Ẩn nút setting khi bật dock) */
+body.dock-active #settingsBtn { display: none !important; }
 
-/* Dock */
+/* [CHỈNH KÍCH THƯỚC/VỊ TRÍ]: Thanh Dock ở đáy màn hình */
 .dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 24px; z-index: 997; }
-.dock-style-glass { background: rgba(255, 255, 255, 0.25) !important; backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-.dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a) !important; border: 1px solid #5a3517; box-shadow: inset 0 1px 2px rgba(255,255,255,0.3), 0 4px 10px rgba(0,0,0,0.3); }
-.dock-style-blur { background: rgba(0, 0, 0, 0.4) !important; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.dock-style-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
+.dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; }
+.dock-style-blur { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
 
-/* Drawer (Ngăn kéo) */
-#drawerWrapper { position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 998; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-#drawerContent { display: flex; gap: 6px; overflow: hidden; max-width: 0; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
-#drawerWrapper.open #drawerContent { max-width: 300px; opacity: 1; padding-right: 4px; }
-.drawer-btn { width: 44px; height: 44px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; background: rgba(255,255,255,0.4); box-shadow: var(--shadow-box); } /* (ĐỔI SỐ: Kích thước các icon con trong ngăn kéo) */
-.drawer-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-#drawerClose { width: 44px; height: 44px; border-radius: 50%; background: rgba(0, 122, 255, 0.2); color: #007AFF; border: none; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; } /* (ĐỔI MÀU: Nút X ngoài dock) */
+/* [CHỈNH VỊ TRÍ]: Khung chứa ngăn kéo (Drawer) */
+#drawerWrapper {
+    position: fixed; z-index: 998; display: none; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px;
+    border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+#drawerContent { display: flex; gap: 6px; white-space: nowrap; align-items: center; }
 
-/* Logic Ngăn kéo khi Dock bật (Bay lên trên) */
-body.dock-active #drawerWrapper { display: none; flex-direction: column; bottom: calc(100px + env(safe-area-inset-bottom, 20px)); right: 25px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; padding: 0; }
-body.dock-active #drawerWrapper.open { display: flex; }
-body.dock-active #drawerContent { display: flex; flex-direction: column; gap: 8px; max-width: none; opacity: 1; padding: 4px; background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); border-radius: 20px; }
-body.dock-active #drawerClose { display: none !important; } /* (CÔNG TẮC: Ẩn nút X phụ vì đã có X trong Dock) */
+/* [CHỈNH KÍCH THƯỚC]: Các nút con bên trong ngăn kéo (cố định hình tròn 44x44) */
+.drawer-btn {
+    width: 44px !important; height: 44px !important; border-radius: 50% !important; border: none;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+    background: rgba(255,255,255,0.4); box-shadow: var(--shadow-box); overflow: hidden;
+}
+.drawer-btn img { width: 100%; height: 100%; border-radius: 50% !important; object-fit: cover; }
+#drawerClose { width: 44px; height: 44px; border-radius: 50%; background: rgba(0, 122, 255, 0.2); color: #007AFF; border: none; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-/* Modals & Controls */
+/* [TRẠNG THÁI]: Khi tắt Dock (Ngăn kéo nằm ngang ở góc phải dưới) */
+body:not(.dock-active) #drawerWrapper {
+    bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; flex-direction: row;
+}
+
+/* [TRẠNG THÁI]: Khi bật Dock (Ngăn kéo căn chuẩn ngay chính giữa, đè đúng trên đầu icon Setting trong Dock)[span_7](start_span)[span_7](end_span) */
+body.dock-active #drawerWrapper {
+    bottom: calc(90px + env(safe-area-inset-bottom, 20px));
+    left: 50%; transform: translateX(-50%);
+    flex-direction: column-reverse; background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); border-radius: 20px; padding: 8px;
+}
+body.dock-active #drawerContent { flex-direction: column-reverse; gap: 8px; }
+body.dock-active #drawerClose { display: none !important; }
+
+/* [CHỈNH KÍCH THƯỚC]: Biểu tượng dấu X khi bật chế độ xoá ứng dụng */
+.delete-icon {
+    position: absolute; top: -4px; right: -4px; width: 22px; height: 22px;
+    background: #ff3b30; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: white; cursor: pointer; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
 .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
+/* [CHỈNH KÍCH THƯỚC]: Khung bảng Popup (chiều rộng tối đa 380px, bo góc 28px) */
 .modal-content { background: var(--color-modal-bg); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); overflow-y: auto; }
 .modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; }
-label { color: var(--color-channel-name); font-weight: 600; }
-.input-num, select, .search-box { width: 100%; padding: 10px; border-radius: 12px; border: none; background: var(--color-input-bg); box-shadow: var(--shadow-box); font-size: 14px; }
-.close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 14px; font-weight: 600; font-size: 16px; cursor: pointer; text-align: center; } /* (ĐỔI SỐ/MÀU: Chữ các nút Lưu/Hủy) */
-.direction-container { display: flex; gap: 8px; margin-bottom: 10px; }
-.dir-btn { flex: 1; padding: 10px 5px; background: var(--color-input-bg); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; border-radius: 12px; }
-.dir-btn.active { background: #0071e3; color: #fff; } /* (ĐỔI MÀU: Nút hướng bóng đang được chọn) */
-.delete-icon { position: absolute; top: -6px; right: -6px; width: 24px; height: 24px; background: #ff3b30; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; cursor: pointer; z-index: 10; } /* (ĐỔI MÀU/SỐ: Icon thùng rác) */
-.switch { position: relative; display: inline-block; width: 50px; height: 30px; margin-right: 10px; }
+
+.close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 14px; font-weight: 600; font-size: 16px; cursor: pointer; text-align: center; }
+.switch { position: relative; display: inline-block; width: 50px; height: 30px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; inset: 0; background-color: #ccc; transition: .4s; border-radius: 30px; }
 .slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-input:checked + .slider { background-color: #2196F3; } /* (ĐỔI MÀU: Công tắc khi gạt sang Bật) */
+input:checked + .slider { background-color: #2196F3; }
 input:checked + .slider:before { transform: translateX(20px); }
+
 #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 2000; transition: transform 0.4s; }
 #toast.show { transform: translateX(-50%) translateY(0); }
 
-/* Chế độ Dark Mode (Tự nhận diện hệ thống) */
 @media (prefers-color-scheme: dark) {
-    :root { --bg-container: rgba(30, 27, 75, 0.3); --color-modal-bg: rgba(15, 23, 42, 0.9); --color-input-bg: rgba(255, 255, 255, 0.1); --color-title: #ffffff; --color-channel-name: #7ce3d3; }
+    :root { --bg-container: rgba(30, 27, 75, 0.3); --color-modal-bg: rgba(15, 23, 42, 0.9); --color-input-bg: rgba(255, 255, 255, 0.1); }
     body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
-    .app-name, .modal-content h3 { color: #f1f5f9; }
-    .modal-content, #drawerContent { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
-    .modal-content h3, #drawerContent h3 { color: #00bcd4 !important; }
-    .vision-stroke { border: 1px solid rgba(255, 255, 255, 0.25); }
-    .dir-btn { background: rgba(255,255,255,0.1); color: #f1f5f9; }
+    .modal-content, #drawerWrapper { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
+    .modal-content h3 { color: #00bcd4 !important; }
+    .app-name { color: #f1f5f9; }
     .close-modal { background: rgba(255,255,255,0.05); color: #fff; }
 }
