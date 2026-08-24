@@ -16,7 +16,7 @@
 
 ---
 
-## 📸 Hình ảnh Demo
+## 📸 Hình ảnh Demo - [⬇️](https://ngocsen.github.io/Open-Applist/)
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="300">
 </p>
