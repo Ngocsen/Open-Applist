@@ -1,49 +1,77 @@
-# Open-Applist
+<div align="center">
 
-Danh sách các "Webclip" và Phím tắt (Shortcuts) cho iOS nhằm mở nhanh các ứng dụng thường dùng.
+# 🏂 Open-Applist
+### Kho lưu trữ Webclip & Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
-[Trang Demo](https://ngocsen.github.io/Open-Applist/) - [Liên hệ](mailto:sentechtips@gmail.com)
+![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Made with](https://img.shields.io/badge/Made%20with-HTML%20%7C%20CSS%20%7C%20JS-orange)
+![GitHub stars](https://img.shields.io/github/stars/<username>/Open-Applist?style=social)
 
-## Mô tả ngắn
+**Tác giả: Sentechtipsvn 🇻🇳**
+<br/>
+*Webclip giả lập màn hình chính trên iPhone, kết hợp với ứng dụng Phím tắt để mở các ứng dụng thường dùng, mang lại trải nghiệm cá nhân hóa tối đa.*
 
-Open-Applist tổng hợp các mục Webclip (thêm vào Màn hình chính từ Safari) và/hoặc Shortcuts để giúp bạn khởi chạy nhanh những dịch vụ, trang web hoặc hành động thường dùng trên iPhone / iPad. Mục tiêu là cung cấp một cửa hàng nhỏ các phím tắt dễ cài đặt, tối ưu cho thao tác nhanh.
+</div>
 
-## Tính năng chính
+---
 
-- Danh sách các Webclip tiện lợi để thêm vào Màn hình chính iOS.
-- Hướng dẫn cài đặt đơn giản (mở bằng Safari → Chia sẻ → Thêm vào Màn hình chính).
-- Một số mục kèm Shortcuts để tự động hóa hành động trên iOS (nếu có).
-- Tập trung vào trải nghiệm “mở nhanh” cho các ứng dụng và trang thường dùng.
+## 📸 Hình ảnh Demo
+*(Sếp nhớ tạo thư mục `images` và bỏ ảnh chụp màn hình vào đó, đổi tên file thành `demo.png`)*
+<p align="center">
+  <img src="./images/demo.png" alt="App Demo" width="300">
+</p>
 
-## Yêu cầu
+---
 
-- Thiết bị iOS (iPhone, iPad) có trình duyệt Safari.
-- Phiên bản iOS hỗ trợ chức năng "Add to Home Screen" (thường iOS 11+).
-- Để sử dụng Shortcuts, cần ứng dụng Shortcuts (Phím tắt) của Apple.
+## ✨ Tính năng nổi bật
 
-## Hướng dẫn cài đặt & sử dụng
+- 🍎 **Tối ưu cho iOS/iPadOS:** Giao diện kính mờ (Glassmorphism) đúng chuẩn VisionOS.
+- ⚡ **Gọi Shortcuts siêu nhanh:** Chỉ cần 1 chạm để mở ứng dụng qua URL Scheme.
+- 🎨 **Hiệu ứng đỉnh cao:** Tùy chỉnh bóng đổ (Shadow), viền (Stroke), kiểu bo góc (Radius) theo ý thích.
+- 📂 **Quản lý linh hoạt:** Thêm, xóa, đổi tên, sắp xếp icon, Dock tùy biến (Kính, Gỗ iOS 6, Mờ đen).
+- 📴 **Hoạt động ngoại tuyến (Offline):** Tích hợp Service Worker giúp mở nhanh khi mất mạng.
+- 🌙 **Hỗ trợ Dark Mode:** Tự động chuyển giao diện tối khi hệ thống bật Dark Mode.
 
-1. Mở trang chứa Webclip bằng Safari trên iPhone / iPad.  
-2. Chạm biểu tượng Chia sẻ (Share).  
-3. Chọn "Thêm vào Màn hình chính" (Add to Home Screen).  
-4. Webclip sẽ xuất hiện như một biểu tượng trên Màn hình chính — chạm vào đó để mở nhanh nội dung tương ứng.
+---
 
-### Ghi chú về Shortcuts
+## 🚀 Hướng dẫn sử dụng
 
-- Nếu mục trong repo kèm tệp phím tắt, làm theo hướng dẫn tương ứng (nhập Shortcut vào app Phím tắt) và cấp quyền nếu hệ thống yêu cầu.
-- Một số shortcut có thể cần cấu hình thêm (ví dụ: nhập API key, đường dẫn, hoặc quyền truy cập).
+### 1. Cài đặt lên iPhone / iPad:
+1. Mở trang GitHub Pages (Webclip) bằng trình duyệt **Safari**.
+2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
+3. Đặt tên cho ngắn gọn (ví dụ: AppList) và bấm **Add**.
 
-## Lưu ý quan trọng
+### 2. Tạo Shortcuts trên iOS (Bắt buộc):
+1. Mở app **Shortcuts** (Phím tắt) trên iPhone.
+2. Tạo Shortcut mới với tên **`Open App Launcher`** (Đúng tên này để web gọi được).
+3. Thêm hành động **Receive Input from URL** (Nhận đầu vào từ URL).
+4. Chạy lệnh mở ứng dụng dựa trên Input nhận được (Tên hoặc Bundle ID).
 
-- Để hoạt động tốt nhất, bắt buộc thêm Webclip vào Màn hình chính (không chỉ mở trong tab Safari).
-- Tùy vào cách hoạt động của mỗi mục (Webclip hay Shortcut), trải nghiệm có thể khác nhau giữa các thiết bị và phiên bản iOS.
+---
 
-## Cách đóng góp
+## 🛠️ Công nghệ sử dụng
 
-- Fork repo, tạo nhánh mới, thêm mục Webclip / Shortcut kèm hướng dẫn rõ ràng, và gửi Pull Request.  
-- Mô tả rõ: nguồn, cách cài, nếu cần quyền/khóa (không đưa thông tin nhạy cảm công khai).  
-- Kiểm tra cẩn thận link/shortcut trước khi gửi PR.
+- **Ngôn ngữ:** HTML5, CSS3, JavaScript (ES6+).
+- **Nền tảng:** Web Clip (PWA) trên iOS.
+- **Công cụ:** Visual Studio Code, GitHub Pages.
 
-## Báo lỗi & Yêu cầu tính năng
+---
 
-- Mở issue mô tả chi tiết: thiết bị, phiên bản iOS, bước tái tạo lỗi, và link đến mục liên quan nếu có.
+## 📄 Giấy phép
+
+Dự án được phát hành dưới giấy phép **[MIT License](LICENSE)**. Bạn có thể sử dụng, chỉnh sửa và phát triển thêm cho mục đích cá nhân.
+
+---
+
+## 💖 Donate & Ủng hộ
+
+Nếu thấy dự án hữu ích, hãy bấm **Star** ⭐ cho repo và theo dõi kênh của mình nhé!
+
+<a href="https://browse.shortcuty.app/user/Sentechtipsvn">
+  <img src="https://img.shields.io/badge/Follow-Sentechtipsvn-1DA1F2?style=for-the-badge&logo=x&logoColor=white" alt="Follow">
+</a>
+
+<a href="mailto:sentechtips@gmail.com">
+  <img src="https://img.shields.io/badge/Contact-Email-red?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
+</a>
