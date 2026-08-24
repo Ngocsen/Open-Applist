@@ -1,25 +1,73 @@
 {
-  "common": { "app_title": "AppList", "loading": "Loading..." },
-  "button": { "add": "Add", "close": "Close", "view_more": "View more", "confirm": "OK", "cancel": "Cancel" },
-  "app_menu": { "move_top": "Move to top", "rename": "Rename", "delete": "Delete" },
-  "modal": { "title_add_app": "Add App", "search_placeholder": "Search apps...", "max_apps_limit": "You can only add up to {max} apps." },
-  "messages": { "prompt_rename_app": "Enter new name for app:", "reset_confirm": "Clear current app list and reset to default?" },
-  "dock_info": { "app_version": "• Name: Snowboard\n• Author: Sentechtipvn 🇻🇳\n• This Webclip simulates an iPhone home screen, combined with Shortcuts to open common apps.\n• This version allows you to customize the display in your own style.\n• Best to add it to your Home Screen for the best experience." },
-  "info_popup": { "title": "Sentechtipsvn", "contact": "Contact", "follow": "Follow channel", "info": "Info" },
+  "common": {
+    "app_title": "AppList",
+    "loading": "Loading...",
+    "hide_app_name": "Hide App Labels",
+    "show_app_name": "Show App Labels",
+    "fast_rename_mode": "Fast Rename Mode",
+    "export_config": "📤 Export Config",
+    "import_config": "📥 Import"
+  },
+  "button": {
+    "add": "Add",
+    "close": "Close",
+    "view_more": "View more",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save_config": "Save Config"
+  },
+  "app_menu": {
+    "move_top": "Move to top",
+    "rename": "Rename",
+    "delete": "Delete",
+    "manage_apps": "App Management"
+  },
+  "modal": {
+    "title_add_app": "Add App",
+    "search_placeholder": "Search apps...",
+    "max_apps_limit": "You can only add up to {max} apps."
+  },
+  "messages": {
+    "prompt_rename_app": "Enter new name for app:",
+    "reset_confirm": "Clear current app list and reset to default?",
+    "config_copied": "Configuration copied to clipboard",
+    "prompt_import_code": "Paste your configuration code here:",
+    "import_success": "Configuration imported successfully!",
+    "import_error": "Invalid configuration code!"
+  },
+  "dock_info": {
+    "app_version": "• Name: Snowboard\n• Author: Sentechtipsvn 🇻🇳\n• This Webclip simulates an iPhone home screen, combined with Shortcuts to open common apps.\n• This version allows you to customize the display in your own style.\n• Best to add it to your Home Screen for the best experience."
+  },
+  "info_popup": {
+    "title": "Sentechtipsvn",
+    "contact": "Contact",
+    "follow": "Follow channel",
+    "info": "Info"
+  },
   "effects": {
     "title": "Icon Effects",
+    "vision_stroke": "VisionOS Border",
     "mark_label": "Mark Style",
     "shadow_direction_label": "Shadow direction:",
     "shadow_blur_label": "Blur:",
-    "shadow_blur_helper": "Only 1 to 100 allowed",
     "shadow_offset_label": "Offset:",
-    "shadow_offset_helper": "Only 1 to 100 allowed",
     "shadow_opacity_label": "Opacity:",
-    "shadow_opacity_helper": "Only 1 to 100 allowed",
     "radius_label": "Icon Corner Style",
     "save": "Save Effects",
     "cancel": "Cancel",
-    "settings": { "title": "Settings", "effects_menu": "Icons Effects", "dock_menu": "Dock" },
-    "dock": { "title": "Dock", "glass": "Glass Dock", "wood": "Wood Dock (iOS 6)", "blur": "Black Blur Dock", "save": "Save Effects", "cancel": "Cancel" }
+    "settings": {
+      "title": "Settings",
+      "effects_menu": "Icons Effects",
+      "dock_menu": "Dock"
+    },
+    "dock": {
+      "title": "Dock",
+      "glass": "Glass Dock",
+      "wood": "Wood Dock (iOS 6)",
+      "blur": "Black Blur Dock",
+      "disable": "Disable Dock",
+      "save": "Save Config",
+      "cancel": "Cancel"
+    }
   }
 }
