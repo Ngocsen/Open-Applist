@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V6.6 - Dynamic Language Map</title>
+    <title>Snowboard V6.7 - Perfect Position</title>
 </head>
 <body>
 
@@ -171,22 +171,17 @@
         initUI();
     });
 
-    // HÀM MAP DỮ LIỆU TỰ ĐỘNG TỪ FILE JSON SANG GIAO DIỆN HTML
     function applyLanguage() {
         if (!langData.effects) return;
-        
-        // Popup Info
         document.getElementById('infoTitle').innerText = langData.info_popup?.title || 'Sentechtipsvn';
         document.getElementById('btnMail').innerText = langData.info_popup?.contact || 'Liên hệ';
         document.getElementById('btnFollow').innerText = langData.info_popup?.follow || 'Theo dõi kênh';
         document.getElementById('btnInfoDetails').innerText = langData.info_popup?.info || 'Thông tin';
 
-        // Popup Main Settings
         document.getElementById('txtSettingTitle').innerText = langData.effects.settings?.title || 'Cài đặt';
         document.getElementById('openEffectsBtn').innerText = langData.effects.settings?.effects_menu || 'Icons Effects';
         document.getElementById('openDockBtn').innerText = langData.effects.settings?.dock_menu || 'Dock';
 
-        // Popup Effect
         document.getElementById('txtEffectTitle').innerText = langData.effects?.title || 'Hiệu ứng Icon';
         document.getElementById('lblMarkStyle').innerText = langData.effects?.mark_label || 'Kiểu Mark';
         document.getElementById('lblShadowDirection').innerText = langData.effects?.shadow_direction_label || 'Hướng đổ bóng:';
@@ -196,14 +191,12 @@
         document.getElementById('lblRadiusStyle').innerText = langData.effects?.radius_label || 'Kiểu Bo góc Icon';
         document.getElementById('saveEffectBtn').innerText = langData.effects?.save || 'Lưu hiệu ứng';
 
-        // Popup Dock
         document.getElementById('txtDockTitle').innerText = langData.effects.dock?.title || 'Dock';
         document.getElementById('txtDockGlass').innerText = langData.effects.dock?.glass || 'Dock Kính trong suốt';
         document.getElementById('txtDockWood').innerText = langData.effects.dock?.wood || 'Dock Gỗ (iOS 6)';
         document.getElementById('txtDockBlur').innerText = langData.effects.dock?.blur || 'Dock Mờ Đen';
         document.getElementById('saveDockBtn').innerText = langData.effects.dock?.save || 'Lưu cấu hình';
 
-        // Nút dùng chung
         document.querySelectorAll('.lang-close').forEach(el => el.innerText = langData.button?.close || 'Đóng');
         document.querySelectorAll('.lang-cancel').forEach(el => el.innerText = langData.button?.cancel || 'Huỷ');
         document.getElementById('txtAddAppTitle').innerText = '➕ ' + (langData.modal?.title_add_app || 'Thêm ứng dụng');
@@ -312,9 +305,10 @@
             if(isDeleteMode) { toggleDeleteMode(); return; }
             if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
             else {
+                // ĐO TÂM CHUẨN XÁC CỦA NÚT SETTING TRONG DOCK
                 const rect = setBtn.getBoundingClientRect();
                 drawerWrapper.style.display = 'flex';
-                drawerWrapper.style.bottom = 'calc(90px + env(safe-area-inset-bottom, 20px))';
+                // ĐỊNH VỊ CẮT TÂM VÀO ĐÚNG ĐẦU ICON SETTING
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.transform = 'translateX(-50%)';
                 void drawerWrapper.offsetWidth; 
@@ -375,7 +369,6 @@
         document.getElementById('settingsBtn').onclick = () => {
             document.getElementById('settingsBtn').style.display='none';
             drawerWrapper.style.display='flex';
-            drawerWrapper.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
             drawerWrapper.style.left = 'auto';
             drawerWrapper.style.right = '20px';
             drawerWrapper.style.transform = 'none';
