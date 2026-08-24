@@ -7,20 +7,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V6.7 - Perfect Position</title>
+    <title>Snowboard V6.8 - Perfect Drawer Fixed</title>
 </head>
 <body>
 
 <div id="toast">Thông báo</div>
+<div class="app-container"><div class="app-grid" id="appGrid"></div></div>
 
-<div class="app-container">
-    <div class="app-grid" id="appGrid"></div>
-</div>
-
-<button id="settingsBtn" aria-label="Cài đặt">
-    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
-</button>
-
+<button id="settingsBtn" aria-label="Cài đặt"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
 <div id="dockArea" class="dock-container" style="display:none;"></div>
 
 <div id="drawerWrapper">
@@ -80,46 +74,12 @@
         <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 12px; border-radius: 14px;">
             <span style="font-weight: 600; color: #1e1e2f;">Viền VisionOS</span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label>
         </div>
-        <div style="margin-bottom: 16px;">
-            <label id="lblMarkStyle"></label>
-            <select id="markStyle" class="input-num">
-                <option value="0">Liquid Glass</option>
-                <option value="1">Crystal Shine</option>
-                <option value="2">Holographic</option>
-                <option value="3">Matte Dark</option>
-                <option value="4">Classic Glossy</option>
-            </select>
-        </div>
-        <div style="margin-bottom: 16px;">
-            <label id="lblShadowDirection"></label>
-            <div class="direction-container">
-                <button class="dir-btn" data-dir="left">◀︎</button>
-                <button class="dir-btn" data-dir="right">►</button>
-                <button class="dir-btn" data-dir="center">❖</button>
-                <button class="dir-btn" data-dir="top">▲</button>
-                <button class="dir-btn" data-dir="bottom">▼</button>
-            </div>
-        </div>
-        <div style="margin-bottom: 16px;">
-            <label id="lblShadowBlur"></label>
-            <input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10">
-        </div>
-        <div style="margin-bottom: 16px;">
-            <label id="lblShadowOffset"></label>
-            <input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10">
-        </div>
-        <div style="margin-bottom: 16px;">
-            <label id="lblShadowOpacity"></label>
-            <input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30">
-        </div>
-        <div style="margin-bottom: 16px;">
-            <label id="lblRadiusStyle"></label>
-            <select id="radiusStyle" class="input-num">
-                <option value="0">Squircle (Chuẩn Apple)</option>
-                <option value="1">Tròn hoàn toàn</option>
-                <option value="2">Vuông nhẹ</option>
-            </select>
-        </div>
+        <div style="margin-bottom: 16px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div>
+        <div style="margin-bottom: 16px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div>
+        <div style="margin-bottom: 16px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10"></div>
+        <div style="margin-bottom: 16px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10"></div>
+        <div style="margin-bottom: 16px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30"></div>
+        <div style="margin-bottom: 16px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div>
         <button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button>
         <button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button>
     </div>
@@ -305,12 +265,12 @@
             if(isDeleteMode) { toggleDeleteMode(); return; }
             if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
             else {
-                // ĐO TÂM CHUẨN XÁC CỦA NÚT SETTING TRONG DOCK
+                // Chỉ lấy tâm Left, phó mặc chiều cao cho CSS tự định vị an toàn
                 const rect = setBtn.getBoundingClientRect();
                 drawerWrapper.style.display = 'flex';
-                // ĐỊNH VỊ CẮT TÂM VÀO ĐÚNG ĐẦU ICON SETTING
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.transform = 'translateX(-50%)';
+                // (Đã xóa dòng fix cứng style.bottom ở đây vì CSS !important đã lo phần đệm trên Dock)
                 void drawerWrapper.offsetWidth; 
                 drawerWrapper.classList.add('open');
                 document.getElementById('dockSetInner').innerHTML = '<span style="font-size:24px; color:#fff; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">✕</span>';
