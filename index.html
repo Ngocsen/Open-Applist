@@ -133,6 +133,8 @@
 
     function applyLanguage() {
         if (!langData.effects) return;
+        
+        // Cập nhật nút Info từ vi_VN.json
         document.getElementById('infoTitle').innerText = langData.info_popup?.title || 'Sentechtipsvn';
         document.getElementById('btnMail').innerText = langData.info_popup?.contact || 'Liên hệ';
         document.getElementById('btnFollow').innerText = langData.info_popup?.follow || 'Theo dõi kênh';
@@ -265,15 +267,14 @@
             if(isDeleteMode) { toggleDeleteMode(); return; }
             if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
             else {
-                // --- FIX QUAN TRỌNG ---
-                // Reset các inline style còn sót lại từ nút setting ngoài để đảm bảo layout dọc
-                drawerWrapper.style.right = 'auto';
+                const rect = setBtn.getBoundingClientRect();
+                drawerWrapper.style.display='flex';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
+                drawerWrapper.style.right = 'auto';
                 drawerWrapper.style.transform = 'translateX(-50%)';
-                // Ép flex-direction dọc (dù CSS đã có !important nhưng để chắc chắn)
+                // Ép luôn hiển thị dọc và nằm ngay trên đầu icon
                 drawerWrapper.style.flexDirection = 'column-reverse';
-                drawerWrapper.style.display = 'flex';
-                // -----------------------
+                drawerWrapper.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
 
                 void drawerWrapper.offsetWidth; 
                 drawerWrapper.classList.add('open');
@@ -332,12 +333,13 @@
     function initUI() {
         document.getElementById('settingsBtn').onclick = () => {
             document.getElementById('settingsBtn').style.display='none';
+            const rect = document.getElementById('settingsBtn').getBoundingClientRect();
             drawerWrapper.style.display='flex';
-            drawerWrapper.style.left = 'auto';
-            drawerWrapper.style.right = '20px';
-            drawerWrapper.style.transform = 'none';
-            // Đảm bảo ngang khi bật từ nút ngoài
-            drawerWrapper.style.flexDirection = 'row';
+            drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
+            drawerWrapper.style.right = 'auto';
+            drawerWrapper.style.transform = 'translateX(-50%)';
+            drawerWrapper.style.flexDirection = 'column-reverse'; // Luôn dọc
+            drawerWrapper.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
             void drawerWrapper.offsetWidth; 
             drawerWrapper.classList.add('open');
         };
@@ -354,10 +356,11 @@
             document.getElementById('infoModal').classList.add('active');
         };
         
+        // Lấy dữ liệu từ social.json và vi_VN.json cho nút Info
         document.getElementById('btnMail').onclick = () => window.open(socialData.links?.email || 'mailto:sentechtips@gmail.com', '_blank');
         document.getElementById('btnFollow').onclick = () => window.open(socialData.links?.social_follow || 'https://icloud.com', '_blank');
         document.getElementById('btnInfoDetails').onclick = () => { 
-            const infoText = langData.dock_info?.app_version || "• Tên : Snowboard\n• Tác giả : Sentechtipsvn 🇻🇳";
+            const infoText = langData.dock_info?.app_version || "• Tên : Snowboard\n• Tác giả : Sentechtipsvn 🇻🇳\n• Webclip giả lập màn hình chính trên iPhone hỗ kết hợp với ứng dụng phím tắt để mở các ứng dụng thường dùng.";
             alert(infoText); 
         };
         document.getElementById('closeInfoModal').onclick = () => document.getElementById('infoModal').classList.remove('active');
