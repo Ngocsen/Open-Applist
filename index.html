@@ -6,76 +6,43 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
-    <meta name="format-detection" content="telephone=no" />
-    
-    <link rel="manifest" href="manifest.json" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard</title>
-
-    <!-- [QUÂN SƯ AI] CSS NÂNG CẤP V3: VISIONOS STROKE, TOAST, ẨN TÊN -->
-    <style>
-        /* Nút Setting đơn (khi ẩn dock): Chỉnh về 46px */
-        #settingsBtn { width: 46px !important; height: 46px !important; min-width: 46px !important; min-height: 46px !important; border-radius: 50% !important; padding: 10px !important; display: flex; align-items: center; justify-content: center; }
-
-        /* Cân chỉnh vị trí thùng rác */
-        .delete-icon { position: absolute; top: -6px; right: -6px; background: rgba(0, 0, 0, 0.7); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-
-        /* Chỉnh chữ trong popup to bằng nút info */
-        .modal-content button.close-modal, .modal-content .close-modal { font-size: 16px !important; font-weight: 600 !important; }
-
-        /* Tính năng Ẩn Tên Minimalist */
-        body.hide-labels .app-info { display: none !important; }
-
-        /* Viền phản quang VisionOS */
-        .vision-stroke { border: 1px solid rgba(0, 0, 0, 0.15); box-sizing: border-box; }
-
-        /* Thông báo Toast */
-        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; font-weight: 600; z-index: 2000; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        #toast.show { transform: translateX(-50%) translateY(0); }
-
-        /* Dark Mode */
-        @media (prefers-color-scheme: dark) {
-            .modal-content, #drawerContent { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
-            .modal-content h3, #drawerContent h3 { color: #00bcd4 !important; }
-            .vision-stroke { border: 1px solid rgba(255, 255, 255, 0.25); }
-        }
-    </style>
+    <title>Snowboard V4</title>
 </head>
 <body>
 
 <div id="toast">Thông báo</div>
 
-<script>
-window.onerror = function(message, source, lineno, colno, error) { alert("Lỗi: " + message + " tại dòng " + lineno); return false; };
-</script>
-
+<!-- Lưới App Chính -->
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
 
+<!-- Nút Setting Ngoài (Ẩn khi bật Dock) -->
 <button id="settingsBtn" aria-label="Cài đặt">
     <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
 </button>
 
-<div id="dockArea" class="dock-container"></div>
+<!-- Dock -->
+<div id="dockArea" class="dock-container" style="display:none;"></div>
 
+<!-- Ngăn kéo -->
 <div id="drawerWrapper">
     <div id="drawerContent">
-        <button class="drawer-btn" id="btnInfo" aria-label="Thông tin"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
-        <button class="drawer-btn" id="btnReset" aria-label="Khôi phục"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
-        <button class="drawer-btn" id="btnPlugin" aria-label="Plugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
-        <button class="drawer-btn" id="btnDelete" aria-label="Xoá"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
-        <button class="drawer-btn" id="btnSettings" aria-label="Mở cài đặt"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
-        <button id="drawerClose" aria-label="Đóng menu">✕</button>
+        <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
+        <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
+        <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
+        <button class="drawer-btn" id="btnDelete"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
+        <button class="drawer-btn" id="btnSettings"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
+        <button id="drawerClose">✕</button>
     </div>
 </div>
 
-<!-- MODALS CÀI ĐẶT -->
+<!-- CÁC POPUP (Giữ nguyên cấu trúc HTML, loại bỏ bớt phần thừa) -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
-        <h3 id="settingsTitle">Cài đặt</h3>
-        <button class="close-modal" id="openEffectsBtn" style="margin-top: 0;">Icons Effects</button>
+        <h3>Cài đặt</h3>
+        <button class="close-modal" id="openEffectsBtn">Icons Effects</button>
         <button class="close-modal" id="openDockBtn">Dock</button>
         <button class="close-modal" id="openLabelsBtn">Quản lý Ứng dụng</button>
         <div style="display: flex; gap: 10px; margin-top: 16px;">
@@ -89,481 +56,316 @@ window.onerror = function(message, source, lineno, colno, error) { alert("Lỗi:
 <div class="modal-overlay" id="labelsModal">
     <div class="modal-content">
         <h3>Quản lý Ứng dụng</h3>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 600;">Ẩn tên ứng dụng</span>
-            <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label>
-        </div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 600;">Hiện tên ứng dụng</span>
-            <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label>
-        </div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;">
-            <span style="font-weight: 600;">Chế độ Đổi tên nhanh</span>
-            <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label>
-        </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label> </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label> </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"> <span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label> </div>
         <button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;">Lưu cấu hình</button>
         <button class="close-modal" id="closeLabelsBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
 </div>
 
-<!-- CÁC MODAL KHÁC GIỮ NGUYÊN -->
-<div class="modal-overlay" id="dockModal">
-    <div class="modal-content">
-        <h3 id="dockTitle">Dock</h3>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="checkbox" id="dockGlassToggle"><span class="slider"></span></label> <span>Dock Kính trong suốt</span></div>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="checkbox" id="dockWoodToggle"><span class="slider"></span></label> <span>Dock Gỗ (iOS 6)</span></div>
-        <div style="margin-bottom: 10px;"><label class="switch"><input type="checkbox" id="dockBlurToggle"><span class="slider"></span></label> <span>Dock Mờ Đen</span></div>
-        <button class="close-modal" id="saveDockBtn">Lưu hiệu ứng</button>
-        <button class="close-modal" id="closeDockBtn">Huỷ</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="infoModal">
-    <div class="modal-content">
-        <h3 id="infoModalTitle">Sentechtipsvn</h3>
-        <div class="action-list" style="display: flex; flex-direction: column; gap: 10px;">
-            <button class="close-modal" id="btnMail" style="margin-top: 0;">Liên hệ</button>
-            <button class="close-modal" id="btnFollow" style="margin-top: 0;">Theo dõi kênh</button>
-            <button class="close-modal" id="btnInfoDetails" style="margin-top: 0;">Thông tin</button>
-        </div>
-        <button class="close-modal" id="closeInfoModalBtn">Đóng</button>
-    </div>
-</div>
-
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
-        <h3 id="effectTitle">Hiệu ứng Icon</h3>
-        
-        <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 12px; border-radius: 14px; box-shadow: var(--shadow-box);">
-            <span style="font-weight: 600;">Viền VisionOS</span>
-            <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label>
+        <h3>Hiệu ứng Icon</h3>
+        <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 12px; border-radius: 14px;">
+            <span style="font-weight: 600;">Viền VisionOS</span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label>
         </div>
-
-        <div class="control-group" style="margin-bottom: 16px;">
-            <label id="markLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Kiểu Mark</label>
-            <select id="markStyle" style="width: 100%; padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); background: var(--color-input-bg); font-size: 14px;">
-                <option value="0">Liquid Glass</option> <option value="1">Crystal Shine</option> <option value="2">Holographic</option> <option value="3">Matte Dark</option> <option value="4">Classic Glossy</option>
-            </select>
-        </div>
-        <div class="control-group" style="margin-bottom: 16px;">
-            <label id="shadowLabel" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Hướng đổ bóng</label>
-            <div class="direction-container" id="shadowDirectionContainer">
-                <button class="dir-btn" data-dir="left">◀︎</button> <button class="dir-btn" data-dir="right">►</button> <button class="dir-btn" data-dir="center">❖</button> <button class="dir-btn" data-dir="top">▲</button> <button class="dir-btn" data-dir="bottom">▼</button>
+        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Kiểu Mark</label> <select id="markStyle"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select> </div>
+        <div style="margin-bottom: 16px;">
+            <label style="display:block; margin-bottom:6px;">Hướng đổ bóng</label>
+            <div class="direction-container">
+                <button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button>
             </div>
         </div>
-        <div class="input-group" style="margin-bottom: 16px;"> <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm nhạt (Blur)</label> <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10"> </div>
-        <div class="input-group" style="margin-bottom: 16px;"> <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ xa gần (Offset)</label> <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10"> </div>
-        <div class="input-group" style="margin-bottom: 16px;"> <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Độ đậm (Opacity)</label> <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30"> </div>
-        <div class="control-group" style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px;">Kiểu Bo góc Icon</label>
-            <select id="radiusStyle" style="width: 100%; padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.5); background: var(--color-input-bg); font-size: 14px;">
-                <option value="0">Squircle (Chuẩn Apple)</option> <option value="1">Tròn hoàn toàn</option> <option value="2">Vuông nhẹ</option>
-            </select>
-        </div>
-        <button class="close-modal" id="saveEffectBtn">Lưu hiệu ứng</button>
-        <button class="close-modal" id="closeEffectBtn">Huỷ</button>
+        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Độ đậm nhạt (Blur)</label> <input type="number" id="shadowBlurInput" class="input-num" min="1" max="100" value="10"> </div>
+        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Độ xa gần (Offset)</label> <input type="number" id="shadowOffsetInput" class="input-num" min="1" max="100" value="10"> </div>
+        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Độ đậm (Opacity)</label> <input type="number" id="shadowOpacityInput" class="input-num" min="1" max="100" value="30"> </div>
+        <div style="margin-bottom: 16px;"> <label style="display:block; margin-bottom:6px;">Kiểu Bo góc Icon</label> <select id="radiusStyle"><option value="0">Squircle (Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select> </div>
+        <button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;">Lưu hiệu ứng</button>
+        <button class="close-modal" id="closeEffectBtn" style="color: #ff3b30;">Huỷ</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="dockModal">
+    <div class="modal-content">
+        <h3>Dock</h3>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label> <span>Kính trong suốt</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label> <span>Gỗ (iOS 6)</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label> <span>Mờ Đen</span></div>
+        <div style="margin-bottom: 10px;"><label class="switch"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label> <span>Tắt Dock</span></div>
+        <button class="close-modal" id="saveDockBtn" style="color: #00bcd4;">Lưu cấu hình</button>
+        <button class="close-modal" id="closeDockBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
 </div>
 
 <div class="modal-overlay" id="addAppModal">
     <div class="modal-content">
-        <h3 id="modalTitle">➕ Thêm ứng dụng</h3>
-        <input type="text" class="search-box" id="searchBox" placeholder="Tìm kiếm..." oninput="searchAppsStatic(this.value)" />
-        <div class="modal-list" id="modalList"></div>
-        <button id="loadMoreBtn">Xem thêm</button>
+        <h3>➕ Thêm ứng dụng</h3>
+        <div class="modal-list" id="modalList" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; margin-top:10px;"></div>
         <button class="close-modal" id="closeModalBtn">Đóng</button>
     </div>
 </div>
 
-<div class="context-menu" id="contextMenu">
-    <div class="menu-item" id="menuMoveTop">Đưa lên đầu</div>
-    <div class="menu-item" id="menuRename">Đổi tên</div>
-    <div class="menu-item delete" id="menuDelete">Xoá</div>
-</div>
-
 <script>
+    // Failsafe Database
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     let appDatabase = {}, socialData = { links: {} };
     const basePath = '.';
     
-    // Khởi tạo các Key Storage
-    const STORAGE_KEY = 'myAppList', STORAGE_NAME_KEY = 'myAppNames', STORAGE_CUSTOM_KEY = 'myCustomApps', DOCK_KEY = 'myDockApps';
-    const MARK_KEY = 'effectMarkStyle', RADIUS_KEY = 'effectRadiusStyle', SHADOW_DIRECTION_KEY = 'effectShadowDirection';
-    const SHADOW_BLUR_KEY = 'effectShadowBlur', SHADOW_OFFSET_KEY = 'effectShadowOffset', SHADOW_OPACITY_KEY = 'effectShadowOpacity';
-    const DOCK_STYLE_KEY = 'dockStyle', STROKE_KEY = 'effectStroke', HIDE_LABELS_KEY = 'hideLabels';
-    
-    const MAX_APPS = 12, MAX_DOCK_APPS = 3, INITIAL_DISPLAY_COUNT = 12;
-    let currentDisplayCount = INITIAL_DISPLAY_COUNT, currentSelectedAppId = null;
-    let isMenuOpen = false, isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
-    
-    const grid = document.getElementById('appGrid');
-    const modal = document.getElementById('addAppModal'), modalList = document.getElementById('modalList');
-    const dockArea = document.getElementById('dockArea'), drawerWrapper = document.getElementById('drawerWrapper'), settingsBtn = document.getElementById('settingsBtn');
+    // Storage Keys
+    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels' };
+    const MAX_APPS = 12, MAX_DOCK_APPS = 3;
+    let isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
+    let isDragging = false, dragClone = null, draggedAppId = null, dragType = null;
+
+    const grid = document.getElementById('appGrid'), dockArea = document.getElementById('dockArea'), drawerWrapper = document.getElementById('drawerWrapper');
     const DEFAULT_APPS = ['com.deepseek.chat', 'vn.com.vng.zingalo', 'com.facebook.Facebook', 'com.apple.mobilesafari'];
 
-    // Load DB
+    // Load Dữ liệu an toàn
     Promise.all([
-        fetch(basePath + '/db.json').then(res => res.ok ? res.json() : {}).catch(() => FALLBACK_DB),
-        fetch(basePath + '/system-app.json').then(res => res.ok ? res.json() : {}).catch(() => ({})),
-        fetch(basePath + '/social.json').then(res => res.ok ? res.json() : {}).catch(() => ({ links: {} }))
+        fetch(basePath + '/db.json').then(res => res.json()).catch(() => FALLBACK_DB),
+        fetch(basePath + '/system-app.json').then(res => res.json()).catch(() => ({})),
+        fetch(basePath + '/social.json').then(res => res.json()).catch(() => ({ links: { email: '', social_follow: '', plugin_shortcut: '' } }))
     ]).then(([db, sysApp, social]) => {
-        appDatabase = { ...db, ...sysApp }; socialData = social || { links: {} };
+        appDatabase = { ...db, ...sysApp }; socialData = social;
         initUI();
     });
 
-    // Helper Functions
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg; toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2500);
+    // Helper
+    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    function closeDrawerSecure() { 
+        drawerWrapper.classList.remove('open'); 
+        setTimeout(() => drawerWrapper.style.display = 'none', 250); // Đợi CSS transition
+        if (document.body.classList.contains('dock-active')) {
+            const dockSetBtn = document.getElementById('dockSetInner');
+            if(dockSetBtn) dockSetBtn.innerHTML = `<img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain;">`;
+        } else if (!isDeleteMode) {
+            document.getElementById('settingsBtn').style.display = 'flex';
+        }
+    }
+    
+    function getVals(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch(e) { return def; } }
+    function setVals(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+    function swapApps(id1, id2, zone) {
+        let arr = getVals(zone === 'dock' ? ST_KEYS.dock : ST_KEYS.app, zone === 'dock' ? [] : DEFAULT_APPS);
+        let i1 = arr.indexOf(id1), i2 = arr.indexOf(id2);
+        if(i1 > -1 && i2 > -1) { [arr[i1], arr[i2]] = [arr[i2], arr[i1]]; setVals(zone === 'dock' ? ST_KEYS.dock : ST_KEYS.app, arr); zone === 'dock' ? renderDock() : renderGrid(); }
     }
 
-    function getCustomNames() { return JSON.parse(localStorage.getItem(STORAGE_NAME_KEY) || '{}'); }
-    function getSelectedApps() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || DEFAULT_APPS; }
-    function saveSelectedApps(ids) { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); renderGrid(); closeContextMenu(); }
-    function getDockApps() { return JSON.parse(localStorage.getItem(DOCK_KEY)) || []; }
-    function saveDockApps(ids) { localStorage.setItem(DOCK_KEY, JSON.stringify(ids)); renderDock(); }
-
-    // [QUÂN SƯ AI] BIẾN CHỨA DRAG & DROP
-    let isDragging = false, dragClone = null, draggedAppId = null, dragType = null;
-    
-    function swapApps(id1, id2, zone) {
-        if(zone === 'grid') {
-            let current = getSelectedApps();
-            let i1 = current.indexOf(id1), i2 = current.indexOf(id2);
-            if(i1 > -1 && i2 > -1) { [current[i1], current[i2]] = [current[i2], current[i1]]; saveSelectedApps(current); }
-        } else if(zone === 'dock') {
-            let current = getDockApps();
-            let i1 = current.indexOf(id1), i2 = current.indexOf(id2);
-            if(i1 > -1 && i2 > -1) { [current[i1], current[i2]] = [current[i2], current[i1]]; saveDockApps(current); }
-        }
+    function deleteApp(id) {
+        setVals(ST_KEYS.app, getVals(ST_KEYS.app, []).filter(i => i !== id));
+        setVals(ST_KEYS.dock, getVals(ST_KEYS.dock, []).filter(i => i !== id));
+        renderGrid();
     }
 
     function createAppItem(id, data, isDockItem = false) {
-        const div = document.createElement('div'); div.className = 'app-item';
-        div.dataset.id = id; div.dataset.zone = isDockItem ? 'dock' : 'grid';
+        const div = document.createElement('div'); div.className = 'app-item'; div.dataset.id = id; div.dataset.zone = isDockItem ? 'dock' : 'grid';
+        let dName = getVals(ST_KEYS.name, {})[id] || data.Name;
+        let iconSrc = data.icon && !data.icon.startsWith('http') && !data.icon.startsWith('/') ? basePath + '/' + data.icon : data.icon;
         
-        const useIcon = data.icon && data.icon.trim() !== "";
-        let displayName = getCustomNames()[id] || data.Name;
-        let iconSrc = data.icon; if (iconSrc && !iconSrc.startsWith('http') && !iconSrc.startsWith('/')) iconSrc = basePath + '/' + iconSrc;
-        
-        const mark = localStorage.getItem(MARK_KEY) || '0';
-        const shadowDir = localStorage.getItem(SHADOW_DIRECTION_KEY) || 'bottom';
-        const shadowBlur = parseInt(localStorage.getItem(SHADOW_BLUR_KEY) || '10');
-        const shadowOffset = parseInt(localStorage.getItem(SHADOW_OFFSET_KEY) || '10');
-        const shadowOpacity = parseInt(localStorage.getItem(SHADOW_OPACITY_KEY) || '30');
-        const radius = localStorage.getItem(RADIUS_KEY) || '0';
-        const stroke = localStorage.getItem(STROKE_KEY) === 'true';
-        
+        const mark = localStorage.getItem(ST_KEYS.mark) || '0', sDir = localStorage.getItem(ST_KEYS.dir) || 'bottom', radius = localStorage.getItem(ST_KEYS.radius) || '0';
+        const sBlur = localStorage.getItem(ST_KEYS.blur) || '10', sOff = localStorage.getItem(ST_KEYS.offset) || '10', sOp = (localStorage.getItem(ST_KEYS.opacity) || '30') / 100;
+        const stroke = localStorage.getItem(ST_KEYS.stroke) === 'true';
+
+        // Lấy hiệu ứng CSS
+        let radCSS = radius === '1' ? '50%' : radius === '2' ? '12px' : '16px';
+        let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
+        let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
+
         div.innerHTML = `
-            <div class="icon-wrapper ${stroke ? 'vision-stroke' : ''}" style="width:60px; height:60px;">
-                <img class="icon-img" src="${useIcon ? iconSrc : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="fallback-text" style="display:none;">${displayName.charAt(0).toUpperCase()}</span>
-                <div class="mark-overlay"></div>
-                ${isDeleteMode ? '<div class="delete-icon">🗑️</div>' : ''}
+            <div class="icon-wrapper ${stroke ? 'vision-stroke' : ''}" style="border-radius:${radCSS}; box-shadow:${ox}px ${oy}px ${sBlur}px rgba(0,0,0,${sOp});">
+                <img class="icon-img" style="border-radius:${radCSS};" src="${iconSrc}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="fallback-text" style="display:none; border-radius:${radCSS}; background:rgba(255,255,255,0.2); width:100%; height:100%; display:flex; align-items:center; justify-content:center;">${dName.charAt(0).toUpperCase()}</span>
+                <div class="mark-overlay" style="border-radius:${radCSS}; background:${mark==='0'?'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02))':mark==='1'?'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.3) 100%)':'rgba(0,0,0,0.1)'}"></div>
+                ${isDeleteMode ? '<div class="delete-icon">✕</div>' : ''}
             </div>
-            ${isDockItem ? '' : `<div class="app-info"><span class="app-name">${displayName}</span></div>`}
+            ${!isDockItem ? `<div class="app-info"><span class="app-name">${dName}</span></div>` : ''}
         `;
 
-        const wrapper = div.querySelector('.icon-wrapper');
-        const img = div.querySelector('.icon-img');
-        const overlay = div.querySelector('.mark-overlay');
-
-        if (radius === '1') wrapper.style.borderRadius = '50%';
-        else if (radius === '2') wrapper.style.borderRadius = '12px';
-        else wrapper.style.borderRadius = '16px';
-        img.style.borderRadius = wrapper.style.borderRadius;
-        overlay.style.borderRadius = wrapper.style.borderRadius;
-
-        let offsetX = 0, offsetY = 0;
-        if (shadowDir === 'left') offsetX = -shadowOffset; else if (shadowDir === 'right') offsetX = shadowOffset;
-        else if (shadowDir === 'top') offsetY = -shadowOffset; else if (shadowDir === 'bottom') offsetY = shadowOffset;
-
-        const opacityValue = Math.min(Math.max(shadowOpacity, 1), 100) / 100;
-        wrapper.style.boxShadow = `${offsetX}px ${offsetY}px ${shadowBlur}px rgba(0,0,0,${opacityValue})`;
-
-        if (mark === '0') overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02))';
-        else if (mark === '1') overlay.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.3) 100%)';
-        else if (mark === '2') overlay.style.background = 'conic-gradient(from 180deg, rgba(255,0,255,0.15), rgba(0,255,255,0.15), rgba(255,255,0,0.15), rgba(255,0,255,0.15))';
-        else if (mark === '3') overlay.style.background = 'rgba(0,0,0,0.15)';
-        else if (mark === '4') overlay.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.05) 70%)';
-
-        // [QUÂN SƯ AI] XỬ LÝ RIÊNG APP SETTING TRONG DOCK
-        if (id === 'sys_settings') {
-            if (isDeleteMode) {
-                overlay.style.display = 'none';
-                img.outerHTML = '<span style="font-size:24px; color:#fff; z-index:2; position:absolute;">✔️</span>';
-                wrapper.style.background = 'rgba(52, 199, 89, 0.4)';
-                div.onclick = toggleDeleteMode;
-            } else {
-                wrapper.style.background = 'rgba(255, 255, 255, 0.15)';
-                wrapper.style.backdropFilter = 'blur(10px)';
-                img.style.width = '30px'; img.style.height = '30px';
-                img.style.position = 'absolute'; img.style.top = '50%'; img.style.left = '50%'; img.style.transform = 'translate(-50%, -50%)';
-                div.onclick = toggleDockMenu;
-            }
-            return div; // Setting không cần Drag&Drop
-        }
-
-        // Click Xoá
         if(isDeleteMode) {
-            const delIcon = div.querySelector('.delete-icon');
-            if(delIcon) delIcon.onclick = (e) => { e.stopPropagation(); deleteApp(id); };
-            div.onclick = (e) => e.preventDefault();
+            div.querySelector('.delete-icon').onclick = (e) => { e.stopPropagation(); deleteApp(id); };
         } else {
-            div.onclick = () => {
-                if (isFastRenameMode) renameAppPrompt(id, displayName);
-                else openApp(id);
-            };
+            div.onclick = () => isFastRenameMode ? renameApp(id, dName) : window.location.href = "shortcuts://run-shortcut?name=Open App Launcher&input=text&text=" + encodeURIComponent(id);
         }
 
-        // [QUÂN SƯ AI] DRAG & DROP LOGIC
-        let longPressTimer, startX, startY;
+        // Drag & Drop mượt
+        let timer;
         div.addEventListener('touchstart', (e) => {
             if(isDeleteMode) return;
-            const touch = e.touches[0]; startX = touch.clientX; startY = touch.clientY;
-            longPressTimer = setTimeout(() => {
+            const t = e.touches[0];
+            timer = setTimeout(() => {
                 isDragging = true; draggedAppId = id; dragType = isDockItem ? 'dock' : 'grid';
-                const rect = wrapper.getBoundingClientRect();
-                dragClone = wrapper.cloneNode(true);
-                dragClone.style.position = 'fixed'; dragClone.style.top = rect.top + 'px'; dragClone.style.left = rect.left + 'px';
-                dragClone.style.margin = '0'; dragClone.style.zIndex = '9999'; dragClone.style.transform = 'scale(1.15)';
-                dragClone.style.transition = 'none'; dragClone.style.pointerEvents = 'none';
-                document.body.appendChild(dragClone);
-                wrapper.style.opacity = '0.3';
-                if (navigator.vibrate) navigator.vibrate(50);
+                dragClone = div.querySelector('.icon-wrapper').cloneNode(true);
+                Object.assign(dragClone.style, { position:'fixed', top:t.clientY-30+'px', left:t.clientX-30+'px', zIndex:'9999', transform:'scale(1.15)', pointerEvents:'none', margin:0 });
+                document.body.appendChild(dragClone); div.style.opacity = '0.3';
+                if(navigator.vibrate) navigator.vibrate(50);
             }, 500);
         });
-
-        div.addEventListener('touchmove', (e) => {
-            if(isDragging && dragClone) {
-                e.preventDefault();
-                const touch = e.touches[0];
-                dragClone.style.transform = `translate(${touch.clientX - startX}px, ${touch.clientY - startY}px) scale(1.15)`;
-            } else {
-                if(Math.abs(e.touches[0].clientX - startX) > 10 || Math.abs(e.touches[0].clientY - startY) > 10) clearTimeout(longPressTimer);
-            }
-        }, {passive: false});
-
+        div.addEventListener('touchmove', (e) => { if(isDragging && dragClone) { e.preventDefault(); dragClone.style.top = e.touches[0].clientY-30+'px'; dragClone.style.left = e.touches[0].clientX-30+'px'; } else clearTimeout(timer); }, {passive: false});
         div.addEventListener('touchend', (e) => {
-            clearTimeout(longPressTimer);
+            clearTimeout(timer);
             if(isDragging && dragClone) {
-                isDragging = false; dragClone.remove(); dragClone = null; wrapper.style.opacity = '1';
-                wrapper.style.visibility = 'hidden';
-                const touch = e.changedTouches[0];
-                const target = document.elementFromPoint(touch.clientX, touch.clientY);
-                wrapper.style.visibility = 'visible';
-                const targetItem = target ? target.closest('.app-item') : null;
-                if(targetItem && targetItem.dataset.id && targetItem.dataset.id !== draggedAppId && targetItem.dataset.id !== 'sys_settings') {
-                    if(dragType === targetItem.dataset.zone) swapApps(draggedAppId, targetItem.dataset.id, dragType);
-                }
+                isDragging = false; dragClone.remove(); div.style.opacity = '1'; div.style.visibility = 'hidden';
+                let target = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)?.closest('.app-item');
+                div.style.visibility = 'visible';
+                if(target && target.dataset.id && target.dataset.id !== id && target.dataset.id !== 'sys_settings' && dragType === target.dataset.zone) swapApps(id, target.dataset.id, dragType);
             }
         });
-
         return div;
     }
 
     function renderDock() {
-        const currentStyle = localStorage.getItem(DOCK_STYLE_KEY) || 'none';
-        if (currentStyle === 'none') {
-            document.body.classList.remove('dock-active');
-            dockArea.style.display = 'none'; settingsBtn.style.display = 'flex'; drawerWrapper.style.display = 'none';
-            return;
-        } else {
-            document.body.classList.add('dock-active');
-            dockArea.style.display = 'flex'; settingsBtn.style.display = 'none'; drawerWrapper.style.display = 'none';
+        const style = localStorage.getItem(ST_KEYS.dockStyle) || 'none';
+        dockArea.innerHTML = '';
+        if (style === 'none') {
+            document.body.classList.remove('dock-active'); dockArea.style.display = 'none'; closeDrawerSecure(); return;
         }
+        document.body.classList.add('dock-active'); dockArea.style.display = 'flex'; document.getElementById('settingsBtn').style.display = 'none';
+        dockArea.className = 'dock-container dock-style-' + style;
         
-        const mainApps = getSelectedApps();
-        const filteredDockApps = getDockApps().filter(id => !mainApps.includes(id)).slice(0, MAX_DOCK_APPS);
-        dockArea.className = 'dock-container dock-style-' + currentStyle; dockArea.innerHTML = '';
-        
-        filteredDockApps.forEach(id => {
-            if(appDatabase[id]) dockArea.appendChild(createAppItem(id, appDatabase[id], true));
-        });
+        const main = getVals(ST_KEYS.app, DEFAULT_APPS);
+        const dApps = getVals(ST_KEYS.dock, []).filter(id => !main.includes(id)).slice(0, MAX_DOCK_APPS);
+        dApps.forEach(id => { if(appDatabase[id]) dockArea.appendChild(createAppItem(id, appDatabase[id], true)); });
 
-        if (filteredDockApps.length < MAX_DOCK_APPS) {
+        if (dApps.length < MAX_DOCK_APPS) {
             const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center;"><span style="font-size:28px; color:#4f46e5;">+</span></div>`;
-            addBtn.onclick = () => { isAddingDock = true; currentDisplayCount = INITIAL_DISPLAY_COUNT; renderModal(); modal.classList.add('active'); };
+            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2);"><span style="font-size:28px; color:#fff;">+</span></div>`;
+            addBtn.onclick = () => { isAddingDock = true; renderModal(); };
             dockArea.appendChild(addBtn);
         }
 
-        // Bơm App Cài đặt ảo vào cuối Dock
-        dockArea.appendChild(createAppItem('sys_settings', {Name: 'Cài đặt', icon: 'icons/icon_setting.png'}, true));
+        // Nút Setting trong Dock (Icon trong suốt, không nền)
+        const setBtn = document.createElement('div'); setBtn.className = 'app-item'; setBtn.dataset.id = 'sys_settings';
+        setBtn.innerHTML = `
+            <div class="icon-wrapper" style="width:60px; height:60px; background:transparent; box-shadow:none; display:flex; align-items:center; justify-content:center;" id="dockSetInner">
+                ${isDeleteMode ? '<span style="font-size:28px; color:#34c759;">✅</span>' : '<img src="icons/icon_setting.png" onerror="this.outerHTML=\'⚙️\'" style="width:100%; height:100%; object-fit:contain;">'}
+            </div>
+        `;
+        setBtn.onclick = () => {
+            if(isDeleteMode) { toggleDeleteMode(); return; }
+            if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
+            else {
+                drawerWrapper.style.display = 'flex'; void drawerWrapper.offsetWidth; drawerWrapper.classList.add('open');
+                document.getElementById('dockSetInner').innerHTML = '<span style="font-size:28px; color:#fff;">✕</span>';
+            }
+        };
+        dockArea.appendChild(setBtn);
     }
-
-    function toggleDrawer() {
-        if (drawerWrapper.classList.contains('open')) {
-            drawerWrapper.classList.remove('open'); drawerWrapper.style.display = 'none';
-            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; 
-        } else {
-            drawerWrapper.style.display = 'flex'; drawerWrapper.classList.add('open'); settingsBtn.style.display = 'none'; 
-        }
-    }
-    function toggleDockMenu() { toggleDrawer(); }
 
     function renderGrid() {
         grid.innerHTML = '';
-        if(localStorage.getItem(HIDE_LABELS_KEY) === 'true') document.body.classList.add('hide-labels');
-        else document.body.classList.remove('hide-labels');
-
-        getSelectedApps().slice(0, MAX_APPS).forEach(id => {
-            if(appDatabase[id]) grid.appendChild(createAppItem(id, appDatabase[id]));
-        });
-        if (getSelectedApps().length < MAX_APPS) {
+        document.body.classList.toggle('hide-labels', localStorage.getItem(ST_KEYS.hideLab) === 'true');
+        getVals(ST_KEYS.app, DEFAULT_APPS).slice(0, MAX_APPS).forEach(id => { if(appDatabase[id]) grid.appendChild(createAppItem(id, appDatabase[id])); });
+        
+        if (getVals(ST_KEYS.app, []).length < MAX_APPS) {
             const addBtn = document.createElement('div'); addBtn.className = 'app-item';
             addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6);"><span style="font-size:28px; color:#4f46e5;">+</span></div><div class="app-info"><span class="app-name">Thêm</span></div>`;
-            addBtn.onclick = () => { isAddingDock = false; currentDisplayCount = INITIAL_DISPLAY_COUNT; renderModal(); modal.classList.add('active'); };
+            addBtn.onclick = () => { isAddingDock = false; renderModal(); };
             grid.appendChild(addBtn);
         }
         renderDock();
     }
 
-    function renderModal() {
-        modalList.innerHTML = '';
-        const usedIds = [...getSelectedApps(), ...getDockApps()];
-        const displayIds = Object.keys(appDatabase).filter(id => !usedIds.includes(id)).slice(0, currentDisplayCount);
-        displayIds.forEach(id => {
-            const data = appDatabase[id]; const item = document.createElement('div'); item.className = 'modal-item';
-            item.innerHTML = `<img src="${data.icon}"><span class="fallback-text" style="display:none;">${data.Name[0]}</span><span>${data.Name}</span>`;
-            item.onclick = () => {
-                if (isAddingDock) {
-                    let dl = getDockApps(); if(dl.length >= MAX_DOCK_APPS) return alert('Đầy rổ!'); dl.push(id); saveDockApps(dl);
-                } else {
-                    let cl = getSelectedApps(); if(cl.length >= MAX_APPS) return alert('Đầy rổ!'); cl.push(id); saveSelectedApps(cl);
-                }
-                modal.classList.remove('active'); isAddingDock = false;
-            };
-            modalList.appendChild(item);
-        });
-        document.getElementById('loadMoreBtn').style.display = Object.keys(appDatabase).length > currentDisplayCount ? 'block' : 'none';
-    }
-
-    function searchAppsStatic(query) { /* Tương tự logic cũ... */ }
-    function deleteApp(id) { saveSelectedApps(getSelectedApps().filter(i => i !== id)); saveDockApps(getDockApps().filter(i => i !== id)); }
-    function openApp(id) { window.location.href = "shortcuts://run-shortcut?name=Open App Launcher&input=text&text=" + encodeURIComponent(id); }
-    
-    function renameAppPrompt(id, oldName) {
-        const newName = prompt('Nhập tên mới:', oldName);
-        if (newName !== null) { let names = getCustomNames(); if (newName.trim()) names[id] = newName.trim(); else delete names[id]; localStorage.setItem(STORAGE_NAME_KEY, JSON.stringify(names)); renderGrid(); }
-    }
-
     function toggleDeleteMode() {
         isDeleteMode = !isDeleteMode; renderGrid();
-        document.getElementById('btnDelete').innerHTML = isDeleteMode ? '✔️' : '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
-        drawerWrapper.classList.remove('open'); drawerWrapper.style.display = 'none';
-        if (!document.body.classList.contains('dock-active') && !isDeleteMode) settingsBtn.style.display = 'flex';
+        document.getElementById('btnDelete').innerHTML = isDeleteMode ? '<span style="font-size:20px;">✅</span>' : '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
+        // Sửa Bug 3: Đang xoá thì KHÔNG ẨN Drawer. Chỉ ẩn khi thoát.
     }
 
-    // [QUÂN SƯ AI] EXPORT & IMPORT LAYOUT
-    function exportLayout() {
-        const data = {
-            apps: getSelectedApps(), dock: getDockApps(), names: getCustomNames(),
-            effects: { mark: localStorage.getItem(MARK_KEY), radius: localStorage.getItem(RADIUS_KEY), dir: localStorage.getItem(SHADOW_DIRECTION_KEY), blur: localStorage.getItem(SHADOW_BLUR_KEY), offset: localStorage.getItem(SHADOW_OFFSET_KEY), opacity: localStorage.getItem(SHADOW_OPACITY_KEY), dockStyle: localStorage.getItem(DOCK_STYLE_KEY), stroke: localStorage.getItem(STROKE_KEY), hideLabels: localStorage.getItem(HIDE_LABELS_KEY) }
-        };
-        navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => {
-            document.getElementById('settingsModal').classList.remove('active');
-            showToast("Cấu hình đã lưu vào bảng nhớ tạm");
+    function renderModal() {
+        const ml = document.getElementById('modalList'); ml.innerHTML = '';
+        const used = [...getVals(ST_KEYS.app, []), ...getVals(ST_KEYS.dock, [])];
+        Object.keys(appDatabase).filter(id => !used.includes(id)).forEach(id => {
+            const item = document.createElement('div'); item.className = 'app-item';
+            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px;"><img src="${appDatabase[id].icon}" class="icon-img" onerror="this.style.display='none'"></div><span style="font-size:10px; margin-top:4px;">${appDatabase[id].Name}</span>`;
+            item.onclick = () => {
+                let arr = getVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, []);
+                if(arr.length >= (isAddingDock ? MAX_DOCK_APPS : MAX_APPS)) return showToast('Đã đầy rổ!');
+                arr.push(id); setVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, arr);
+                document.getElementById('addAppModal').classList.remove('active'); isAddingDock = false; renderGrid();
+            };
+            ml.appendChild(item);
         });
+        document.getElementById('addAppModal').classList.add('active');
     }
 
-    function importLayout() {
-        const code = prompt("Dán mã cấu hình của bạn vào đây:");
-        if(!code) return;
-        try {
-            const data = JSON.parse(decodeURIComponent(atob(code)));
-            if(data.apps) localStorage.setItem(STORAGE_KEY, JSON.stringify(data.apps));
-            if(data.dock) localStorage.setItem(DOCK_KEY, JSON.stringify(data.dock));
-            if(data.names) localStorage.setItem(STORAGE_NAME_KEY, JSON.stringify(data.names));
-            if(data.effects) {
-                if(data.effects.mark) localStorage.setItem(MARK_KEY, data.effects.mark);
-                if(data.effects.radius) localStorage.setItem(RADIUS_KEY, data.effects.radius);
-                if(data.effects.dir) localStorage.setItem(SHADOW_DIRECTION_KEY, data.effects.dir);
-                if(data.effects.blur) localStorage.setItem(SHADOW_BLUR_KEY, data.effects.blur);
-                if(data.effects.offset) localStorage.setItem(SHADOW_OFFSET_KEY, data.effects.offset);
-                if(data.effects.opacity) localStorage.setItem(SHADOW_OPACITY_KEY, data.effects.opacity);
-                if(data.effects.dockStyle) localStorage.setItem(DOCK_STYLE_KEY, data.effects.dockStyle);
-                if(data.effects.stroke) localStorage.setItem(STROKE_KEY, data.effects.stroke);
-                if(data.effects.hideLabels) localStorage.setItem(HIDE_LABELS_KEY, data.effects.hideLabels);
-            }
-            document.getElementById('settingsModal').classList.remove('active');
-            showToast("Đã nhập cấu hình thành công!");
-            setTimeout(() => location.reload(), 1000);
-        } catch(e) { alert("Mã cấu hình không hợp lệ!"); }
+    function renameApp(id, old) {
+        let n = prompt('Nhập tên mới:', old);
+        if(n !== null) { let dict = getVals(ST_KEYS.name, {}); n.trim() ? dict[id] = n.trim() : delete dict[id]; setVals(ST_KEYS.name, dict); renderGrid(); }
     }
+
+    function openSettings(modalId) { closeDrawerSecure(); document.getElementById(modalId).classList.add('active'); }
 
     function initUI() {
-        settingsBtn.onclick = toggleDrawer;
-        document.getElementById('drawerClose').onclick = () => { drawerWrapper.classList.remove('open'); drawerWrapper.style.display = 'none'; if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex'; };
+        // Nút Setting Ngoài & Nút X Ngăn kéo
+        document.getElementById('settingsBtn').onclick = () => { document.getElementById('settingsBtn').style.display='none'; drawerWrapper.style.display='flex'; void drawerWrapper.offsetWidth; drawerWrapper.classList.add('open'); };
+        document.getElementById('drawerClose').onclick = closeDrawerSecure;
+
+        // Các nút trong ngăn kéo (An toàn)
         document.getElementById('btnDelete').onclick = toggleDeleteMode;
-        document.getElementById('btnReset').onclick = () => { if(confirm("Khôi phục mặc định?")) { localStorage.clear(); location.reload(); } };
+        document.getElementById('btnReset').onclick = () => { if(confirm("Khôi phục mặc định?")){ localStorage.clear(); location.reload(); }};
+        document.getElementById('btnInfo').onclick = () => { closeDrawerSecure(); alert("Snowboard V4\nPhát triển bởi Sentechtipsvn"); };
+        document.getElementById('btnPlugin').onclick = () => { closeDrawerSecure(); window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts', '_blank'); };
+        document.getElementById('btnSettings').onclick = () => openSettings('settingsModal');
+
+        // Bảng Settings
+        document.getElementById('openEffectsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('effectModal'); };
+        document.getElementById('openDockBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('dockModal'); };
+        document.getElementById('openLabelsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('labelsModal'); };
         
-        // Mở Settings
-        document.getElementById('btnSettings').onclick = () => {
-            drawerWrapper.classList.remove('open'); drawerWrapper.style.display = 'none';
-            if (!document.body.classList.contains('dock-active')) settingsBtn.style.display = 'flex';
-            document.getElementById('settingsModal').classList.add('active');
-        };
+        // Sửa Bug 4: Đổ bóng
+        document.querySelectorAll('.dir-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
+        let currentDir = localStorage.getItem(ST_KEYS.dir) || 'bottom';
+        document.querySelector(`.dir-btn[data-dir="${currentDir}"]`)?.classList.add('active');
 
-        // Nút Import / Export
-        document.getElementById('exportBtn').onclick = exportLayout;
-        document.getElementById('importBtn').onclick = importLayout;
-
-        // Bảng Quản lý Tên
-        document.getElementById('openLabelsBtn').onclick = () => {
-            document.getElementById('settingsModal').classList.remove('active');
-            document.getElementById('hideLabelsToggle').checked = localStorage.getItem(HIDE_LABELS_KEY) === 'true';
-            document.getElementById('showLabelsToggle').checked = localStorage.getItem(HIDE_LABELS_KEY) !== 'true';
-            document.getElementById('fastRenameToggle').checked = isFastRenameMode;
-            document.getElementById('labelsModal').classList.add('active');
-        };
-        document.getElementById('saveLabelsBtn').onclick = () => {
-            localStorage.setItem(HIDE_LABELS_KEY, document.getElementById('hideLabelsToggle').checked);
-            isFastRenameMode = document.getElementById('fastRenameToggle').checked;
-            document.getElementById('labelsModal').classList.remove('active'); renderGrid();
-        };
-        document.getElementById('closeLabelsBtn').onclick = () => document.getElementById('labelsModal').classList.remove('active');
-
-        // Bảng Effects (Có Viền VisionOS)
-        document.getElementById('openEffectsBtn').onclick = () => {
-            document.getElementById('settingsModal').classList.remove('active');
-            document.getElementById('strokeToggle').checked = localStorage.getItem(STROKE_KEY) === 'true';
-            document.getElementById('effectModal').classList.add('active');
-        };
+        // Save Effects
         document.getElementById('saveEffectBtn').onclick = () => {
-            localStorage.setItem(MARK_KEY, document.getElementById('markStyle').value);
-            localStorage.setItem(RADIUS_KEY, document.getElementById('radiusStyle').value);
-            localStorage.setItem(STROKE_KEY, document.getElementById('strokeToggle').checked);
-            const activeDir = document.querySelector('.dir-btn.active'); localStorage.setItem(SHADOW_DIRECTION_KEY, activeDir ? activeDir.dataset.dir : 'bottom');
-            localStorage.setItem(SHADOW_BLUR_KEY, document.getElementById('shadowBlurInput').value);
-            localStorage.setItem(SHADOW_OFFSET_KEY, document.getElementById('shadowOffsetInput').value);
-            localStorage.setItem(SHADOW_OPACITY_KEY, document.getElementById('shadowOpacityInput').value);
-            document.getElementById('effectModal').classList.remove('active'); renderGrid();
+            localStorage.setItem(ST_KEYS.mark, document.getElementById('markStyle').value);
+            localStorage.setItem(ST_KEYS.radius, document.getElementById('radiusStyle').value);
+            localStorage.setItem(ST_KEYS.stroke, document.getElementById('strokeToggle').checked);
+            localStorage.setItem(ST_KEYS.dir, document.querySelector('.dir-btn.active')?.dataset.dir || 'bottom');
+            localStorage.setItem(ST_KEYS.blur, document.getElementById('shadowBlurInput').value);
+            localStorage.setItem(ST_KEYS.offset, document.getElementById('shadowOffsetInput').value);
+            localStorage.setItem(ST_KEYS.opacity, document.getElementById('shadowOpacityInput').value);
+            document.getElementById('effectModal').classList.remove('active'); renderGrid(); showToast("Đã lưu hiệu ứng");
         };
 
-        // Các nút Đóng Hủy
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            if(!btn.onclick && btn.innerText.includes('Đóng') || btn.innerText.includes('Huỷ')) {
-                btn.onclick = (e) => e.target.closest('.modal-overlay').classList.remove('active');
-            }
-        });
-
-        // Bảng Dock
-        document.getElementById('openDockBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); document.getElementById('dockModal').classList.add('active'); };
+        // Save Dock
         document.getElementById('saveDockBtn').onclick = () => {
-            let dockStyle = 'none';
-            if (document.getElementById('dockGlassToggle').checked) dockStyle = 'glass';
-            else if (document.getElementById('dockWoodToggle').checked) dockStyle = 'wood';
-            else if (document.getElementById('dockBlurToggle').checked) dockStyle = 'blur';
-            localStorage.setItem(DOCK_STYLE_KEY, dockStyle); document.getElementById('dockModal').classList.remove('active'); renderGrid();
+            let style = 'none';
+            if(document.getElementById('dockGlassToggle').checked) style = 'glass';
+            else if(document.getElementById('dockWoodToggle').checked) style = 'wood';
+            else if(document.getElementById('dockBlurToggle').checked) style = 'blur';
+            localStorage.setItem(ST_KEYS.dockStyle, style);
+            document.getElementById('dockModal').classList.remove('active'); renderGrid(); showToast("Đã lưu cấu hình Dock");
         };
 
-        // Nút Load More & Search
-        document.getElementById('loadMoreBtn').onclick = () => { currentDisplayCount += 12; renderModal(); };
-        document.getElementById('closeModalBtn').onclick = () => { modal.classList.remove('active'); isAddingDock = false; };
-        modal.onclick = (e) => { if (e.target === modal) { modal.classList.remove('active'); isAddingDock = false; } };
-        
+        // Save Labels
+        document.getElementById('saveLabelsBtn').onclick = () => {
+            localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
+            isFastRenameMode = document.getElementById('fastRenameToggle').checked;
+            document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast("Đã lưu tùy chọn");
+        };
+
+        // Nút Đóng Chung
+        document.querySelectorAll('.close-modal').forEach(btn => { if(btn.innerText.includes('Đóng') || btn.innerText.includes('Huỷ')) btn.onclick = (e) => e.target.closest('.modal-overlay').classList.remove('active'); });
+
+        // Xuất / Nhập
+        document.getElementById('exportBtn').onclick = () => {
+            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab) }};
+            navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast("Đã copy cấu hình!"); });
+        };
+        document.getElementById('importBtn').onclick = () => {
+            let code = prompt("Dán mã:"); if(!code) return;
+            try {
+                let d = JSON.parse(decodeURIComponent(atob(code)));
+                if(d.apps) setVals(ST_KEYS.app, d.apps); if(d.dock) setVals(ST_KEYS.dock, d.dock); if(d.names) setVals(ST_KEYS.name, d.names);
+                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); }
+                document.getElementById('settingsModal').classList.remove('active'); showToast("Nhập thành công!"); setTimeout(() => location.reload(), 1000);
+            } catch(e) { alert("Mã không hợp lệ!"); }
+        };
+
         renderGrid();
     }
 </script>
