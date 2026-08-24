@@ -1,25 +1,73 @@
 {
-  "common": { "app_title": "AppList", "loading": "Đang tải..." },
-  "button": { "add": "Thêm", "close": "Đóng", "view_more": "Xem thêm", "confirm": "Đồng ý", "cancel": "Hủy" },
-  "app_menu": { "move_top": "Đưa lên đầu", "rename": "Đổi tên", "delete": "Xoá" },
-  "modal": { "title_add_app": "Thêm ứng dụng", "search_placeholder": "Tìm kiếm ứng dụng...", "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng." },
-  "messages": { "prompt_rename_app": "Nhập tên mới cho ứng dụng:", "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?" },
-  "dock_info": { "app_version": "• Tên : Snowboard\n• Tác giả : Sentechtipvn 🇻🇳\n• Webclip giả lập màn hình chính trên iPhone hỗ kết hợp với ứng dụng phím tắt để mở các ứng dụng thường dùng.\n• Với bản Webclip này sẽ được viết để tuỳ chỉnh màn hình hiển thị theo phong cách cá nhân hoá.\n• Cách tốt nhất là thêm nó vào màn hình chính để sử dụng hiệu quả những chức năng bên trong." },
-  "info_popup": { "title": "Sentechtipsvn", "contact": "Liên hệ", "follow": "Theo dõi kênh", "info": "Thông tin" },
+  "common": {
+    "app_title": "AppList",
+    "loading": "Đang tải...",
+    "hide_app_name": "Ẩn tên ứng dụng",
+    "show_app_name": "Hiện tên ứng dụng",
+    "fast_rename_mode": "Chế độ Đổi tên nhanh",
+    "export_config": "📤 Xuất Cấu Hình",
+    "import_config": "📥 Nhập"
+  },
+  "button": {
+    "add": "Thêm",
+    "close": "Đóng",
+    "view_more": "Xem thêm",
+    "confirm": "Đồng ý",
+    "cancel": "Huỷ",
+    "save_config": "Lưu cấu hình"
+  },
+  "app_menu": {
+    "move_top": "Đưa lên đầu",
+    "rename": "Đổi tên",
+    "delete": "Xoá",
+    "manage_apps": "Quản lý Ứng dụng"
+  },
+  "modal": {
+    "title_add_app": "Thêm ứng dụng",
+    "search_placeholder": "Tìm kiếm ứng dụng...",
+    "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng."
+  },
+  "messages": {
+    "prompt_rename_app": "Nhập tên mới cho ứng dụng:",
+    "reset_confirm": "Xoá sạch danh sách app hiện tại và trở về mặc định?",
+    "config_copied": "Cấu hình đã lưu vào bảng nhớ tạm",
+    "prompt_import_code": "Dán mã cấu hình của bạn vào đây:",
+    "import_success": "Đã nhập cấu hình thành công!",
+    "import_error": "Mã cấu hình không hợp lệ!"
+  },
+  "dock_info": {
+    "app_version": "• Tên : Snowboard\n• Tác giả : Sentechtipsvn 🇻🇳\n• Webclip giả lập màn hình chính trên iPhone hỗ kết hợp với ứng dụng phím tắt để mở các ứng dụng thường dùng.\n• Với bản Webclip này sẽ được viết để tuỳ chỉnh màn hình hiển thị theo phong cách cá nhân hoá.\n• Cách tốt nhất là thêm nó vào màn hình chính để sử dụng hiệu quả những chức năng bên trong."
+  },
+  "info_popup": {
+    "title": "Sentechtipsvn",
+    "contact": "Liên hệ",
+    "follow": "Theo dõi kênh",
+    "info": "Thông tin"
+  },
   "effects": {
     "title": "Hiệu ứng Icon",
+    "vision_stroke": "Viền VisionOS",
     "mark_label": "Kiểu Mark",
     "shadow_direction_label": "Hướng đổ bóng:",
-    "shadow_blur_label": "Độ đậm nhạt (Blur):",
-    "shadow_blur_helper": "Chỉ được phép nhập từ 1 đến 100",
-    "shadow_offset_label": "Độ xa gần (Offset):",
-    "shadow_offset_helper": "Chỉ được phép nhập từ 1 đến 100",
-    "shadow_opacity_label": "Độ đậm (Opacity):",
-    "shadow_opacity_helper": "Chỉ được phép nhập từ 1 đến 100",
+    "shadow_blur_label": "Blur:",
+    "shadow_offset_label": "Offset:",
+    "shadow_opacity_label": "Opacity:",
     "radius_label": "Kiểu Bo góc Icon",
     "save": "Lưu hiệu ứng",
     "cancel": "Huỷ",
-    "settings": { "title": "Cài đặt", "effects_menu": "Icons Effects", "dock_menu": "Dock" },
-    "dock": { "title": "Dock", "glass": "Dock Kính trong suốt", "wood": "Dock Gỗ (iOS 6)", "blur": "Dock Mờ Đen", "save": "Lưu hiệu ứng", "cancel": "Huỷ" }
+    "settings": {
+      "title": "Cài đặt",
+      "effects_menu": "Icons Effects",
+      "dock_menu": "Dock"
+    },
+    "dock": {
+      "title": "Dock",
+      "glass": "Kính trong suốt",
+      "wood": "Gỗ (iOS 6)",
+      "blur": "Mờ Đen",
+      "disable": "Tắt Dock",
+      "save": "Lưu cấu hình",
+      "cancel": "Huỷ"
+    }
   }
 }
