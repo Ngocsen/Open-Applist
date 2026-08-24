@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V6.6 - Dynamic Language Map</title>
+    <title>Snowboard</title>
 </head>
 <body>
 
@@ -437,7 +437,10 @@
 
         document.getElementById('saveLabelsBtn').onclick = () => {
             localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
-            isFastRenameMode = document.getElementById('fastRenameToggle'].checked;
+            
+            // [ĐÃ FIX]: Dấu ngoặc vuông đi lạc ở dòng dưới đây đã được sửa thành dấu ngoặc đơn
+            isFastRenameMode = document.getElementById('fastRenameToggle').checked; 
+            
             document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast("OK");
         };
 
