@@ -58,7 +58,7 @@
 
 ## 📄 Giấy phép
 
-Dự án được phát hành dưới giấy phép **[MIT License](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sen-v1/LICENSE)**. Bạn có thể sử dụng, chỉnh sửa và phát triển thêm cho mục đích cá nhân.
+Dự án được phát hành dưới giấy phép **[MIT License](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Snowboard/LICENSE)**. Bạn có thể sử dụng, chỉnh sửa và phát triển thêm cho mục đích cá nhân.
 
 ---
 
