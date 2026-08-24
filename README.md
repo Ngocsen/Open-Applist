@@ -1,49 +1,31 @@
-# Open-Applist
+<div align="center">
 
-Danh sách các "Webclip" và Phím tắt (Shortcuts) cho iOS nhằm mở nhanh các ứng dụng thường dùng.
+#  Open-Applist
+### Kho lưu trữ Webclip và Phím tắt (Shortcuts) đỉnh cao tối ưu hóa cho hệ sinh thái Apple
 
-[Trang Demo](https://ngocsen.github.io/Open-Applist/) - [Liên hệ](mailto:sentechtips@gmail.com)
+[![GitHub Pages Status](https://img.shields.io/github/actions/workflow/status/ngocsen/Open-Applist/pages%20build%20and%20deployment?style=flat-square&logo=github&label=Pages)](https://ngocsen.github.io/Open-Applist/)
+[![iOS Support](https://img.shields.io/badge/iOS-15%20%E2%80%93%2026-blue?style=flat-square&logo=apple&logoColor=white)](https://github.com/ngocsen/Open-Applist)
+[![License](https://img.shields.io/github/license/ngocsen/Open-Applist?style=flat-square)](LICENSE)
 
-## Mô tả ngắn
+[🌐 Khám phá Trang Demo](https://ngocsen.github.io/Open-Applist/) • [💬 Góp ý & Thảo luận](https://github.com/ngocsen/Open-Applist/discussions)
 
-Open-Applist tổng hợp các mục Webclip (thêm vào Màn hình chính từ Safari) và/hoặc Shortcuts để giúp bạn khởi chạy nhanh những dịch vụ, trang web hoặc hành động thường dùng trên iPhone / iPad. Mục tiêu là cung cấp một cửa hàng nhỏ các phím tắt dễ cài đặt, tối ưu cho thao tác nhanh.
+</div>
 
-## Tính năng chính
+---
 
-- Danh sách các Webclip tiện lợi để thêm vào Màn hình chính iOS.
-- Hướng dẫn cài đặt đơn giản (mở bằng Safari → Chia sẻ → Thêm vào Màn hình chính).
-- Một số mục kèm Shortcuts để tự động hóa hành động trên iOS (nếu có).
-- Tập trung vào trải nghiệm “mở nhanh” cho các ứng dụng và trang thường dùng.
+## 🌟 Giới thiệu tổng quan
+**Open-Applist** là bộ sưu tập các **Webclip** (Thêm vào Màn hình chính từ Safari) và **Phím tắt (Shortcuts)** được thiết kế tỉ mỉ, giúp Sếp khởi chạy siêu tốc các dịch vụ, trang web hoặc tác vụ quen thuộc trên iPhone và iPad. Dự án hướng tới trải nghiệm mượt mà, giao diện kính mờ sang trọng chuẩn phong cách Apple.
 
-## Yêu cầu
+## ✨ Tính năng nổi bật
+* **Tối ưu hóa thao tác:** Thêm nhanh Webclip ra màn hình chính chỉ với vài cú chạm Safari.
+* **Tích hợp Shortcuts:** Tự động hóa các hành động thông minh đi kèm từng ứng dụng.
+* **Giao diện Liquid Glass:** Thiết kế kính mờ hiện đại, chiều sâu hoàn hảo, thân thiện với mọi thiết bị iOS.
 
-- Thiết bị iOS (iPhone, iPad) có trình duyệt Safari.
-- Phiên bản iOS hỗ trợ chức năng "Add to Home Screen" (thường iOS 11+).
-- Để sử dụng Shortcuts, cần ứng dụng Shortcuts (Phím tắt) của Apple.
+## 📱 Hướng dẫn cài đặt nhanh
+1. Mở trang [Demo Online](https://ngocsen.github.io/Open-Applist/) bằng trình duyệt **Safari** trên iPhone hoặc iPad.
+2. Chạm vào nút **Chia sẻ (Share)** trên thanh công cụ.
+3. Chọn **"Thêm vào Màn hình chính" (Add to Home Screen)**.
+4. Tận hưởng ứng dụng thu nhỏ cực mượt ngay ngoài màn hình chính!
 
-## Hướng dẫn cài đặt & sử dụng
-
-1. Mở trang chứa Webclip bằng Safari trên iPhone / iPad.  
-2. Chạm biểu tượng Chia sẻ (Share).  
-3. Chọn "Thêm vào Màn hình chính" (Add to Home Screen).  
-4. Webclip sẽ xuất hiện như một biểu tượng trên Màn hình chính — chạm vào đó để mở nhanh nội dung tương ứng.
-
-### Ghi chú về Shortcuts
-
-- Nếu mục trong repo kèm tệp phím tắt, làm theo hướng dẫn tương ứng (nhập Shortcut vào app Phím tắt) và cấp quyền nếu hệ thống yêu cầu.
-- Một số shortcut có thể cần cấu hình thêm (ví dụ: nhập API key, đường dẫn, hoặc quyền truy cập).
-
-## Lưu ý quan trọng
-
-- Để hoạt động tốt nhất, bắt buộc thêm Webclip vào Màn hình chính (không chỉ mở trong tab Safari).
-- Tùy vào cách hoạt động của mỗi mục (Webclip hay Shortcut), trải nghiệm có thể khác nhau giữa các thiết bị và phiên bản iOS.
-
-## Cách đóng góp
-
-- Fork repo, tạo nhánh mới, thêm mục Webclip / Shortcut kèm hướng dẫn rõ ràng, và gửi Pull Request.  
-- Mô tả rõ: nguồn, cách cài, nếu cần quyền/khóa (không đưa thông tin nhạy cảm công khai).  
-- Kiểm tra cẩn thận link/shortcut trước khi gửi PR.
-
-## Báo lỗi & Yêu cầu tính năng
-
-- Mở issue mô tả chi tiết: thiết bị, phiên bản iOS, bước tái tạo lỗi, và link đến mục liên quan nếu có.
+---
+<p align="center">Made with ❤️ for Apple Community by Ngocsen</p>
