@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V6.3 - Final</title>
+    <title>Snowboard V6.4 - Final</title>
 </head>
 <body>
 
@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<!-- POPUP INFO: Tiêu đề Sentechtipsvn màu xanh dương, phân rạch nguồn dữ liệu social.json và vi_VN.json -->
+<!-- POPUP INFO -->
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
         <h3 id="infoTitle" style="color: #0071e3; font-size: 20px; margin-bottom: 16px;">Sentechtipsvn</h3>
@@ -72,21 +72,53 @@
     </div>
 </div>
 
+<!-- POPUP HIỆU ỨNG ICON (Chuẩn mẫu giao diện gốc) -->
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
-        <h3>Hiệu ứng Icon</h3>
+        <h3 style="color: #20b2aa;">Hiệu ứng Icon</h3>
         <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 12px; border-radius: 14px;">
-            <span style="font-weight: 600;">Viền VisionOS</span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label>
+            <span style="font-weight: 600; color: #1e1e2f;">Viền VisionOS</span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label>
         </div>
-        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;">Kiểu Mark</label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div>
         <div style="margin-bottom: 16px;">
-            <label style="display:block; margin-bottom:6px;">Hướng đổ bóng</label>
-            <div style="display: flex; gap: 8px;"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div>
+            <label>Kiểu Mark</label>
+            <select id="markStyle" class="input-num">
+                <option value="0">Liquid Glass</option>
+                <option value="1">Crystal Shine</option>
+                <option value="2">Holographic</option>
+                <option value="3">Matte Dark</option>
+                <option value="4">Classic Glossy</option>
+            </select>
         </div>
-        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;">Blur</label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10"></div>
-        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;">Offset</label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10"></div>
-        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;">Opacity</label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30"></div>
-        <div style="margin-bottom: 16px;"><label style="display:block; margin-bottom:6px;">Bo góc Icon</label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div>
+        <div style="margin-bottom: 16px;">
+            <label>Hướng đổ bóng</label>
+            <div class="direction-container">
+                <button class="dir-btn" data-dir="left">◀︎</button>
+                <button class="dir-btn" data-dir="right">►</button>
+                <button class="dir-btn" data-dir="center">❖</button>
+                <button class="dir-btn" data-dir="top">▲</button>
+                <button class="dir-btn" data-dir="bottom">▼</button>
+            </div>
+        </div>
+        <div style="margin-bottom: 16px;">
+            <label>Blur</label>
+            <input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10">
+        </div>
+        <div style="margin-bottom: 16px;">
+            <label>Offset</label>
+            <input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10">
+        </div>
+        <div style="margin-bottom: 16px;">
+            <label>Opacity</label>
+            <input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30">
+        </div>
+        <div style="margin-bottom: 16px;">
+            <label>Bo góc Icon</label>
+            <select id="radiusStyle" class="input-num">
+                <option value="0">Squircle (Chuẩn Apple)</option>
+                <option value="1">Tròn hoàn toàn</option>
+                <option value="2">Vuông nhẹ</option>
+            </select>
+        </div>
         <button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;">Lưu hiệu ứng</button>
         <button class="close-modal" id="closeEffectBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
@@ -233,7 +265,6 @@
             if(isDeleteMode) { toggleDeleteMode(); return; }
             if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
             else {
-                // Định vị chính xác tâm ngăn kéo nằm ngay trên đầu icon Setting trong Dock[span_8](start_span)[span_8](end_span)
                 const rect = setBtn.getBoundingClientRect();
                 drawerWrapper.style.display = 'flex';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
@@ -303,7 +334,6 @@
         document.getElementById('btnDelete').onclick = toggleDeleteMode;
         document.getElementById('btnReset').onclick = () => { if(confirm("Khôi phục mặc định?")){ localStorage.clear(); location.reload(); }};
         
-        // [QUÂN SƯ AI]: Nút Info hiển thị popup chuẩn: Tiêu đề Sentechtipsvn xanh dương, liên hệ/theo dõi từ social.json, thông tin từ vi_VN.json[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)
         document.getElementById('btnInfo').onclick = () => { 
             closeDrawerSecure(); 
             document.getElementById('infoModal').classList.add('active');
