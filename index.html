@@ -7,25 +7,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V6.4 - Final</title>
+    <title>Snowboard V6.5 - Final</title>
 </head>
 <body>
 
 <div id="toast">Thông báo</div>
 
-<!-- Lưới App Chính -->
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
 
-<!-- Nút Setting Ngoài (Ẩn khi bật Dock) -->
 <button id="settingsBtn" aria-label="Cài đặt">
     <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
 </button>
 
 <div id="dockArea" class="dock-container" style="display:none;"></div>
 
-<!-- Ngăn kéo -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
@@ -37,7 +34,19 @@
     </div>
 </div>
 
-<!-- CÁC POPUP (Giữ nguyên cấu trúc HTML, loại bỏ bớt phần thừa) -->
+<!-- POPUP INFO -->
+<div class="modal-overlay" id="infoModal">
+    <div class="modal-content">
+        <h3 id="infoTitle" style="color: #0071e3; font-size: 20px; margin-bottom: 16px;">Sentechtipsvn</h3>
+        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.2);">
+            <button class="close-modal" id="btnMail" style="margin-top: 0; background: transparent; border: none; color: inherit;">Liên hệ</button>
+            <button class="close-modal" id="btnFollow" style="margin-top: 0; background: transparent; border: none; color: inherit;">Theo dõi kênh</button>
+            <button class="close-modal" id="btnInfoDetails" style="margin-top: 0; background: transparent; border: none; color: inherit;">Thông tin</button>
+        </div>
+        <button class="close-modal" id="closeInfoModal" style="margin-top: 16px;">Đóng</button>
+    </div>
+</div>
+
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <h3>Cài đặt</h3>
@@ -55,15 +64,15 @@
 <div class="modal-overlay" id="labelsModal">
     <div class="modal-content">
         <h3>Quản lý Ứng dụng</h3>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label> </div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label> </div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"> <span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label> </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"><span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div>
         <button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;">Lưu cấu hình</button>
         <button class="close-modal" id="closeLabelsBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
 </div>
 
-<!-- POPUP HIỆU ỨNG ICON (Chuẩn mẫu giao diện gốc) -->
+<!-- POPUP HIỆU ỨNG ICON -->
 <div class="modal-overlay" id="effectModal">
     <div class="modal-content">
         <h3 style="color: #20b2aa;">Hiệu ứng Icon</h3>
@@ -136,7 +145,6 @@
 </div>
 
 <script>
-    // Failsafe Database
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     let appDatabase = {}, socialData = { links: { email: '', social_follow: '', plugin_shortcut: '' } }, langData = {};
     const basePath = '.';
@@ -159,6 +167,15 @@
         langData = lang || {};
         initUI();
     });
+
+    // Hàm chuẩn hóa đường dẫn Icon bị lỗi sẹc ngược (\/) trong file json gốc
+    function cleanIconPath(iconPath) {
+        if (!iconPath) return '';
+        if (iconPath.includes('\\/')) {
+            return iconPath.replace(/\\\//g, '/');
+        }
+        return iconPath;
+    }
 
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
     
@@ -191,13 +208,15 @@
     function createAppItem(id, data, isDockItem = false) {
         const div = document.createElement('div'); div.className = 'app-item'; div.dataset.id = id; div.dataset.zone = isDockItem ? 'dock' : 'grid';
         let dName = getVals(ST_KEYS.name, {})[id] || data.Name;
-        let iconSrc = data.icon && !data.icon.startsWith('http') && !data.icon.startsWith('/') ? basePath + '/' + data.icon : data.icon;
+        
+        // Gọi hàm chuẩn hóa icon để khắc phục lỗi đường dẫn sẹc ngược
+        let cleanIcon = cleanIconPath(data.icon);
+        let iconSrc = cleanIcon && !cleanIcon.startsWith('http') && !cleanIcon.startsWith('/') ? basePath + '/' + cleanIcon : cleanIcon;
         
         const mark = localStorage.getItem(ST_KEYS.mark) || '0', sDir = localStorage.getItem(ST_KEYS.dir) || 'bottom', radius = localStorage.getItem(ST_KEYS.radius) || '0';
         const sBlur = localStorage.getItem(ST_KEYS.blur) || '10', sOff = localStorage.getItem(ST_KEYS.offset) || '10', sOp = (localStorage.getItem(ST_KEYS.opacity) || '30') / 100;
         const stroke = localStorage.getItem(ST_KEYS.stroke) === 'true';
 
-        // Lấy hiệu ứng CSS
         let radCSS = radius === '1' ? '50%' : radius === '2' ? '12px' : '16px';
         let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
         let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
@@ -258,8 +277,11 @@
             if(isDeleteMode) { toggleDeleteMode(); return; }
             if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
             else {
+                // Định vị lại ngăn kéo: Xổ thẳng đứng (column) và nằm trên icon Setting
                 const rect = setBtn.getBoundingClientRect();
                 drawerWrapper.style.display = 'flex';
+                // Đẩy ngăn kéo lên trên dock (90px) và căn giữa theo icon Setting
+                drawerWrapper.style.bottom = 'calc(90px + env(safe-area-inset-bottom, 20px))';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.transform = 'translateX(-50%)';
                 void drawerWrapper.offsetWidth; 
@@ -294,7 +316,8 @@
         const used = [...getVals(ST_KEYS.app, []), ...getVals(ST_KEYS.dock, [])];
         Object.keys(appDatabase).filter(id => !used.includes(id)).forEach(id => {
             const item = document.createElement('div'); item.className = 'app-item';
-            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px;"><img src="${appDatabase[id].icon}" class="icon-img" onerror="this.style.display='none'"></div><span style="font-size:10px; margin-top:4px;">${appDatabase[id].Name}</span>`;
+            let cleanIcon = cleanIconPath(appDatabase[id].icon);
+            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px;"><img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'"></div><span style="font-size:10px; margin-top:4px;">${appDatabase[id].Name}</span>`;
             item.onclick = () => {
                 let arr = getVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, []);
                 if(arr.length >= (isAddingDock ? MAX_DOCK_APPS : MAX_APPS)) return showToast('Đã đầy rổ!');
@@ -317,7 +340,10 @@
         document.getElementById('settingsBtn').onclick = () => {
             document.getElementById('settingsBtn').style.display='none';
             drawerWrapper.style.display='flex';
+            // Trả về vị trí mặc định nằm ngang góc phải dưới
+            drawerWrapper.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
             drawerWrapper.style.left = 'auto';
+            drawerWrapper.style.right = '20px';
             drawerWrapper.style.transform = 'none';
             void drawerWrapper.offsetWidth; 
             drawerWrapper.classList.add('open');
