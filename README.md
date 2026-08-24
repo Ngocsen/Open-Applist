@@ -3,7 +3,7 @@
 # 🏂 Open-Applist
 ### Kho lưu trữ Webclip & Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
-![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)
+[![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)](images/demo.png)
 [![License](https://img.shields.io/github/license/ngocsen/Open-Applist?style=flat-square)](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sen-v1/LICENSE)
 ![Made with](https://img.shields.io/badge/Made%20with-HTML%20%7C%20CSS%20%7C%20JS-orange)
 ![GitHub stars](https://img.shields.io/github/stars/<username>/Open-Applist?style=social)
@@ -17,7 +17,6 @@
 ---
 
 ## 📸 Hình ảnh Demo
-*(Sếp nhớ tạo thư mục `images` và bỏ ảnh chụp màn hình vào đó, đổi tên file thành `demo.png`)*
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="300">
 </p>
