@@ -265,12 +265,16 @@
             if(isDeleteMode) { toggleDeleteMode(); return; }
             if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
             else {
-                // Chỉ lấy tâm Left, phó mặc chiều cao cho CSS tự định vị an toàn
-                const rect = setBtn.getBoundingClientRect();
-                drawerWrapper.style.display = 'flex';
+                // --- FIX QUAN TRỌNG ---
+                // Reset các inline style còn sót lại từ nút setting ngoài để đảm bảo layout dọc
+                drawerWrapper.style.right = 'auto';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.transform = 'translateX(-50%)';
-                // (Đã xóa dòng fix cứng style.bottom ở đây vì CSS !important đã lo phần đệm trên Dock)
+                // Ép flex-direction dọc (dù CSS đã có !important nhưng để chắc chắn)
+                drawerWrapper.style.flexDirection = 'column-reverse';
+                drawerWrapper.style.display = 'flex';
+                // -----------------------
+
                 void drawerWrapper.offsetWidth; 
                 drawerWrapper.classList.add('open');
                 document.getElementById('dockSetInner').innerHTML = '<span style="font-size:24px; color:#fff; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">✕</span>';
@@ -332,6 +336,8 @@
             drawerWrapper.style.left = 'auto';
             drawerWrapper.style.right = '20px';
             drawerWrapper.style.transform = 'none';
+            // Đảm bảo ngang khi bật từ nút ngoài
+            drawerWrapper.style.flexDirection = 'row';
             void drawerWrapper.offsetWidth; 
             drawerWrapper.classList.add('open');
         };
