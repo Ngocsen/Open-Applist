@@ -1,13 +1,16 @@
 <div align="center">
 
-#  Open-Applist
-### Kho lưu trữ Webclip và Phím tắt (Shortcuts) đỉnh cao tối ưu hóa cho hệ sinh thái Apple
+# 🏂 Open-Applist
+### Kho lưu trữ Webclip & Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
-[![GitHub Pages Status](https://img.shields.io/github/actions/workflow/status/ngocsen/Open-Applist/pages%20build%20and%20deployment?style=flat-square&logo=github&label=Pages)](https://ngocsen.github.io/Open-Applist/)
-[![iOS Support](https://img.shields.io/badge/iOS-15%20%E2%80%93%2026-blue?style=flat-square&logo=apple&logoColor=white)](https://github.com/ngocsen/Open-Applist)
-[![License](https://img.shields.io/github/license/ngocsen/Open-Applist?style=flat-square)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)](https://www.apple.com/vn/os/ios/)
+[![License](https://img.shields.io/github/license/ngocsen/Open-Applist?style=flat-square)](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sen-v1/LICENSE)
+[![Made with](https://img.shields.io/badge/Made%20with-HTML%20%7C%20CSS%20%7C%20JS-orange)](https://vi.wikipedia.org/wiki/HTML)
+![GitHub stars](https://img.shields.io/badge/Stars-0-yellow?style=flat-square&logo=github)
 
-[🌐 Khám phá Trang Demo](https://ngocsen.github.io/Open-Applist/) • [💬 Góp ý & Thảo luận](https://github.com/ngocsen/Open-Applist/discussions)
+**Tác giả: Sentechtipsvn 🇻🇳**
+<br/>
+*Webclip giả lập màn hình chính trên iPhone, kết hợp với ứng dụng Phím tắt để mở các ứng dụng thường dùng, mang lại trải nghiệm cá nhân hóa tối đa.*
 
 </div>
 

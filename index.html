@@ -13,16 +13,19 @@
 
 <div id="toast">Thông báo</div>
 
+<!-- Lưới App Chính -->
 <div class="app-container">
     <div class="app-grid" id="appGrid"></div>
 </div>
 
+<!-- Nút Setting Ngoài (Ẩn khi bật Dock) -->
 <button id="settingsBtn" aria-label="Cài đặt">
     <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
 </button>
 
 <div id="dockArea" class="dock-container" style="display:none;"></div>
 
+<!-- Ngăn kéo -->
 <div id="drawerWrapper">
     <div id="drawerContent">
         <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
@@ -34,19 +37,7 @@
     </div>
 </div>
 
-<!-- POPUP INFO -->
-<div class="modal-overlay" id="infoModal">
-    <div class="modal-content">
-        <h3 id="infoTitle" style="color: #0071e3; font-size: 20px; margin-bottom: 16px;">Sentechtipsvn</h3>
-        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.2);">
-            <button class="close-modal" id="btnMail" style="margin-top: 0; background: transparent; border: none; color: inherit;">Liên hệ</button>
-            <button class="close-modal" id="btnFollow" style="margin-top: 0; background: transparent; border: none; color: inherit;">Theo dõi kênh</button>
-            <button class="close-modal" id="btnInfoDetails" style="margin-top: 0; background: transparent; border: none; color: inherit;">Thông tin</button>
-        </div>
-        <button class="close-modal" id="closeInfoModal" style="margin-top: 16px;">Đóng</button>
-    </div>
-</div>
-
+<!-- CÁC POPUP (Giữ nguyên cấu trúc HTML, loại bỏ bớt phần thừa) -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <h3>Cài đặt</h3>
@@ -64,9 +55,9 @@
 <div class="modal-overlay" id="labelsModal">
     <div class="modal-content">
         <h3>Quản lý Ứng dụng</h3>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"><span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div>
-        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"><span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Ẩn tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label> </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"> <span>Hiện tên ứng dụng</span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label> </div>
+        <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 10px;"> <span>Chế độ Đổi tên nhanh</span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label> </div>
         <button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;">Lưu cấu hình</button>
         <button class="close-modal" id="closeLabelsBtn" style="color: #ff3b30;">Huỷ</button>
     </div>
@@ -145,6 +136,7 @@
 </div>
 
 <script>
+    // Failsafe Database
     const FALLBACK_DB = { "vn.com.vng.zingalo": {"Name":"Zalo","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a6/fd/de/a6fdde29-8d09-cd61-d8e9-bd5293b9cf21/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/100x100bb.png"} };
     let appDatabase = {}, socialData = { links: { email: '', social_follow: '', plugin_shortcut: '' } }, langData = {};
     const basePath = '.';
@@ -205,6 +197,7 @@
         const sBlur = localStorage.getItem(ST_KEYS.blur) || '10', sOff = localStorage.getItem(ST_KEYS.offset) || '10', sOp = (localStorage.getItem(ST_KEYS.opacity) || '30') / 100;
         const stroke = localStorage.getItem(ST_KEYS.stroke) === 'true';
 
+        // Lấy hiệu ứng CSS
         let radCSS = radius === '1' ? '50%' : radius === '2' ? '12px' : '16px';
         let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
         let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
