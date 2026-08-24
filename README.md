@@ -15,20 +15,61 @@
 </div>
 
 ---
-
-## 🌟 Giới thiệu tổng quan
-**Open-Applist** là bộ sưu tập các **Webclip** (Thêm vào Màn hình chính từ Safari) và **Phím tắt (Shortcuts)** được thiết kế tỉ mỉ, giúp Sếp khởi chạy siêu tốc các dịch vụ, trang web hoặc tác vụ quen thuộc trên iPhone và iPad. Dự án hướng tới trải nghiệm mượt mà, giao diện kính mờ sang trọng chuẩn phong cách Apple.
-
-## ✨ Tính năng nổi bật
-* **Tối ưu hóa thao tác:** Thêm nhanh Webclip ra màn hình chính chỉ với vài cú chạm Safari.
-* **Tích hợp Shortcuts:** Tự động hóa các hành động thông minh đi kèm từng ứng dụng.
-* **Giao diện Liquid Glass:** Thiết kế kính mờ hiện đại, chiều sâu hoàn hảo, thân thiện với mọi thiết bị iOS.
-
-## 📱 Hướng dẫn cài đặt nhanh
-1. Mở trang [Demo Online](https://ngocsen.github.io/Open-Applist/) bằng trình duyệt **Safari** trên iPhone hoặc iPad.
-2. Chạm vào nút **Chia sẻ (Share)** trên thanh công cụ.
-3. Chọn **"Thêm vào Màn hình chính" (Add to Home Screen)**.
-4. Tận hưởng ứng dụng thu nhỏ cực mượt ngay ngoài màn hình chính!
+## 📸 Demo - [⬇️](https://ngocsen.github.io/Open-Applist/)
+<p align="center">
+  <img src="./images/demo.png" alt="App Demo" width="300">
+</p>
 
 ---
-<p align="center">Made with ❤️ for Apple Community by Ngocsen</p>
+
+## ✨ Tính năng nổi bật
+
+- 🍎 **Tối ưu cho iOS/iPadOS:** Giao diện kính mờ (Glassmorphism) đúng chuẩn VisionOS.
+- ⚡ **Gọi Shortcuts siêu nhanh:** Chỉ cần 1 chạm để mở ứng dụng qua URL Scheme.
+- 🎨 **Hiệu ứng đỉnh cao:** Tùy chỉnh bóng đổ (Shadow), viền (Stroke), kiểu bo góc (Radius) theo ý thích.
+- 📂 **Quản lý linh hoạt:** Thêm, xóa, đổi tên, sắp xếp icon, Dock tùy biến (Kính, Gỗ iOS 6, Mờ đen).
+- 📴 **Hoạt động ngoại tuyến (Offline):** Tích hợp Service Worker giúp mở nhanh khi mất mạng.
+- 🌙 **Hỗ trợ Dark Mode:** Tự động chuyển giao diện tối khi hệ thống bật Dark Mode.
+
+---
+
+## 🚀 Hướng dẫn sử dụng
+
+### 1. Cài đặt lên iPhone / iPad:
+1. Mở trang GitHub Pages (Webclip) bằng trình duyệt **Safari**.
+2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
+3. Đặt tên cho ngắn gọn (ví dụ: AppList) và bấm **Add**.
+
+### 2. Tạo Shortcuts trên iOS (Bắt buộc):
+1. Mở app **Shortcuts** (Phím tắt) trên iPhone.
+2. Tạo Shortcut mới với tên **`Open App Launcher`** (Đúng tên này để web gọi được).
+3. Thêm hành động **Receive Input from URL** (Nhận đầu vào từ URL).
+4. Chạy lệnh mở ứng dụng dựa trên Input nhận được (Tên hoặc Bundle ID).
+
+---
+
+## 🛠️ Công nghệ sử dụng
+
+- **Ngôn ngữ:** HTML5, CSS3, JavaScript (ES6+).
+- **Nền tảng:** Web Clip (PWA) trên iOS.
+- **Công cụ:** Visual Studio Code, GitHub Pages.
+
+---
+
+## 📄 Giấy phép
+
+Dự án được phát hành dưới giấy phép **[MIT License](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sen-v1/LICENSE)**. Bạn có thể sử dụng, chỉnh sửa và phát triển thêm cho mục đích cá nhân.
+
+---
+
+## 💖 Donate & Ủng hộ
+
+Nếu thấy dự án hữu ích, hãy bấm **Star** ⭐ cho repo và theo dõi kênh của mình nhé!
+
+<a href="https://browse.shortcuty.app/user/Sentechtipsvn">
+  <img src="https://img.shields.io/badge/Follow-Sentechtipsvn-1DA1F2?style=for-the-badge&logo=x&logoColor=white" alt="Follow">
+</a>
+
+<a href="mailto:sentechtips@gmail.com">
+  <img src="https://img.shields.io/badge/Contact-Email-red?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
+</a>
