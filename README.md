@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🏂 Snowboard
-### Kho lưu trữ Webclip & Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
+### Webclip kết hợp Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
 [![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)](https://www.apple.com/vn/os/ios/)
 [![License](https://img.shields.io/github/license/ngocsen/Snowboard?style=flat-square)](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sowboard/LICENSE)
