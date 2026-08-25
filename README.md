@@ -4,7 +4,7 @@
 ### Kho lưu trữ Webclip & Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
 [![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)](https://www.apple.com/vn/os/ios/)
-[![License](https://img.shields.io/github/license/ngocsen/Open-Applist?style=flat-square)](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Snowboard/LICENSE)
+[![License](https://img.shields.io/github/license/ngocsen/Open-Applist?style=flat-square)](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sowboard/LICENSE)
 [![Made with](https://img.shields.io/badge/Made%20with-HTML%20%7C%20CSS%20%7C%20JS-orange)](https://vi.wikipedia.org/wiki/HTML)
 ![GitHub stars](https://img.shields.io/badge/Stars-0-yellow?style=flat-square&logo=github)
 
@@ -59,7 +59,7 @@
 
 ## 📄 Giấy phép
 
-Dự án được phát hành dưới giấy phép **[MIT License](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Snowboard/LICENSE)**. Bạn có thể sử dụng, chỉnh sửa và phát triển thêm cho mục đích cá nhân.
+Dự án được phát hành dưới giấy phép **[MIT License](https://raw.githubusercontent.com/Ngocsen/Open-Applist/refs/heads/Sowboard/LICENSE)**. Bạn có thể sử dụng, chỉnh sửa và phát triển thêm cho mục đích cá nhân.
 
 ---
 
