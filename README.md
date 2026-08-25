@@ -46,7 +46,7 @@
 2. Tạo Shortcut mới với tên **`Open App Launcher`** (Đúng tên này để web gọi được).
 3. Thêm hành động **Receive Input from URL** (Nhận đầu vào từ URL).
 4. Chạy lệnh mở ứng dụng dựa trên Input nhận được (Tên hoặc Bundle ID).
-
+5. Nếu bạn không biết cách tạo phím tắt có thể lấy nó [ở đây](https://www.icloud.com/shortcuts/bb6320058d1c46639372d41628ea2432)
 ---
 
 ## 🛠️ Công nghệ sử dụng
