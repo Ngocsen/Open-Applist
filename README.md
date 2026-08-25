@@ -24,13 +24,13 @@
 
 ## ✨ Tính năng nổi bật
 
-- 🍎 **Tối ưu cho iOS/iPadOS:** Giao diện kính mờ (Glassmorphism) đúng chuẩn VisionOS.
-- 🔎 **Dữ liệu Online** Tìm kiếm thêm ứng dụng vào danh sách hoàn toàn online không lo thiếu dữ liệu.
-- ⚡ **Gọi Shortcuts siêu nhanh:** Chỉ cần 1 chạm để mở ứng dụng qua URL Scheme.
-- 🎨 **Hiệu ứng đỉnh cao:** Tùy chỉnh bóng đổ (Shadow), viền (Stroke), kiểu bo góc (Radius) theo ý thích.
-- 📂 **Quản lý linh hoạt:** Thêm, xóa, đổi tên, sắp xếp icon, Dock tùy biến (Kính, Gỗ iOS 6, Mờ đen).
-- 📴 **Hoạt động ngoại tuyến (Offline):** Tích hợp Service Worker giúp mở nhanh khi mất mạng.
-- 🌙 **Hỗ trợ Dark Mode:** Tự động chuyển giao diện tối khi hệ thống bật Dark Mode.
+- 🍎 **Tối ưu cho iOS/iPadOS :** Giao diện kính mờ (Glassmorphism) đúng chuẩn VisionOS.
+- 🔎 **Dữ liệu Online :** Tìm kiếm thêm ứng dụng vào danh sách hoàn toàn online không lo thiếu dữ liệu.
+- ⚡ **Gọi Shortcuts siêu nhanh :** Chỉ cần 1 chạm để mở ứng dụng qua URL Scheme.
+- 🎨 **Hiệu ứng đỉnh cao :** Tùy chỉnh bóng đổ (Shadow), viền (Stroke), kiểu bo góc (Radius) theo ý thích.
+- 📂 **Quản lý linh hoạt :** Thêm, xóa, đổi tên, sắp xếp icon, Dock tùy biến (Kính, Gỗ iOS 6, Mờ đen).
+- 📴 **Hoạt động ngoại tuyến (Offline) :** Tích hợp Service Worker giúp mở nhanh khi mất mạng.
+- 🌙 **Hỗ trợ Dark Mode :** Tự động chuyển giao diện tối khi hệ thống bật Dark Mode.
 
 ---
 
