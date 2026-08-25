@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏂 Snowboard
+# <a href="https://www.flaticon.com/free-icons/ski-lift" title="ski lift icons">Ski lift icons created by gravisio - Flaticon</a> Snowboard
 ### Webclip kết hợp Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
 [![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)](https://www.apple.com/vn/os/ios/)
