@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="./icons/AppStore.png" alt="App Demo" width="180"> Snowboard
+# <img src="./icons/AppStore.png" alt="App Demo" width="60"> Snowboard
 ### Webclip kết hợp Phím tắt (Shortcuts) tối ưu cho hệ sinh thái Apple
 
 [![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-blue)](https://www.apple.com/vn/os/ios/)
