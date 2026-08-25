@@ -310,11 +310,11 @@
                 drawerContent.style.flexDirection = 'column-reverse';
                 drawerWrapper.className = 'drawer-vertical'; 
                 
-                /* FIX CHUẨN XÁC TRỤC DỌC NGĂN KÉO CÓ DOCK - CÂN ĐỐI 100% TÂM NÚT SETTING */
-                drawerWrapper.style.bottom = 'calc(110px + env(safe-area-inset-bottom, 20px))';
+                drawerWrapper.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.right = 'auto';
-                drawerWrapper.style.transform = 'translateX(-50%) scale(0.5) translateY(40px)';
+                drawerWrapper.style.transformOrigin = 'bottom center';
+                drawerWrapper.style.transform = 'translateX(-50%) scale(0.5)';
                 
                 void drawerWrapper.offsetWidth; 
                 drawerWrapper.classList.add('open');
@@ -382,7 +382,7 @@
                     appDatabase[bundleId] = { Name: appName, icon: iconUrl };
                     
                     const item = document.createElement('div'); item.className = 'app-item';
-                    item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${iconUrl}" class="icon-img"></div><span style="font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px;">${appName}</span>`;
+                    item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${iconUrl}" class="icon-img"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appName}</span>`;
                     item.onclick = () => selectAppToAdd(bundleId);
                     ml.appendChild(item);
                 });
@@ -415,7 +415,7 @@
         availableApps.slice(0, currentLocalLimit).forEach(id => {
             const item = document.createElement('div'); item.className = 'app-item';
             let cleanIcon = cleanIconPath(appDatabase[id].icon);
-            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'"></div><span style="font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${appDatabase[id].Name}</span>`;
+            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appDatabase[id].Name}</span>`;
             item.onclick = () => selectAppToAdd(id);
             ml.appendChild(item);
         });
@@ -446,11 +446,11 @@
             drawerContent.style.flexDirection = 'row';
             drawerWrapper.className = 'drawer-horizontal';
             
-            /* FIX CHUẨN XÁC KHI KHÔNG DOCK - XÓA SẠCH VỆT MỜ BÊN PHẢI */
             drawerWrapper.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
-            drawerWrapper.style.right = '90px'; 
+            drawerWrapper.style.right = '88px'; 
             drawerWrapper.style.left = 'auto'; 
-            drawerWrapper.style.transform = 'scale(0.5) translateX(20px)';
+            drawerWrapper.style.transformOrigin = 'right center';
+            drawerWrapper.style.transform = 'scale(0.5)';
             
             void drawerWrapper.offsetWidth; 
             drawerWrapper.classList.add('open');
