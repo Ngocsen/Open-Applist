@@ -39,7 +39,7 @@
 ### 1. Cài đặt lên iPhone / iPad:
 1. Mở trang GitHub [Pages](https://ngocsen.github.io/Snowboard/) (Webclip) bằng trình duyệt **Safari**.
 2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
-3. Đặt tên cho ngắn gọn (ví dụ: AppList) và bấm **Add**.
+3. Đặt tên cho ngắn gọn (ví dụ : Snowboard) và bấm **Add**.
 
 ### 2. Tạo Shortcuts trên iOS (Bắt buộc):
 1. Mở app **Shortcuts** (Phím tắt) trên iPhone.
