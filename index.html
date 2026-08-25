@@ -7,7 +7,38 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard</title>
+    
+    <!-- CSS FIX DỨT ĐIỂM LỖI NGĂN KÉO NẰM NGANG -->
+    <style>
+        /* Khi Dock được bật, ép buộc ngăn kéo và nội dung bên trong xếp dọc hướng lên */
+        body.dock-active #drawerWrapper,
+        body.dock-active #drawerContent {
+            flex-direction: column-reverse !important;
+        }
+        
+        body.dock-active #drawerWrapper {
+            background: rgba(255,255,255,0.65) !important;
+            backdrop-filter: blur(25px) !important;
+            border-radius: 24px !important;
+            padding: 10px 8px !important;
+        }
+
+        body.dock-active #drawerContent {
+            gap: 10px !important;
+        }
+
+        body.dock-active #drawerClose {
+            display: none !important;
+        }
+        
+        /* Khi tắt Dock, ngăn kéo trở về nằm ngang ở góc dưới */
+        body:not(.dock-active) #drawerWrapper,
+        body:not(.dock-active) #drawerContent {
+            flex-direction: row !important;
+        }
+    </style>
+    
+    <title>Snowboard V6.6 - Dynamic Language Map</title>
 </head>
 <body>
 
@@ -172,17 +203,14 @@
         initUI();
     });
 
-    // MAP DỮ LIỆU ĐỘNG TỪ FILE JSON RA GIAO DIỆN (CHUẨN BỊ CHO ĐA NGÔN NGỮ SAU NÀY)
     function applyLanguage() {
         if (!langData.effects) return;
         
-        // Popup Info
         document.getElementById('infoTitle').innerText = langData.info_popup?.title || 'Sentechtipsvn';
         document.getElementById('btnMail').innerText = langData.info_popup?.contact || 'Liên hệ';
         document.getElementById('btnFollow').innerText = langData.info_popup?.follow || 'Theo dõi kênh';
         document.getElementById('btnInfoDetails').innerText = langData.info_popup?.info || 'Thông tin';
 
-        // Popup Main Settings
         document.getElementById('txtSettingTitle').innerText = langData.effects.settings?.title || 'Cài đặt';
         document.getElementById('openEffectsBtn').innerText = langData.effects.settings?.effects_menu || 'Icons Effects';
         document.getElementById('openDockBtn').innerText = langData.effects.settings?.dock_menu || 'Dock';
@@ -190,14 +218,12 @@
         document.getElementById('exportBtn').innerText = langData.common?.export_config || '📤 Xuất Cấu Hình';
         document.getElementById('importBtn').innerText = langData.common?.import_config || '📥 Nhập';
 
-        // Popup Labels Management
         document.getElementById('lblLabelsTitle').innerText = langData.app_menu?.manage_apps || 'Quản lý Ứng dụng';
         document.getElementById('txtHideLabels').innerText = langData.common?.hide_app_name || 'Ẩn tên ứng dụng';
         document.getElementById('txtShowLabels').innerText = langData.common?.show_app_name || 'Hiện tên ứng dụng';
         document.getElementById('txtFastRename').innerText = langData.common?.fast_rename_mode || 'Chế độ Đổi tên nhanh';
         document.getElementById('saveLabelsBtn').innerText = langData.button?.save_config || 'Lưu cấu hình';
 
-        // Popup Effect
         document.getElementById('txtEffectTitle').innerText = langData.effects?.title || 'Hiệu ứng Icon';
         document.getElementById('txtVisionStroke').innerText = langData.effects?.vision_stroke || 'Viền VisionOS';
         document.getElementById('lblMarkStyle').innerText = langData.effects?.mark_label || 'Kiểu Mark';
@@ -208,7 +234,6 @@
         document.getElementById('lblRadiusStyle').innerText = langData.effects?.radius_label || 'Kiểu Bo góc Icon';
         document.getElementById('saveEffectBtn').innerText = langData.effects?.save || 'Lưu hiệu ứng';
 
-        // Popup Dock
         document.getElementById('txtDockTitle').innerText = langData.effects.dock?.title || 'Dock';
         document.getElementById('txtDockGlass').innerText = langData.effects.dock?.glass || 'Kính trong suốt';
         document.getElementById('txtDockWood').innerText = langData.effects.dock?.wood || 'Gỗ (iOS 6)';
@@ -216,7 +241,6 @@
         document.getElementById('txtDockDisable').innerText = langData.effects.dock?.disable || 'Tắt Dock';
         document.getElementById('saveDockBtn').innerText = langData.effects.dock?.save || 'Lưu cấu hình';
 
-        // Nút dùng chung
         document.querySelectorAll('.lang-close').forEach(el => el.innerText = langData.button?.close || 'Đóng');
         document.querySelectorAll('.lang-cancel').forEach(el => el.innerText = langData.button?.cancel || 'Huỷ');
         document.getElementById('txtAddAppTitle').innerText = '➕ ' + (langData.modal?.title_add_app || 'Thêm ứng dụng');
@@ -437,10 +461,7 @@
 
         document.getElementById('saveLabelsBtn').onclick = () => {
             localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
-            
-            // [ĐÃ FIX]: Dấu ngoặc vuông đi lạc ở dòng dưới đây đã được sửa thành dấu ngoặc đơn
             isFastRenameMode = document.getElementById('fastRenameToggle').checked; 
-            
             document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast("OK");
         };
 
