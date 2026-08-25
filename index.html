@@ -7,38 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Snowboard" />
     <link rel="stylesheet" href="css/style.css" />
-    
-    <!-- CSS FIX DỨT ĐIỂM LỖI NGĂN KÉO NẰM NGANG -->
-    <style>
-        /* Khi Dock được bật, ép buộc ngăn kéo và nội dung bên trong xếp dọc hướng lên */
-        body.dock-active #drawerWrapper,
-        body.dock-active #drawerContent {
-            flex-direction: column-reverse !important;
-        }
-        
-        body.dock-active #drawerWrapper {
-            background: rgba(255,255,255,0.65) !important;
-            backdrop-filter: blur(25px) !important;
-            border-radius: 24px !important;
-            padding: 10px 8px !important;
-        }
-
-        body.dock-active #drawerContent {
-            gap: 10px !important;
-        }
-
-        body.dock-active #drawerClose {
-            display: none !important;
-        }
-        
-        /* Khi tắt Dock, ngăn kéo trở về nằm ngang ở góc dưới */
-        body:not(.dock-active) #drawerWrapper,
-        body:not(.dock-active) #drawerContent {
-            flex-direction: row !important;
-        }
-    </style>
-    
-    <title>Snowboard V6.6 - Dynamic Language Map</title>
+    <title>Snowboard V6.7 - Online iTunes App Search</title>
 </head>
 <body>
 
@@ -170,10 +139,17 @@
     </div>
 </div>
 
+<!-- POPUP THÊM APP ONLINE TỰ ĐỘNG -->
 <div class="modal-overlay" id="addAppModal">
     <div class="modal-content">
         <h3 id="txtAddAppTitle"></h3>
-        <div class="modal-list" id="modalList" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; margin-top:10px;"></div>
+        
+        <!-- Ô TÌM KIẾM APP ONLINE TRỰC TIẾP -->
+        <div style="margin-top: 10px; margin-bottom: 12px;">
+            <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm trên App Store..." />
+        </div>
+
+        <div class="modal-list" id="modalList" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; max-height: 45vh; overflow-y: auto;"></div>
         <button class="close-modal lang-close" id="closeModalBtn"></button>
     </div>
 </div>
@@ -186,6 +162,7 @@
     const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels' };
     const MAX_APPS = 12, MAX_DOCK_APPS = 3;
     let isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
+    let searchTimeout = null;
 
     const grid = document.getElementById('appGrid'), dockArea = document.getElementById('dockArea'), drawerWrapper = document.getElementById('drawerWrapper');
     const DEFAULT_APPS = ['com.deepseek.chat', 'vn.com.vng.zingalo', 'com.facebook.Facebook', 'com.apple.mobilesafari'];
@@ -244,6 +221,10 @@
         document.querySelectorAll('.lang-close').forEach(el => el.innerText = langData.button?.close || 'Đóng');
         document.querySelectorAll('.lang-cancel').forEach(el => el.innerText = langData.button?.cancel || 'Huỷ');
         document.getElementById('txtAddAppTitle').innerText = '➕ ' + (langData.modal?.title_add_app || 'Thêm ứng dụng');
+        
+        if (document.getElementById('appSearchInput')) {
+            document.getElementById('appSearchInput').placeholder = langData.modal?.search_placeholder || '🔍 Tìm kiếm trên App Store...';
+        }
     }
 
     function cleanIconPath(iconPath) {
@@ -370,22 +351,67 @@
         document.getElementById('btnDelete').innerHTML = isDeleteMode ? '<span style="font-size:18px; color:#34c759;">✅</span>' : '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
     }
 
-    function renderModal() {
+    /* HÀM TÌM KIẾM APP ONLINE QUA ITUNES SEARCH API */
+    function searchOnlineApps(query) {
+        const ml = document.getElementById('modalList');
+        if (!query.trim()) { renderModalList(); return; }
+
+        ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #666; font-size: 13px; padding: 10px;">🔍 Đang tìm kiếm trên Store...</div>';
+
+        fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&country=vn&entity=software&limit=12`)
+            .then(res => res.json())
+            .then(data => {
+                ml.innerHTML = '';
+                if (!data.results || data.results.length === 0) {
+                    ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #888; font-size: 13px;">Không tìm thấy ứng dụng!</div>';
+                    return;
+                }
+                data.results.forEach(app => {
+                    const bundleId = app.bundleId;
+                    const appName = app.trackName;
+                    const iconUrl = app.artworkUrl512 || app.artworkUrl100;
+
+                    // Lưu tạm vào database để dùng ngay
+                    appDatabase[bundleId] = { Name: appName, icon: iconUrl };
+
+                    const item = document.createElement('div'); item.className = 'app-item';
+                    item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px;"><img src="${iconUrl}" class="icon-img"></div><span style="font-size:10px; margin-top:4px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${appName}</span>`;
+                    item.onclick = () => selectAppToAdd(bundleId);
+                    ml.appendChild(item);
+                });
+            })
+            .catch(() => {
+                ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #ff3b30; font-size: 13px;">Lỗi kết nối mạng!</div>';
+            });
+    }
+
+    function selectAppToAdd(id) {
+        let arr = getVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, []);
+        let maxLimitMsg = (langData.modal?.max_apps_limit || "Bạn chỉ có thể thêm tối đa {max} ứng dụng.").replace('{max}', isAddingDock ? MAX_DOCK_APPS : MAX_APPS);
+        if(arr.length >= (isAddingDock ? MAX_DOCK_APPS : MAX_APPS)) return showToast(maxLimitMsg);
+        
+        arr.push(id); 
+        setVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, arr);
+        document.getElementById('addAppModal').classList.remove('active'); 
+        isAddingDock = false; 
+        renderGrid();
+    }
+
+    function renderModalList() {
         const ml = document.getElementById('modalList'); ml.innerHTML = '';
         const used = [...getVals(ST_KEYS.app, []), ...getVals(ST_KEYS.dock, [])];
         Object.keys(appDatabase).filter(id => !used.includes(id)).forEach(id => {
             const item = document.createElement('div'); item.className = 'app-item';
             let cleanIcon = cleanIconPath(appDatabase[id].icon);
             item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px;"><img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'"></div><span style="font-size:10px; margin-top:4px;">${appDatabase[id].Name}</span>`;
-            item.onclick = () => {
-                let arr = getVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, []);
-                let maxLimitMsg = (langData.modal?.max_apps_limit || "Bạn chỉ có thể thêm tối đa {max} ứng dụng.").replace('{max}', isAddingDock ? MAX_DOCK_APPS : MAX_APPS);
-                if(arr.length >= (isAddingDock ? MAX_DOCK_APPS : MAX_APPS)) return showToast(maxLimitMsg);
-                arr.push(id); setVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, arr);
-                document.getElementById('addAppModal').classList.remove('active'); isAddingDock = false; renderGrid();
-            };
+            item.onclick = () => selectAppToAdd(id);
             ml.appendChild(item);
         });
+    }
+
+    function renderModal() {
+        document.getElementById('appSearchInput').value = '';
+        renderModalList();
         document.getElementById('addAppModal').classList.add('active');
     }
 
@@ -409,6 +435,11 @@
             drawerWrapper.classList.add('open');
         };
         document.getElementById('drawerClose').onclick = closeDrawerSecure;
+
+        document.getElementById('appSearchInput').oninput = (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => searchOnlineApps(e.target.value), 400);
+        };
 
         document.getElementById('btnDelete').onclick = toggleDeleteMode;
         document.getElementById('btnReset').onclick = () => { 
