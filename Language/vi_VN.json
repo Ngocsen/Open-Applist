@@ -15,7 +15,8 @@
     "view_more": "Xem thêm",
     "confirm": "Đồng ý",
     "cancel": "Huỷ",
-    "save_config": "Lưu cấu hình"
+    "save_config": "Lưu cấu hình",
+    "load_more": "Xem thêm (12 App)"
   },
   "app_menu": {
     "move_top": "Đưa lên đầu",
@@ -47,19 +48,21 @@
   },
   "effects": {
     "title": "Hiệu ứng Icon",
+    "title_bg": "Hiệu ứng Nền Khung",
     "vision_stroke": "Viền VisionOS",
     "mark_label": "Kiểu Mark",
     "shadow_direction_label": "Hướng đổ bóng:",
-    "shadow_blur_label": "Blur:",
-    "shadow_offset_label": "Offset:",
-    "shadow_opacity_label": "Opacity:",
+    "shadow_blur_label": "Độ mờ (Blur):",
+    "shadow_offset_label": "Khoảng cách (Offset):",
+    "shadow_opacity_label": "Độ đậm nhạt (Opacity):",
     "radius_label": "Kiểu Bo góc Icon",
     "save": "Lưu hiệu ứng",
     "cancel": "Huỷ",
     "settings": {
       "title": "Cài đặt",
-      "effects_menu": "Icons Effects",
-      "dock_menu": "Dock"
+      "effects_menu": "Hiệu ứng Icon (Icons)",
+      "bg_menu": "Hiệu ứng Nền (Background)",
+      "dock_menu": "Tuỳ chỉnh Dock"
     },
     "dock": {
       "title": "Dock",
