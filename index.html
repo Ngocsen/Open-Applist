@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.3 - Bug Free Edition</title>
+    <title>Snowboard V7.4 - UI Aligned Edition</title>
 </head>
 <body>
 
@@ -272,7 +272,6 @@
         return div;
     }
 
-    /* FIX 1: DỌN APP RÁC TRONG DOCK TRƯỚC KHI HIỂN THỊ ĐỂ KHÔNG MẤT NÚT CỘNG */
     function renderDock() {
         const style = localStorage.getItem(ST_KEYS.dockStyle) || 'none';
         dockArea.innerHTML = '';
@@ -310,7 +309,9 @@
                 drawerWrapper.style.flexDirection = 'column-reverse';
                 drawerContent.style.flexDirection = 'column-reverse';
                 drawerWrapper.className = 'drawer-vertical'; 
-                drawerWrapper.style.bottom = 'calc(95px + env(safe-area-inset-bottom, 20px))';
+                
+                /* FIX CĂN THẲNG HÀNG DỌC CÓ DOCK */
+                drawerWrapper.style.bottom = 'calc(110px + env(safe-area-inset-bottom, 20px))';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.right = 'auto';
                 drawerWrapper.style.transform = 'translateX(-50%) scale(0.5) translateY(40px)';
@@ -323,7 +324,6 @@
         dockArea.appendChild(setBtn);
     }
 
-    /* FIX 1: DỌN APP RÁC Ở LƯỚI TRƯỚC KHI HIỂN THỊ ĐỂ KHÔNG MẤT NÚT CỘNG */
     function renderGrid() {
         grid.innerHTML = '';
         document.body.classList.toggle('hide-labels', localStorage.getItem(ST_KEYS.hideLab) === 'true');
@@ -446,8 +446,8 @@
             drawerContent.style.flexDirection = 'row';
             drawerWrapper.className = 'drawer-horizontal';
             
-            /* FIX 2: NGĂN KÉO HIỂN THỊ ĐÚNG CHUẨN KHI Ở TRẠNG THÁI NGANG */
-            drawerWrapper.style.bottom = 'calc(35px + env(safe-area-inset-bottom, 20px))';
+            /* FIX CĂN THẲNG HÀNG NGANG KHÔNG DOCK */
+            drawerWrapper.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
             drawerWrapper.style.right = '90px'; 
             drawerWrapper.style.left = 'auto'; 
             drawerWrapper.style.transform = 'scale(0.5) translateX(20px)';
