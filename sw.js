@@ -1,14 +1,15 @@
-const CACHE_NAME = 'snowboard-cache-v1';
+const CACHE_NAME = 'snowboard-cache-v2'; // Đã nâng cấp lên v2 để ép xóa cache cũ
 const urlsToCache = [
   './',
   './index.html',
-  './style.css',
+  './css/style.css',
   './script.js',
   './manifest.json',
   './apple-touch-icon.png',
   './db.json',
   './system-app.json',
-  './social.json'
+  './social.json',
+  './Language/vi_VN.json'
 ];
 
 self.addEventListener('install', (event) => {
@@ -35,21 +36,14 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    caches.match(event.request)
-      .then((cached) => {
-        if (cached) return cached;
-
-        return fetch(event.request)
-          .then((response) => {
-            if (response.status === 200 && (response.type === 'basic' || response.type === 'cors')) {
-              const clone = response.clone();
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-            }
-            return response;
-          })
-          .catch(() => {
-            return caches.match('./index.html');
-          });
+    fetch(event.request)
+      .then((response) => {
+        if (response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
       })
+      .catch(() => caches.match(event.request))
   );
 });
