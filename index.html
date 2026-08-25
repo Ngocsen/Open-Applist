@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.4 - UI Aligned Edition</title>
+    <title>Snowboard V7.5 - Grid Perfected</title>
 </head>
 <body>
 
@@ -57,7 +57,7 @@
         <button class="close-modal" id="openBgEffectsBtn"></button>
         <button class="close-modal" id="openDockBtn"></button>
         <button class="close-modal" id="openLabelsBtn"></button>
-        <div style="display: flex; gap: 10px; margin-top: 18px;">
+        <div style="display: flex; gap: 10px; margin-top: 14px;">
             <button class="close-modal" id="exportBtn" style="margin-top: 0; background: rgba(0, 188, 212, 0.15); color: #00bcd4;"></button>
             <button class="close-modal" id="importBtn" style="margin-top: 0; background: rgba(52, 199, 89, 0.15); color: #34c759;"></button>
         </div>
@@ -68,7 +68,7 @@
 <div class="modal-overlay" id="bgEffectModal">
     <div class="modal-content">
         <h3 id="txtBgEffectTitle" style="color: #ff2d55;">Hiệu ứng Nền Khung</h3>
-        <div style="margin-bottom: 16px;">
+        <div style="margin-bottom: 14px;">
             <label id="lblBgShadowDirection">Hướng đổ bóng nền:</label>
             <div class="direction-container">
                 <button class="dir-btn bg-dir-btn" data-dir="left">◀︎</button>
@@ -78,30 +78,31 @@
                 <button class="dir-btn bg-dir-btn" data-dir="bottom">▼</button>
             </div>
         </div>
-        <div style="margin-bottom: 16px;"><label id="lblBgShadowBlur">Độ mờ (Blur):</label><input type="number" id="bgShadowBlurInput" class="input-num" style="text-align:center;" value="60"></div>
-        <div style="margin-bottom: 16px;"><label id="lblBgShadowOffset">Khoảng cách (Offset):</label><input type="number" id="bgShadowOffsetInput" class="input-num" style="text-align:center;" value="30"></div>
-        <div style="margin-bottom: 16px;"><label id="lblBgShadowOpacity">Độ đậm nhạt (Opacity):</label><input type="number" id="bgShadowOpacityInput" class="input-num" style="text-align:center;" value="8"></div>
+        <div style="margin-bottom: 14px;"><label id="lblBgShadowBlur">Độ mờ (Blur):</label><input type="number" id="bgShadowBlurInput" class="input-num" style="text-align:center;" value="60"></div>
+        <div style="margin-bottom: 14px;"><label id="lblBgShadowOffset">Khoảng cách (Offset):</label><input type="number" id="bgShadowOffsetInput" class="input-num" style="text-align:center;" value="30"></div>
+        <div style="margin-bottom: 14px;"><label id="lblBgShadowOpacity">Độ đậm nhạt (Opacity):</label><input type="number" id="bgShadowOpacityInput" class="input-num" style="text-align:center;" value="8"></div>
         <button class="close-modal" id="saveBgEffectBtn" style="color: #00bcd4;"></button>
         <button class="close-modal lang-cancel" id="closeBgEffectBtn" style="color: #ff3b30;"></button>
     </div>
 </div>
 
 <div class="modal-overlay" id="labelsModal"><div class="modal-content"><h3 id="lblLabelsTitle"></h3><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtHideLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtShowLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span id="txtFastRename"></span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div><button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeLabelsBtn" style="color: #ff3b30;"></button></div></div>
-<div class="modal-overlay" id="effectModal"><div class="modal-content"><h3 id="txtEffectTitle" style="color: #20b2aa;"></h3><div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 12px; border-radius: 14px;"><span style="font-weight: 600; color: #1e1e2f;" id="txtVisionStroke"></span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label></div><div style="margin-bottom: 16px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div><div style="margin-bottom: 16px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div><div style="margin-bottom: 16px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10"></div><div style="margin-bottom: 16px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10"></div><div style="margin-bottom: 16px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30"></div><div style="margin-bottom: 16px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div><button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button></div></div>
-<div class="modal-overlay" id="dockModal"><div class="modal-content"><h3 id="txtDockTitle"></h3><div style="margin-bottom: 16px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label><span id="txtDockGlass"></span></div><div style="margin-bottom: 16px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label><span id="txtDockWood"></span></div><div style="margin-bottom: 16px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label><span id="txtDockBlur"></span></div><div style="margin-bottom: 24px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label><span id="txtDockDisable"></span></div><button class="close-modal" id="saveDockBtn" style="color: #00bcd4; margin-top: 8px;"></button><button class="close-modal lang-cancel" id="closeDockBtn" style="color: #ff3b30; margin-top: 10px;"></button></div></div>
+<div class="modal-overlay" id="effectModal"><div class="modal-content"><h3 id="txtEffectTitle" style="color: #20b2aa;"></h3><div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 10px; border-radius: 14px;"><span style="font-weight: 600; color: #1e1e2f;" id="txtVisionStroke"></span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label></div><div style="margin-bottom: 14px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div><div style="margin-bottom: 14px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div><div style="margin-bottom: 14px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10"></div><div style="margin-bottom: 14px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10"></div><div style="margin-bottom: 14px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30"></div><div style="margin-bottom: 14px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div><button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button></div></div>
+<div class="modal-overlay" id="dockModal"><div class="modal-content"><h3 id="txtDockTitle"></h3><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label><span id="txtDockGlass"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label><span id="txtDockWood"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label><span id="txtDockBlur"></span></div><div style="margin-bottom: 20px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label><span id="txtDockDisable"></span></div><button class="close-modal" id="saveDockBtn" style="color: #00bcd4; margin-top: 6px;"></button><button class="close-modal lang-cancel" id="closeDockBtn" style="color: #ff3b30; margin-top: 8px;"></button></div></div>
 
+<!-- POPUP THÊM APP KHO CHỨA & ONLINE -->
 <div class="modal-overlay" id="addAppModal">
-    <div class="modal-content" style="padding-bottom: 16px;">
+    <div class="modal-content" style="padding-bottom: 14px;">
         <h3 id="txtAddAppTitle"></h3>
-        <div style="margin-top: 10px; margin-bottom: 12px; display: flex; gap: 8px;">
+        <div style="margin-top: 8px; margin-bottom: 10px; display: flex; gap: 8px;">
             <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm trên App Store..." style="flex:1;" />
             <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s;">VN</button>
         </div>
-        <div class="modal-list" id="modalList" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; max-height: 45vh; overflow-y: auto; padding: 10px 0;"></div>
+        <div class="modal-list" id="modalList"></div>
         
-        <button class="close-modal" id="btnLoadMoreOnline" style="background: rgba(0, 122, 255, 0.15); color: #007AFF; margin-top: 10px; display: none;"></button>
-        <button class="close-modal" id="btnLoadMoreLocal" style="background: rgba(52, 199, 89, 0.15); color: #34c759; margin-top: 10px; display: none;"></button>
-        <button class="close-modal lang-close" id="closeModalBtn" style="margin-top: 10px;"></button>
+        <button class="close-modal" id="btnLoadMoreOnline" style="background: rgba(0, 122, 255, 0.15); color: #007AFF; margin-top: 8px; display: none;"></button>
+        <button class="close-modal" id="btnLoadMoreLocal" style="background: rgba(52, 199, 89, 0.15); color: #34c759; margin-top: 8px; display: none;"></button>
+        <button class="close-modal lang-close" id="closeModalBtn" style="margin-top: 8px;"></button>
     </div>
 </div>
 
@@ -309,8 +310,6 @@
                 drawerWrapper.style.flexDirection = 'column-reverse';
                 drawerContent.style.flexDirection = 'column-reverse';
                 drawerWrapper.className = 'drawer-vertical'; 
-                
-                /* FIX CĂN THẲNG HÀNG DỌC CÓ DOCK */
                 drawerWrapper.style.bottom = 'calc(110px + env(safe-area-inset-bottom, 20px))';
                 drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
                 drawerWrapper.style.right = 'auto';
@@ -445,8 +444,6 @@
             drawerWrapper.style.flexDirection = 'row';
             drawerContent.style.flexDirection = 'row';
             drawerWrapper.className = 'drawer-horizontal';
-            
-            /* FIX CĂN THẲNG HÀNG NGANG KHÔNG DOCK */
             drawerWrapper.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
             drawerWrapper.style.right = '90px'; 
             drawerWrapper.style.left = 'auto'; 
@@ -536,7 +533,7 @@
         });
 
         document.getElementById('exportBtn').onclick = () => {
-            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOffset), bgOp: localStorage.getItem(ST_KEYS.bgOpacity) }};
+            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity) }};
             navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast("Copied"); });
         };
         
