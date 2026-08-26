@@ -5,7 +5,6 @@
   },
   "info_popup": {
     "title": "Sentechtipvn",
-    "details": "Snowboard v1.0<br>•Kết hợp Weblip và Phím tắt tạo sự đột phá về tuỳ chỉnh cá nhân hoá.<br>•Thêm nó vào màn hình chính để biến nó thành màn hình thứ hai có độ tuỳ biến sâu.",
     "contact": "Liên hệ",
     "follow": "Theo dõi kênh",
     "info": "Thông tin"
@@ -73,6 +72,6 @@
     "toast_error": "Có lỗi xảy ra!"
   },
   "dock_info": {
-    "app_version": "Snowboard by Sentechtipvn"
+    "app_version": "Snowboard v1.0<br>•Kết hợp Weblip và Phím tắt tạo sự đột phá về tuỳ chỉnh cá nhân hoá.<br>•Thêm nó vào màn hình chính để biến nó thành màn hình thứ hai có độ tuỳ biến sâu."
   }
 }
