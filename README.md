@@ -9,6 +9,7 @@
 ![GitHub stars](https://img.shields.io/badge/Stars-0-yellow?style=flat-square&logo=github)
 
 **Tác giả: [Sentechtipsvn](https://browse.shortcuty.app/user/Sentechtipsvn) 🇻🇳**
+
 <br/>
 *Webclip giả lập màn hình chính trên iPhone, kết hợp với ứng dụng Phím tắt để mở các ứng dụng thường dùng, mang lại trải nghiệm cá nhân hóa tối đa.*
 
@@ -17,6 +18,7 @@
 ## 📸 Demo - [⬇️](https://sentechtipsvn.github.io/Snowboard/)
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="350">
+
   <img src="./images/demo-2.png" alt="App Demo" width="350">
 </p>
 ---
