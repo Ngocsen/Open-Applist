@@ -4,7 +4,7 @@
     "desc": "Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!"
   },
   "info_popup": {
-    "title": "Sentechtipvn",
+    "title": "Thông tin",
     "details": "Snowboard v1.0<br>•Kết hợp Weblip và Phím tắt tạo sự đột phá về tuỳ chỉnh cá nhân hoá.<br>•Thêm nó vào màn hình chính để biến nó thành màn hình thứ hai có độ tuỳ biến sâu.",
     "contact": "Liên hệ",
     "follow": "Theo dõi kênh",
@@ -17,13 +17,13 @@
       "bg_menu": "Hiệu ứng Nền",
       "dock_menu": "Dock"
     },
-    "title_bg": "Effects",
+    "title_bg": "Đổ bóng nền",
     "shadow_direction_label": "Hướng đổ bóng:",
     "shadow_blur_label": "Blur:",
     "shadow_offset_label": "Offset:",
     "shadow_opacity_label": "Opacity 0-100:",
     "save": "Lưu hiệu ứng",
-    "title": "Icon",
+    "title": "Đổ bóng icon",
     "vision_stroke": "Viền VisionOS",
     "mark_label": "Kiểu Mark",
     "radius_label": "Kiểu Bo góc Icon",
@@ -37,7 +37,7 @@
     }
   },
   "app_menu": {
-    "manage_apps": "Sentechtipvn"
+    "manage_apps": "Cài đặt ứng dụng"
   },
   "common": {
     "export_config": "📤 Xuất Cấu Hình",
