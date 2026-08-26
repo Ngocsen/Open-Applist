@@ -95,7 +95,7 @@
         <h3 id="txtAddAppTitle"></h3>
         <div style="margin-top: 8px; margin-bottom: 10px; display: flex; gap: 8px;">
             <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm trên App Store..." style="flex:1;" />
-            <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s;">VN</button>
+            <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.15s;">VN</button>
         </div>
         <div class="modal-list" id="modalList"></div>
         
@@ -112,7 +112,7 @@
     let appDatabase = {}, socialData = { links: { email: '', social_follow: '', plugin_shortcut: '' } }, langData = {};
     const basePath = '.';
     
-    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity' };
+    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity', custom: 'customApps' };
     
     const MAX_APPS = 12, MAX_DOCK_APPS = 3;
     let isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
@@ -131,7 +131,8 @@
         fetch(basePath + '/social.json').then(res => res.json()).catch(() => socialData),
         fetch(basePath + '/Language/vi_VN.json').then(res => res.json()).catch(() => ({}))
     ]).then(([db, sysApp, social, lang]) => {
-        appDatabase = { ...db, ...sysApp }; 
+        let customApps = getVals(ST_KEYS.custom, {});
+        appDatabase = { ...db, ...sysApp, ...customApps }; 
         socialData = social || socialData;
         langData = lang || {};
         applyLanguage();
@@ -390,7 +391,9 @@
                 data.results.forEach(app => {
                     const bundleId = app.bundleId;
                     let appName = app.trackName;
-                    appName = appName.split('-')[0].split('–')[0].split(',')[0].trim();
+                    
+                    appName = appName.split(':')[0].split('-')[0].split('–')[0].split('/')[0].split('"')[0].split(',')[0].trim();
+                    
                     const iconUrl = app.artworkUrl512 || app.artworkUrl100;
                     appDatabase[bundleId] = { Name: appName, icon: iconUrl };
                     
@@ -412,6 +415,13 @@
         
         arr.push(id); 
         setVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, arr);
+
+        let customApps = getVals(ST_KEYS.custom, {});
+        if (!customApps[id] && appDatabase[id]) {
+            customApps[id] = { Name: appDatabase[id].Name, icon: appDatabase[id].icon };
+            setVals(ST_KEYS.custom, customApps);
+        }
+
         document.getElementById('addAppModal').classList.remove('active'); 
         isAddingDock = false; 
         renderGrid();
@@ -520,7 +530,7 @@
             localStorage.setItem(ST_KEYS.bgOpacity, Math.max(0, Math.min(100, op)));
             
             document.getElementById('bgEffectModal').classList.remove('active'); 
-            applyBackgroundEffects(); showToast("Đã lưu Nền");
+            applyBackgroundEffects(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
         };
 
         document.getElementById('saveEffectBtn').onclick = () => {
@@ -540,7 +550,7 @@
             localStorage.setItem(ST_KEYS.opacity, Math.max(0, Math.min(100, op)));
             
             document.getElementById('effectModal').classList.remove('active'); 
-            applyGlobalIconEffectsToSettingsBtn(); renderGrid(); showToast("OK");
+            applyGlobalIconEffectsToSettingsBtn(); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
         };
 
         document.getElementById('saveDockBtn').onclick = () => {
@@ -549,13 +559,13 @@
             else if(document.getElementById('dockWoodToggle').checked) style = 'wood';
             else if(document.getElementById('dockBlurToggle').checked) style = 'blur';
             localStorage.setItem(ST_KEYS.dockStyle, style);
-            document.getElementById('dockModal').classList.remove('active'); renderGrid(); showToast("OK");
+            document.getElementById('dockModal').classList.remove('active'); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
         };
 
         document.getElementById('saveLabelsBtn').onclick = () => {
             localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
             isFastRenameMode = document.getElementById('fastRenameToggle').checked; 
-            document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast("OK");
+            document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
         };
 
         document.querySelectorAll('.close-modal').forEach(btn => { 
@@ -564,17 +574,17 @@
 
         document.getElementById('exportBtn').onclick = () => {
             const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity) }};
-            navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast("Copied"); });
+            navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_copied || "Đã sao chép"); });
         };
         
         document.getElementById('importBtn').onclick = () => {
-            let code = prompt("Config code:"); if(!code) return;
+            let code = prompt(langData.messages?.prompt_import_code || "Dán mã cấu hình của bạn vào đây:"); if(!code) return;
             try {
                 let d = JSON.parse(decodeURIComponent(atob(code)));
                 if(d.apps) setVals(ST_KEYS.app, d.apps); if(d.dock) setVals(ST_KEYS.dock, d.dock); if(d.names) setVals(ST_KEYS.name, d.names);
                 if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); localStorage.setItem(ST_KEYS.bgDir, d.eff.bgDir||'bottom'); localStorage.setItem(ST_KEYS.bgBlur, d.eff.bgBlur||'60'); localStorage.setItem(ST_KEYS.bgOffset, d.eff.bgOff||'30'); localStorage.setItem(ST_KEYS.bgOpacity, d.eff.bgOp||'8'); }
-                document.getElementById('settingsModal').classList.remove('active'); showToast("Success!"); setTimeout(() => location.reload(), 1000);
-            } catch(e) { alert("Error!"); }
+                document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_success || "Thành công!"); setTimeout(() => location.reload(), 1000);
+            } catch(e) { alert(langData.messages?.toast_error || "Có lỗi xảy ra!"); }
         };
 
         renderGrid();
