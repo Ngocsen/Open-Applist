@@ -17,7 +17,7 @@
 ---
 ## 📸 Demo - [⬇️](https://ngocsen.github.io/Snowboard/)
 <p align="center">
-  <img src="./images/demo.png" alt="App Demo" width="828">
+  <img src="./images/demo.png" alt="App Demo" width="350">
 </p>
 
 ---
