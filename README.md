@@ -13,14 +13,13 @@
 *Webclip giả lập màn hình chính trên iPhone, kết hợp với ứng dụng Phím tắt để mở các ứng dụng thường dùng, mang lại trải nghiệm cá nhân hóa tối đa.*
 
 </div>
-
 ---
 ## 📸 Demo - [⬇️](https://sentechtipsvn.github.io/Snowboard/)
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="350">
 </p>
+</div>
   <img src="./images/demo-2.png" alt="App Demo" width="350">
-<br/>
 ---
 
 ## ✨ Tính năng nổi bật
