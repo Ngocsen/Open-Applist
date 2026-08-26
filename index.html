@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.7 - Perfect Alignment Edition</title>
+    <title>Snowboard V7.7 - Sentechtipvn</title>
 </head>
 <body>
 
@@ -95,7 +95,7 @@
         <h3 id="txtAddAppTitle"></h3>
         <div style="margin-top: 8px; margin-bottom: 10px; display: flex; gap: 8px;">
             <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm trên App Store..." style="flex:1;" />
-            <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.15s;">VN</button>
+            <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer;">VN</button>
         </div>
         <div class="modal-list" id="modalList"></div>
         
@@ -107,6 +107,59 @@
 
 <script>
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').then(reg => reg.update()); }
+
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playHapticSound() {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+    }
+
+    function createRipple(event, button) {
+        if(!button.classList.contains('ripple-wrapper')) button.classList.add('ripple-wrapper');
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+        const rect = button.getBoundingClientRect();
+        let x, y;
+        if(event.touches && event.touches.length > 0) {
+            x = event.touches[0].clientX - rect.left;
+            y = event.touches[0].clientY - rect.top;
+        } else {
+            x = event.clientX - rect.left;
+            y = event.clientY - rect.top;
+        }
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${x - radius}px`;
+        circle.style.top = `${y - radius}px`;
+        circle.classList.add("ripple");
+        const existing = button.querySelector('.ripple');
+        if (existing) { existing.remove(); }
+        button.appendChild(circle);
+        setTimeout(() => { if(circle.parentNode) circle.remove(); }, 600);
+    }
+
+    document.body.addEventListener('touchstart', function(e) {
+        let target = e.target.closest('button, .app-item, .drawer-btn, .close-modal, .dir-btn');
+        if(target) {
+            playHapticSound();
+            if(target.tagName === 'BUTTON' || target.classList.contains('close-modal')) {
+                createRipple(e, target);
+            }
+        }
+    }, {passive: true});
 
     const FALLBACK_DB = {};
     let appDatabase = {}, socialData = { links: { email: '', social_follow: '', plugin_shortcut: '' } }, langData = {};
@@ -282,6 +335,33 @@
         } else {
             div.onclick = () => isFastRenameMode ? renameApp(id, dName) : window.location.href = "shortcuts://run-shortcut?name=Open App Launcher&input=text&text=" + encodeURIComponent(id);
         }
+
+        let startX = 0, currentX = 0, isDragging = false;
+        div.addEventListener('touchstart', e => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            div.style.transition = 'none';
+        }, {passive: true});
+        div.addEventListener('touchmove', e => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            let diffX = currentX - startX;
+            if (Math.abs(diffX) > 15) {
+                div.style.transform = `translateX(${diffX}px) scale(0.92)`;
+            }
+        }, {passive: true});
+        div.addEventListener('touchend', e => {
+            if(!isDragging) return;
+            isDragging = false;
+            let diffX = currentX - startX;
+            div.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s';
+            div.style.transform = '';
+            if (Math.abs(diffX) > 70) {
+                toggleDeleteMode();
+            }
+            currentX = startX = 0;
+        });
+
         return div;
     }
 
