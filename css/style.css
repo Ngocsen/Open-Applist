@@ -1,16 +1,12 @@
-/* =========================================
-   CSS HOÀN CHỈNH V6.8 - NGĂN KÉO DỌC CHUẨN XÁC
-   ========================================= */
-
 :root {
-    --bg-gradient-1: #d4bbfc;
-    --bg-gradient-2: #8ec5fc;
-    --bg-container: rgba(255, 255, 255, 0.25);
-    --color-title: #0071e3;
-    --color-channel-name: #20b2aa;
+    --bg-gradient-1: #d4bbfc;                  
+    --bg-gradient-2: #8ec5fc;                  
+    --bg-container: rgba(255, 255, 255, 0.25); 
+    --color-title: #0071e3;                    
+    --color-channel-name: #20b2aa;             
     --color-input-bg: rgba(255, 255, 255, 0.8);
     --color-modal-bg: rgba(255, 255, 255, 0.85);
-    --shadow-box: 0 2px 8px rgba(0, 0, 0, 0.12);
+    --shadow-box: 0 2px 8px rgba(0, 0, 0, 0.12); 
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -25,115 +21,113 @@ body {
 
 .app-container {
     background: var(--bg-container); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-    border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 40px rgba(139,92,246,0.15);
-    width: min(92vw, 360px); padding: 24px; position: relative;
+    border-radius: 36px; border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08); 
+    width: min(90vw, 360px); padding: 20px 14px; position: relative; transition: box-shadow 0.3s ease;
 }
-.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 14px; justify-items: center; }
-.app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; }
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 8px; justify-items: center; width: 100%; }
+.app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; transition: transform 0.15s; min-width: 0; }
+.app-item:active { transform: scale(0.92); } 
 
-.icon-wrapper { width: 60px; height: 60px; position: relative; overflow: hidden; margin-bottom: 8px; isolation: isolate; border: none; }
+.icon-wrapper { width: 60px; height: 60px; position: relative; overflow: hidden; margin-bottom: 6px; isolation: isolate; border: none; flex-shrink: 0; }
 .icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 .fallback-text { display: none !important; }
 .mark-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; mix-blend-mode: overlay; }
 
-.app-info { display: flex; align-items: center; justify-content: center; width: 100%; }
-.app-name { font-size: 10px; color: #1e1e2f; opacity: 0.8; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app-info { display: flex; align-items: center; justify-content: center; width: 100%; min-width: 0; }
+.app-name { display: block; font-size: 11px; color: #1e1e2f; opacity: 0.9; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; padding: 0 2px;}
 body.hide-labels .app-info { display: none !important; }
-.vision-stroke { border: 1px solid rgba(0, 0, 0, 0.15); box-sizing: border-box; }
+.vision-stroke { border: 1px solid rgba(0, 0, 0, 0.15) !important; box-sizing: border-box; }
 
+/* SETTING ICON (KHÔNG DOCK) */
 #settingsBtn {
     position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999;
-    width: 50px !important; height: 50px !important; min-width: 50px !important; min-height: 50px !important;
-    background: transparent; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
+    width: 60px !important; height: 60px !important; min-width: 60px !important; min-height: 60px !important;
+    background: transparent; border: none; 
+    display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; overflow: hidden;
+    transition: transform 0.2s; isolation: isolate;
 }
-#settingsBtn img { width: 100%; height: 100%; object-fit: contain; }
+#settingsBtn:active { transform: scale(0.9); }
+#settingsBtn img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 body.dock-active #settingsBtn { display: none !important; }
 
-/* Thanh Dock */
-.dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 24px; z-index: 997; }
+/* DOCK */
+.dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 360px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 28px; z-index: 997; transition: box-shadow 0.3s ease; }
 .dock-style-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
 .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; }
 .dock-style-blur { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
 
-/* KHU VỰC DRAWER (NGĂN KÉO) */
+/* KHU VỰC DRAWER - FIX TRIỆT ĐỂ VỆT MỜ VÀ CĂN TRỤC */
 #drawerWrapper {
-    position: fixed; z-index: 998; display: none; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.25); backdrop-filter: blur(40px); border-radius: 50px; padding: 4px;
-    border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: fixed; z-index: 998; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+    opacity: 0; pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
 }
-#drawerContent {
-    display: flex; gap: 6px; overflow: hidden; opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+#drawerWrapper.open { opacity: 1; pointer-events: auto; }
+#drawerWrapper.drawer-horizontal.open { transform: scale(1) !important; }
+#drawerWrapper.drawer-vertical.open { transform: translateX(-50%) scale(1) !important; }
+
+#drawerContent { display: flex; align-items: center; gap: 8px; overflow: hidden; width: 100%; height: 100%; }
+
+/* Khóa chặt chống tràn viền ngang và dọc, loại bỏ hoàn toàn vệt mờ bên phải */
+.drawer-horizontal { background: rgba(255,255,255,0.4); backdrop-filter: blur(40px); border-radius: 50px; padding: 7px; border: 1px solid rgba(255,255,255,0.6); flex-direction: row; }
+.drawer-vertical { background: rgba(255,255,255,0.7) !important; backdrop-filter: blur(30px) !important; border-radius: 32px !important; padding: 7px !important; border: 1px solid rgba(255,255,255,0.6); flex-direction: column; }
+.drawer-vertical #drawerClose { display: none !important; }
+
+/* KÍCH THƯỚC ICON CHUẨN 46x46 */
 .drawer-btn {
-    width: 44px !important; height: 44px !important; border-radius: 50% !important; border: none;
+    width: 46px !important; height: 46px !important; border-radius: 50% !important; border: none;
     display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
-    background: rgba(255,255,255,0.4); box-shadow: var(--shadow-box); overflow: hidden;
+    background: rgba(255,255,255,0.6); box-shadow: var(--shadow-box); overflow: hidden; transition: transform 0.2s;
 }
+.drawer-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.9); }
 .drawer-btn img { width: 100%; height: 100%; border-radius: 50% !important; object-fit: cover; }
-#drawerClose { width: 44px; height: 44px; border-radius: 50%; background: rgba(0, 122, 255, 0.2); color: #007AFF; border: none; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+#drawerClose { width: 46px !important; height: 46px !important; border-radius: 50%; background: rgba(0, 122, 255, 0.15); color: #007AFF; border: none; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;}
 
-/* TRẠNG THÁI 1: TẮT DOCK (XẾP NGANG, GÓC PHẢI) */
-body:not(.dock-active) #drawerWrapper {
-    bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; flex-direction: row;
-}
-body:not(.dock-active) #drawerContent {
-    flex-direction: row; max-width: 0; max-height: 50px;
-}
-body:not(.dock-active) #drawerWrapper.open #drawerContent {
-    max-width: 300px; opacity: 1; padding-right: 4px;
-}
+.delete-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; background: rgba(255, 59, 48, 0.9); backdrop-filter: blur(5px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; cursor: pointer; z-index: 10; box-shadow: 0 4px 12px rgba(255,59,48,0.5); border: 2px solid rgba(255,255,255,0.8); }
 
-/* TRẠNG THÁI 2: BẬT DOCK (XẾP DỌC, MỌC TỪ DƯỚI LÊN ĐỈNH DOCK) */
-body.dock-active #drawerWrapper {
-    flex-direction: column-reverse !important; /* Xếp dọc, từ dưới lên */
-    background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); border-radius: 24px; padding: 8px;
-    bottom: calc(105px + env(safe-area-inset-bottom, 20px)) !important; /* Neo cứng độ cao trên Dock */
-}
-body.dock-active #drawerContent { 
-    flex-direction: column-reverse !important; gap: 10px; max-height: 0; max-width: 50px; 
-}
-body.dock-active #drawerWrapper.open #drawerContent {
-    max-height: 400px; opacity: 1; padding-top: 4px; /* Mở khóa hiệu ứng chiều dọc */
-}
-body.dock-active #drawerClose { display: none !important; }
-
-.delete-icon {
-    position: absolute; top: -4px; right: -4px; width: 22px; height: 22px;
-    background: #ff3b30; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 11px; color: white; cursor: pointer; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+/* MODAL CHUNG */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; display: flex; align-items: center; justify-content: center; }
 .modal-overlay.active { opacity: 1; pointer-events: auto; }
-.modal-content { background: var(--color-modal-bg); backdrop-filter: blur(30px); width: 85%; max-width: 380px; max-height: 70vh; border-radius: 28px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); overflow-y: auto; }
-.modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; }
+.modal-content { background: var(--color-modal-bg); backdrop-filter: blur(30px); width: 90%; max-width: 360px; max-height: 78vh; border-radius: 28px; padding: 18px 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.2); overflow-y: auto; transform: scale(0.85) translateY(20px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
+.modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; color: #1c1c1e; }
 .modal-content label { color: var(--color-channel-name); font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
-.input-num, select, .search-box { width: 100%; padding: 10px; border-radius: 12px; border: none; background: var(--color-input-bg); box-shadow: var(--shadow-box); font-size: 14px; }
-.close-modal { display: block; width: 100%; margin-top: 16px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 14px; font-weight: 600; font-size: 16px; cursor: pointer; text-align: center; }
+.input-num, select, .search-box { width: 100%; padding: 12px 14px; border-radius: 14px; border: none; background: var(--color-input-bg); box-shadow: var(--shadow-box); font-size: 15px; outline: none; }
+.close-modal { display: block; width: 100%; margin-top: 14px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 16px; font-weight: 600; font-size: 15px; cursor: pointer; text-align: center; transition: all 0.2s;}
+.close-modal:active { transform: scale(0.96); background: rgba(200,200,200,0.5); }
+
+.modal-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 6px;
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 8px 2px;
+}
+
+@keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-6deg) scale(1.05); } 75% { transform: rotate(6deg) scale(1.05); } }
+.wiggle-effect { animation: wiggle 1.5s infinite ease-in-out; }
+
 .direction-container { display: flex; gap: 8px; margin-bottom: 10px; }
-.dir-btn { flex: 1; padding: 10px 5px; background: var(--color-input-bg); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; border-radius: 12px; }
-.dir-btn.active { background: #0071e3; color: #fff; }
+.dir-btn { flex: 1; padding: 10px 5px; background: var(--color-input-bg); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; border-radius: 12px; transition: 0.2s;}
+.dir-btn.active { background: #0071e3; color: #fff; transform: scale(1.05);}
 .switch { position: relative; display: inline-block; width: 50px; height: 30px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .slider { position: absolute; cursor: pointer; inset: 0; background-color: #ccc; transition: .4s; border-radius: 30px; }
-.slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-input:checked + .slider { background-color: #2196F3; }
+.slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-radius: 50%; }
+input:checked + .slider { background-color: #34c759; }
 input:checked + .slider:before { transform: translateX(20px); }
 
-#toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 2000; transition: transform 0.4s; }
+#toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 2000; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 #toast.show { transform: translateX(-50%) translateY(0); }
 
 @media (prefers-color-scheme: dark) {
     :root { --bg-container: rgba(30, 27, 75, 0.3); --color-modal-bg: rgba(15, 23, 42, 0.9); --color-input-bg: rgba(255, 255, 255, 0.1); }
     body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
-    .modal-content { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
-    
-    /* Giao diện Dark Mode mượt mà cho Drawer khi bật Dock */
-    body.dock-active #drawerWrapper { background-color: rgba(28, 28, 30, 0.85) !important; border: 1px solid rgba(255,255,255,0.15) !important; }
-    
-    .modal-content h3 { color: #00bcd4 !important; }
+    .modal-content, #drawerWrapper { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
+    .modal-content h3 { color: #f1f5f9 !important; }
     .app-name { color: #f1f5f9; }
-    .close-modal { background: rgba(255,255,255,0.05); color: #fff; }
+    .close-modal { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.05);}
 }
