@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.7 - Sentechtipvn</title>
+    <title>Snowboard V7.7 - Sentechtipsvn</title>
 </head>
 <body>
 
@@ -325,12 +325,19 @@
         `;
 
         if(isDeleteMode) {
-            div.querySelector('.delete-icon').onclick = (e) => { 
-                e.stopPropagation(); 
-                let arr = getVals(isDockItem ? ST_KEYS.dock : ST_KEYS.app, []);
-                arr = arr.filter(itemId => itemId !== id);
-                setVals(isDockItem ? ST_KEYS.dock : ST_KEYS.app, arr);
-                renderGrid();
+            const delIcon = div.querySelector('.delete-icon');
+            if (delIcon) {
+                delIcon.onclick = (e) => { 
+                    e.stopPropagation(); 
+                    let arr = getVals(isDockItem ? ST_KEYS.dock : ST_KEYS.app, []);
+                    arr = arr.filter(itemId => itemId !== id);
+                    setVals(isDockItem ? ST_KEYS.dock : ST_KEYS.app, arr);
+                    renderGrid();
+                };
+            }
+            div.onclick = (e) => {
+                e.stopPropagation();
+                toggleDeleteMode();
             };
         } else {
             div.onclick = () => isFastRenameMode ? renameApp(id, dName) : window.location.href = "shortcuts://run-shortcut?name=Open App Launcher&input=text&text=" + encodeURIComponent(id);
