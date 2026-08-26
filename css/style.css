@@ -2,6 +2,7 @@
     --bg-gradient-1: #d4bbfc;                  
     --bg-gradient-2: #8ec5fc;                  
     --bg-container: rgba(255, 255, 255, 0.25); 
+    --bg-dock: rgba(255, 255, 255, 0.25);
     --color-title: #0071e3;                    
     --color-channel-name: #20b2aa;             
     --color-input-bg: rgba(255, 255, 255, 0.8);
@@ -54,9 +55,9 @@ body.dock-active #settingsBtn { display: none !important; }
 
 /* DOCK */
 .dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 360px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 28px; z-index: 997; transition: box-shadow 0.3s ease; }
-.dock-style-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
+.dock-style-glass { background: var(--bg-dock); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
 .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; }
-.dock-style-blur { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
+.dock-style-blur { background: var(--bg-dock); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
 
 /* KHU VỰC DRAWER */
 #drawerWrapper {
@@ -152,6 +153,34 @@ body.delete-mode #dockSetInner::after {
 
 #onboardingModal {
     z-index: 9999;
+}
+
+/* ĐỒNG BỘ GIAO DIỆN CHỮ TRẮNG TRONG BẢNG CÀI ĐẶT HIỆU ỨNG */
+#bgEffectModal label, #effectModal label,
+#bgEffectModal .input-num, #effectModal .input-num,
+#txtVisionStroke {
+    color: #f1f5f9 !important;
+}
+
+/* INPUT TÙY CHỌN MÀU SẮC (COLOR PICKER) */
+.color-picker-input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+}
+.color-picker-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.color-picker-input::-webkit-color-swatch {
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
 }
 
 /* HIỆU ỨNG NÚT BẤM HOẠT ĐỘNG */
