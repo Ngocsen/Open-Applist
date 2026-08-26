@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard - Sentechtipvn</title>
+    <title>Snowboard V7.8 - Sentechtipvn</title>
 </head>
 <body>
 
@@ -360,7 +360,7 @@
 
         let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
         let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
-        let shadowValue = `${ox}px ${oy}px ${sBlur}px rgba(0,0,0,${sOp}), 0 0 40px rgba(139,92,246,0.1)`;
+        let shadowValue = `${ox}px ${oy}px ${sBlur}px rgba(0,0,0,${sOp})`;
         
         mainAppContainer.style.boxShadow = shadowValue;
         if(document.body.classList.contains('dock-active') && dockArea.className.indexOf('none') === -1) {
@@ -647,8 +647,7 @@
         document.getElementById('colorContainer').value = cCont;
         document.getElementById('colorDock').value = cDock;
 
-        document.documentElement.style.setProperty('--bg-gradient-1', cg1);
-        document.documentElement.style.setProperty('--bg-gradient-2', cg2);
+        document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
         document.documentElement.style.setProperty('--bg-container', cCont + '40');
         document.documentElement.style.setProperty('--bg-dock', cDock + '40');
     }
@@ -658,8 +657,16 @@
         
         initColors();
 
-        document.getElementById('colorGrad1').addEventListener('input', e => document.documentElement.style.setProperty('--bg-gradient-1', e.target.value));
-        document.getElementById('colorGrad2').addEventListener('input', e => document.documentElement.style.setProperty('--bg-gradient-2', e.target.value));
+        document.getElementById('colorGrad1').addEventListener('input', e => {
+            let cg1 = e.target.value;
+            let cg2 = document.getElementById('colorGrad2').value;
+            document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
+        });
+        document.getElementById('colorGrad2').addEventListener('input', e => {
+            let cg1 = document.getElementById('colorGrad1').value;
+            let cg2 = e.target.value;
+            document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
+        });
         document.getElementById('colorContainer').addEventListener('input', e => document.documentElement.style.setProperty('--bg-container', e.target.value + '40'));
         document.getElementById('colorDock').addEventListener('input', e => document.documentElement.style.setProperty('--bg-dock', e.target.value + '40'));
 
@@ -743,10 +750,14 @@
             localStorage.setItem(ST_KEYS.bgOffset, o);
             localStorage.setItem(ST_KEYS.bgOpacity, Math.max(0, Math.min(100, op)));
 
-            localStorage.setItem(ST_KEYS.cG1, document.getElementById('colorGrad1').value);
-            localStorage.setItem(ST_KEYS.cG2, document.getElementById('colorGrad2').value);
+            let cg1 = document.getElementById('colorGrad1').value;
+            let cg2 = document.getElementById('colorGrad2').value;
+            localStorage.setItem(ST_KEYS.cG1, cg1);
+            localStorage.setItem(ST_KEYS.cG2, cg2);
             localStorage.setItem(ST_KEYS.cCont, document.getElementById('colorContainer').value);
             localStorage.setItem(ST_KEYS.cDock, document.getElementById('colorDock').value);
+
+            document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
             
             document.getElementById('bgEffectModal').classList.remove('active'); 
             applyBackgroundEffects(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
