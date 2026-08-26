@@ -1,6 +1,6 @@
 {
   "onboarding": {
-    "title": "Sentechtipvn",
+    "title": "Hướng dẫn",
     "desc": "Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!"
   },
   "info_popup": {
@@ -12,23 +12,23 @@
   },
   "effects": {
     "settings": {
-      "title": "Sentechtipvn",
+      "title": "Cài đặt",
       "effects_menu": "Hiệu ứng Icon",
       "bg_menu": "Hiệu ứng Nền",
       "dock_menu": "Dock"
     },
-    "title_bg": "Sentechtipvn",
+    "title_bg": "Effects",
     "shadow_direction_label": "Hướng đổ bóng:",
     "shadow_blur_label": "Blur:",
     "shadow_offset_label": "Offset:",
     "shadow_opacity_label": "Opacity 0-100:",
     "save": "Lưu hiệu ứng",
-    "title": "Sentechtipvn",
+    "title": "Icon",
     "vision_stroke": "Viền VisionOS",
     "mark_label": "Kiểu Mark",
     "radius_label": "Kiểu Bo góc Icon",
     "dock": {
-      "title": "Sentechtipvn",
+      "title": "Dock",
       "glass": "Kính trong suốt",
       "wood": "Gỗ (iOS 6)",
       "blur": "Mờ Đen",
@@ -55,7 +55,7 @@
     "add": "Thêm"
   },
   "modal": {
-    "title_add_app": "Sentechtipvn",
+    "title_add_app": "Thêm ứng dụng",
     "search_placeholder": "🔍 Tìm kiếm trên App Store...",
     "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng."
   },
