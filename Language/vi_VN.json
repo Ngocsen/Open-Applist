@@ -13,15 +13,15 @@
   "effects": {
     "settings": {
       "title": "Cài đặt",
-      "effects_menu": "Hiệu ứng Icon",
-      "bg_menu": "Hiệu ứng Nền",
-      "dock_menu": "Dock"
+      "effects_menu": "Cài đặt icon",
+      "bg_menu": "Cài đặt nền",
+      "dock_menu": "Cài đặt Dock"
     },
     "title_bg": "Đổ bóng nền",
     "shadow_direction_label": "Hướng đổ bóng:",
-    "shadow_blur_label": "Blur:",
-    "shadow_offset_label": "Đổ bóng nền:",
-    "shadow_opacity_label": "Opacity 0-100:",
+    "shadow_blur_label": "Độ rõ:",
+    "shadow_offset_label": "Khoảng cách:",
+    "shadow_opacity_label": "Đậm nhạt 0-100:",
     "save": "Lưu hiệu ứng",
     "title": "Đổ bóng icon",
     "vision_stroke": "Viền VisionOS",
