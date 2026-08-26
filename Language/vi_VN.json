@@ -16,7 +16,7 @@
     "confirm": "Đồng ý",
     "cancel": "Huỷ",
     "save_config": "Lưu cấu hình",
-    "load_more": "Xem thêm (12 App)"
+    "load_more": "Xem thêm"
   },
   "app_menu": {
     "move_top": "Đưa lên đầu",
@@ -35,7 +35,11 @@
     "config_copied": "Cấu hình đã lưu vào bảng nhớ tạm",
     "prompt_import_code": "Dán mã cấu hình của bạn vào đây:",
     "import_success": "Đã nhập cấu hình thành công!",
-    "import_error": "Mã cấu hình không hợp lệ!"
+    "import_error": "Mã cấu hình không hợp lệ!",
+    "toast_saved": "Đã lưu thành công",
+    "toast_copied": "Đã sao chép",
+    "toast_success": "Thành công!",
+    "toast_error": "Có lỗi xảy ra!"
   },
   "dock_info": {
     "app_version": "• Tên : Snowboard\n• Tác giả : Sentechtipsvn 🇻🇳\n• Webclip giả lập màn hình chính trên iPhone kết hợp với ứng dụng phím tắt để mở các ứng dụng thường dùng.\n• Với bản Webclip này sẽ được viết để tuỳ chỉnh màn hình hiển thị theo phong cách cá nhân hoá.\n• Cách tốt nhất là thêm nó vào màn hình chính để sử dụng hiệu quả những chức năng bên trong."
