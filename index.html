@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.7 - Sentechtipvn</title>
+    <title>Snowboard V7.8 - Sentechtipvn</title>
 </head>
 <body>
 
@@ -40,6 +40,14 @@
 
 <div id="deleteTrash" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; width: 110px; height: 110px; pointer-events: auto;">
     <img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" style="width:100%; height:100%; object-fit:contain;" />
+</div>
+
+<div class="modal-overlay" id="onboardingModal">
+    <div class="modal-content" style="text-align: center;">
+        <h3 style="color: #0071e3; margin-bottom: 12px;">Sentechtipvn</h3>
+        <p style="font-size: 14px; margin-bottom: 16px; color: var(--color-channel-name);">Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!</p>
+        <video src="images/huong_dan.mp4" playsinline muted autoplay loop style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-box);"></video>
+    </div>
 </div>
 
 <div class="modal-overlay" id="infoModal">
@@ -90,7 +98,7 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="labelsModal"><div class="modal-content"><h3 id="lblLabelsTitle">Sentechtipvn</h3><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtHideLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtShowLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span id="txtFastRename"></span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div><button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeLabelsBtn" style="color: #ff3b30;"></button></div></div>
+<div class="modal-overlay" id="labelsModal"><div class="modal-content"><h3 id="lblLabelsTitle">Sentechtipvn</h3><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtHideLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtShowLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span id="txtFastRename"></span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span>Âm thanh chạm (Haptic)</span> <label class="switch"><input type="checkbox" id="hapticSoundToggle" checked><span class="slider"></span></label></div><button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeLabelsBtn" style="color: #ff3b30;"></button></div></div>
 <div class="modal-overlay" id="effectModal"><div class="modal-content"><h3 id="txtEffectTitle" style="color: #20b2aa;">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 10px; border-radius: 14px;"><span style="font-weight: 600; color: #1e1e2f;" id="txtVisionStroke"></span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label></div><div style="margin-bottom: 14px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div><div style="margin-bottom: 14px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div><div style="margin-bottom: 14px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10" min="0" max="200"></div><div style="margin-bottom: 14px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10" min="-100" max="100"></div><div style="margin-bottom: 14px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30" min="0" max="100"></div><div style="margin-bottom: 14px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div><button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button></div></div>
 <div class="modal-overlay" id="dockModal"><div class="modal-content"><h3 id="txtDockTitle">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label><span id="txtDockGlass"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label><span id="txtDockWood"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label><span id="txtDockBlur"></span></div><div style="margin-bottom: 20px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label><span id="txtDockDisable"></span></div><button class="close-modal" id="saveDockBtn" style="color: #00bcd4; margin-top: 6px;"></button><button class="close-modal lang-cancel" id="closeDockBtn" style="color: #ff3b30; margin-top: 8px;"></button></div></div>
 
@@ -112,10 +120,13 @@
 <script>
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').then(reg => reg.update()); }
 
+    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity', custom: 'customApps', haptic: 'hapticSound' };
+
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
     function playHapticSound() {
+        if (localStorage.getItem(ST_KEYS.haptic) === 'false') return;
         if (!audioCtx) audioCtx = new AudioContext();
         if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
@@ -168,8 +179,6 @@
     const FALLBACK_DB = {};
     let appDatabase = {}, socialData = { links: { email: '', social_follow: '', plugin_shortcut: '' } }, langData = {};
     const basePath = '.';
-    
-    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity', custom: 'customApps' };
     
     const MAX_APPS = 12, MAX_DOCK_APPS = 3;
     let isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
@@ -577,6 +586,8 @@
     function openSettings(modalId) { closeDrawerSecure(); document.getElementById(modalId).classList.add('active'); }
 
     function initUI() {
+        document.getElementById('hapticSoundToggle').checked = localStorage.getItem(ST_KEYS.haptic) !== 'false';
+
         document.getElementById('settingsBtn').onclick = () => {
             if (isDeleteMode) {
                 toggleDeleteMode();
@@ -692,6 +703,7 @@
 
         document.getElementById('saveLabelsBtn').onclick = () => {
             localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
+            localStorage.setItem(ST_KEYS.haptic, document.getElementById('hapticSoundToggle').checked);
             isFastRenameMode = document.getElementById('fastRenameToggle').checked; 
             document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
         };
@@ -701,7 +713,7 @@
         });
 
         document.getElementById('exportBtn').onclick = () => {
-            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity) }};
+            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity), hp: localStorage.getItem(ST_KEYS.haptic) }};
             navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_copied || "Đã sao chép"); });
         };
         
@@ -710,12 +722,19 @@
             try {
                 let d = JSON.parse(decodeURIComponent(atob(code)));
                 if(d.apps) setVals(ST_KEYS.app, d.apps); if(d.dock) setVals(ST_KEYS.dock, d.dock); if(d.names) setVals(ST_KEYS.name, d.names);
-                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); localStorage.setItem(ST_KEYS.bgDir, d.eff.bgDir||'bottom'); localStorage.setItem(ST_KEYS.bgBlur, d.eff.bgBlur||'60'); localStorage.setItem(ST_KEYS.bgOffset, d.eff.bgOff||'30'); localStorage.setItem(ST_KEYS.bgOpacity, d.eff.bgOp||'8'); }
+                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); localStorage.setItem(ST_KEYS.bgDir, d.eff.bgDir||'bottom'); localStorage.setItem(ST_KEYS.bgBlur, d.eff.bgBlur||'60'); localStorage.setItem(ST_KEYS.bgOffset, d.eff.bgOff||'30'); localStorage.setItem(ST_KEYS.bgOpacity, d.eff.bgOp||'8'); localStorage.setItem(ST_KEYS.haptic, d.eff.hp||'true'); }
                 document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_success || "Thành công!"); setTimeout(() => location.reload(), 1000);
             } catch(e) { alert(langData.messages?.toast_error || "Có lỗi xảy ra!"); }
         };
 
         renderGrid();
+        
+        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+        if (!isStandalone) {
+            setTimeout(() => {
+                document.getElementById('onboardingModal').classList.add('active');
+            }, 15000);
+        }
     }
 </script>
 </body>
