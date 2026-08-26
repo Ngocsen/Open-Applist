@@ -1,821 +1,239 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Snowboard" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard - Sentechtipvn</title>
-</head>
-<body>
+:root {
+    --bg-gradient-1: #d4bbfc;                  
+    --bg-gradient-2: #8ec5fc;                  
+    --bg-container: rgba(255, 255, 255, 0.25); 
+    --bg-dock: rgba(255, 255, 255, 0.25);
+    --color-title: #0071e3;                    
+    --color-channel-name: #20b2aa;             
+    --color-input-bg: rgba(255, 255, 255, 0.8);
+    --color-modal-bg: rgba(255, 255, 255, 0.85);
+    --shadow-box: 0 2px 8px rgba(0, 0, 0, 0.12); 
+}
 
-<div id="toast">Thông báo</div>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+    background-size: 300% 300%; animation: gradientShift 8s ease infinite;
+    position: fixed; width: 100vw; height: 100vh; overflow: hidden; overscroll-behavior: none;
+    display: flex; justify-content: center; align-items: flex-start; padding-top: 50px;
+}
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-<div class="app-container" id="mainAppContainer">
-    <div class="app-grid" id="appGrid"></div>
-</div>
+.app-container {
+    background: var(--bg-container); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+    border-radius: 36px; border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08); 
+    width: min(90vw, 360px); padding: 20px 14px; position: relative; transition: box-shadow 0.3s ease;
+    overscroll-behavior: none;
+}
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 8px; justify-items: center; width: 100%; }
+.app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s; min-width: 0; }
+.app-item:active { transform: scale(0.92); filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)); } 
 
-<button id="settingsBtn" aria-label="Cài đặt">
-    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
-    <div class="mark-overlay" id="settingMarkOverlay"></div>
-</button>
+.icon-wrapper { width: 60px; height: 60px; position: relative; overflow: hidden; margin-bottom: 6px; isolation: isolate; border: none; flex-shrink: 0; pointer-events: none; }
+.icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.fallback-text { display: none !important; }
+.mark-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; mix-blend-mode: overlay; }
 
-<div id="dockArea" class="dock-container" style="display:none;"></div>
+.app-info { display: flex; align-items: center; justify-content: center; width: 100%; min-width: 0; pointer-events: none; }
+.app-name { display: block; font-size: 11px; color: #1e1e2f; opacity: 0.9; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; padding: 0 2px;}
+body.hide-labels .app-info { display: none !important; }
+.vision-stroke { border: 1px solid rgba(0, 0, 0, 0.15) !important; box-sizing: border-box; }
 
-<div id="drawerWrapper">
-    <div id="drawerContent">
-        <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
-        <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
-        <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
-        <button class="drawer-btn" id="btnDelete"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
-        <button class="drawer-btn" id="btnSettings"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
-        <button id="drawerClose">✕</button>
-    </div>
-</div>
+/* SETTING ICON (KHÔNG DOCK) */
+#settingsBtn {
+    position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999;
+    width: 60px !important; height: 60px !important; min-width: 60px !important; min-height: 60px !important;
+    background: transparent; border: none; 
+    display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); isolation: isolate;
+}
+#settingsBtn:active { transform: scale(0.92); filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
+#settingsBtn img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+body.dock-active #settingsBtn { display: none !important; }
 
-<div id="deleteTrash">
-    <div class="icon-wrapper" id="trashIconWrapper" style="width: 110px; height: 110px; margin: 0;">
-        <img src="icons/icon_delete.png" id="trashIconImg" class="icon-img" onerror="this.outerHTML='🗑️'" />
-        <div class="mark-overlay" id="trashMarkOverlay"></div>
-    </div>
-</div>
+/* DOCK */
+.dock-container { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom, 20px)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 360px; display: flex; justify-content: space-around; align-items: center; padding: 10px; border-radius: 28px; z-index: 997; transition: box-shadow 0.3s ease; }
+.dock-style-glass { background: var(--bg-dock); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
+.dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; }
+.dock-style-blur { background: var(--bg-dock); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
 
-<div class="modal-overlay" id="onboardingModal">
-    <div class="modal-content" style="text-align: center;">
-        <h3 id="onboardingTitle" style="color: #0071e3; margin-bottom: 12px;">Sentechtipvn</h3>
-        <p id="onboardingDesc" style="font-size: 14px; margin-bottom: 16px; color: var(--color-channel-name);">Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!</p>
-        <video src="images/huong_dan.mp4" playsinline muted autoplay loop style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-box);"></video>
-    </div>
-</div>
+/* KHU VỰC DRAWER */
+#drawerWrapper {
+    position: fixed; z-index: 998; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+    opacity: 0; pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+#drawerWrapper.open { opacity: 1; pointer-events: auto; }
+#drawerWrapper.drawer-horizontal.open { transform: scale(1) !important; }
+#drawerWrapper.drawer-vertical.open { transform: translateX(-50%) scale(1) !important; }
 
-<div class="modal-overlay" id="infoModal">
-    <div class="modal-content">
-        <h3 id="infoTitle" style="color: #0071e3;">Sentechtipvn</h3>
-        <div id="infoDetails" style="font-size: 13px; color: var(--color-channel-name); text-align: center; margin-bottom: 12px; display: none;"></div>
-        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
-            <button class="close-modal" id="btnMail" style="margin-top:0; font-weight:normal; font-size:15px;"></button>
-            <button class="close-modal" id="btnFollow" style="margin-top:0; font-weight:normal; font-size:15px;"></button>
-            <button class="close-modal" id="btnInfoDetails" style="margin-top:0; font-weight:normal; font-size:15px;"></button>
-        </div>
-        <button class="close-modal lang-close" id="closeInfoModal" style="color: #0071e3; font-weight: 600;"></button>
-    </div>
-</div>
+#drawerContent { display: flex; align-items: center; gap: 8px; overflow: hidden; width: 100%; height: 100%; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.drawer-horizontal { background: rgba(255,255,255,0.4); backdrop-filter: blur(40px); border-radius: 50px; padding: 6px; border: 1px solid rgba(255,255,255,0.6); flex-direction: row; }
+.drawer-vertical { background: rgba(255,255,255,0.7) !important; backdrop-filter: blur(30px) !important; border-radius: 32px !important; padding: 6px !important; border: 1px solid rgba(255,255,255,0.6); flex-direction: column; }
+.drawer-vertical #drawerClose { display: none !important; }
 
-<div class="modal-overlay" id="settingsModal">
-    <div class="modal-content">
-        <h3 id="txtSettingTitle">Sentechtipvn</h3>
-        <button class="close-modal" id="openEffectsBtn"></button>
-        <button class="close-modal" id="openBgEffectsBtn"></button>
-        <button class="close-modal" id="openDockBtn"></button>
-        <button class="close-modal" id="openLabelsBtn"></button>
-        <div style="display: flex; gap: 10px; margin-top: 14px;">
-            <button class="close-modal" id="exportBtn" style="margin-top: 0; background: rgba(0, 188, 212, 0.15); color: #00bcd4;"></button>
-            <button class="close-modal" id="importBtn" style="margin-top: 0; background: rgba(52, 199, 89, 0.15); color: #34c759;"></button>
-        </div>
-        <button class="close-modal lang-close" id="closeSettingsBtn"></button>
-    </div>
-</div>
+/* KÍCH THƯỚC ICON CHUẨN 44x44 (TỐI ƯU ÔM SÁT ICON) */
+.drawer-btn {
+    width: 44px !important; height: 44px !important; border-radius: 50% !important; border: none;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+    background: rgba(255,255,255,0.7); box-shadow: var(--shadow-box); overflow: hidden; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s, box-shadow 0.2s;
+}
+.drawer-btn:active { transform: scale(0.92); opacity: 0.8; box-shadow: 0 0 15px rgba(255,255,255,0.8); background: rgba(255,255,255,0.9); }
+.drawer-btn img { width: 100%; height: 100%; border-radius: 50% !important; object-fit: cover; pointer-events: none; }
 
-<div class="modal-overlay" id="bgEffectModal">
-    <div class="modal-content">
-        <h3 id="txtBgEffectTitle" style="color: #ff2d55;">Sentechtipvn</h3>
-        
-        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
-            <label id="lblColorGrad1" style="margin:0;">Màu nền 1:</label>
-            <input type="color" id="colorGrad1" class="color-picker-input">
-        </div>
-        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
-            <label id="lblColorGrad2" style="margin:0;">Màu nền 2:</label>
-            <input type="color" id="colorGrad2" class="color-picker-input">
-        </div>
-        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
-            <label id="lblColorContainer" style="margin:0;">Màu khung App:</label>
-            <input type="color" id="colorContainer" class="color-picker-input">
-        </div>
-        <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 14px;">
-            <label id="lblColorDock" style="margin:0;">Màu nền Dock:</label>
-            <input type="color" id="colorDock" class="color-picker-input">
-        </div>
+#drawerClose { 
+    width: 44px !important; height: 44px !important; border-radius: 50%; background: rgba(0, 122, 255, 0.15); 
+    color: #007AFF; border: none; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; 
+    align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s;
+}
+#drawerClose:active { transform: scale(0.92); opacity: 0.8; box-shadow: 0 0 15px rgba(0,122,255,0.4); }
 
-        <div style="margin-bottom: 14px;">
-            <label id="lblBgShadowDirection">Hướng đổ bóng nền:</label>
-            <div class="direction-container">
-                <button class="dir-btn bg-dir-btn" data-dir="left">◀︎</button>
-                <button class="dir-btn bg-dir-btn" data-dir="right">►</button>
-                <button class="dir-btn bg-dir-btn" data-dir="center">❖</button>
-                <button class="dir-btn bg-dir-btn" data-dir="top">▲</button>
-                <button class="dir-btn bg-dir-btn" data-dir="bottom">▼</button>
-            </div>
-        </div>
-        <div style="margin-bottom: 14px;"><label id="lblBgShadowBlur">Độ mờ (Blur):</label><input type="number" id="bgShadowBlurInput" class="input-num" style="text-align:center;" value="60" min="0" max="200"></div>
-        <div style="margin-bottom: 14px;"><label id="lblBgShadowOffset">Khoảng cách (Offset):</label><input type="number" id="bgShadowOffsetInput" class="input-num" style="text-align:center;" value="30" min="-200" max="200"></div>
-        <div style="margin-bottom: 14px;"><label id="lblBgShadowOpacity">Độ đậm nhạt (Opacity 0-100):</label><input type="number" id="bgShadowOpacityInput" class="input-num" style="text-align:center;" value="8" min="0" max="100"></div>
-        <button class="close-modal" id="saveBgEffectBtn" style="color: #00bcd4;"></button>
-        <button class="close-modal lang-cancel" id="closeBgEffectBtn" style="color: #ff3b30;"></button>
-    </div>
-</div>
+/* CHẾ ĐỘ XÓA (DELETE MODE) UI */
+#deleteTrash {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 1001;
+    pointer-events: auto;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+    opacity: 0;
+}
+body.delete-mode #deleteTrash {
+    display: block !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    opacity: 1 !important;
+}
+body.delete-mode .icon-wrapper {
+    animation: wiggle 1.5s infinite ease-in-out !important;
+}
+body.delete-mode .app-item {
+    transition: transform 0.3s ease;
+}
+body.delete-mode #settingsBtn, body.delete-mode #dockSetInner {
+    background: rgba(255, 59, 48, 0.9) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+body.delete-mode #settingsBtn img, body.delete-mode #dockSetInner img, 
+body.delete-mode #settingsBtn .mark-overlay, body.delete-mode #dockSetInner .mark-overlay {
+    display: none !important;
+}
+body.delete-mode #settingsBtn::after, body.delete-mode #dockSetInner::after {
+    content: '✕';
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+body.delete-mode #dockSetInner::after {
+    font-size: 24px;
+}
 
-<div class="modal-overlay" id="labelsModal"><div class="modal-content"><h3 id="lblLabelsTitle">Sentechtipvn</h3><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtHideLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtShowLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span id="txtFastRename"></span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span>Âm thanh chạm (Haptic)</span> <label class="switch"><input type="checkbox" id="hapticSoundToggle" checked><span class="slider"></span></label></div><button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeLabelsBtn" style="color: #ff3b30;"></button></div></div>
-<div class="modal-overlay" id="effectModal"><div class="modal-content"><h3 id="txtEffectTitle" style="color: #20b2aa;">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 10px; border-radius: 14px;"><span style="font-weight: 600;" id="txtVisionStroke"></span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label></div><div style="margin-bottom: 14px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div><div style="margin-bottom: 14px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div><div style="margin-bottom: 14px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10" min="0" max="200"></div><div style="margin-bottom: 14px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10" min="-100" max="100"></div><div style="margin-bottom: 14px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30" min="0" max="100"></div><div style="margin-bottom: 14px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div><button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button></div></div>
-<div class="modal-overlay" id="dockModal"><div class="modal-content"><h3 id="txtDockTitle">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label><span id="txtDockGlass"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label><span id="txtDockWood"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label><span id="txtDockBlur"></span></div><div style="margin-bottom: 20px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label><span id="txtDockDisable"></span></div><button class="close-modal" id="saveDockBtn" style="color: #00bcd4; margin-top: 6px;"></button><button class="close-modal lang-cancel" id="closeDockBtn" style="color: #ff3b30; margin-top: 8px;"></button></div></div>
+/* MODAL CHUNG */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(0px); opacity: 0; pointer-events: none; transition: opacity 0.4s ease, backdrop-filter 0.4s ease; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+.modal-overlay.active { opacity: 1; pointer-events: auto; backdrop-filter: blur(10px); }
+.modal-content { background: var(--color-modal-bg); backdrop-filter: blur(30px); width: 90%; max-width: 360px; max-height: 78vh; border-radius: 28px; padding: 24px 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.2); overflow-y: auto; transform: scale(0.85) translateY(30px); opacity: 0; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
+.modal-content h3 { font-size: 18px; text-align: center; margin-bottom: 12px; color: #1c1c1e; }
+.modal-content label { color: var(--color-channel-name); font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
+.input-num, select, .search-box { width: 100%; padding: 12px 14px; border-radius: 14px; border: none; background: var(--color-input-bg); box-shadow: var(--shadow-box); font-size: 15px; outline: none; transition: transform 0.3s; }
+.close-modal { display: block; width: 100%; margin-top: 14px; padding: 12px; background: rgba(255,255,255,0.85); border: none; border-radius: 16px; font-weight: 600; font-size: 15px; cursor: pointer; text-align: center; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s, background 0.2s;}
 
-<div class="modal-overlay" id="addAppModal">
-    <div class="modal-content">
-        <h3 id="txtAddAppTitle">Sentechtipvn</h3>
-        <div style="margin-top: 8px; margin-bottom: 10px; display: flex; gap: 8px;">
-            <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm trên App Store..." style="flex:1;" />
-            <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer;">VN</button>
-        </div>
-        <div class="modal-list" id="modalList"></div>
-        
-        <button class="close-modal" id="btnLoadMoreOnline" style="background: rgba(0, 122, 255, 0.15); color: #007AFF; margin-top: 8px; display: none;"></button>
-        <button class="close-modal" id="btnLoadMoreLocal" style="background: rgba(52, 199, 89, 0.15); color: #34c759; margin-top: 8px; display: none;"></button>
-        <button class="close-modal lang-close" id="closeModalBtn" style="margin-top: 8px;"></button>
-    </div>
-</div>
+#onboardingModal {
+    z-index: 9999;
+}
 
-<script>
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').then(reg => reg.update()); }
+/* ĐỒNG BỘ GIAO DIỆN CHỮ TRẮNG TRONG BẢNG CÀI ĐẶT HIỆU ỨNG */
+#bgEffectModal label, #effectModal label,
+#bgEffectModal .input-num, #effectModal .input-num,
+#txtVisionStroke {
+    color: #f1f5f9 !important;
+}
 
-    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity', custom: 'customApps', haptic: 'hapticSound', cG1: 'colorGrad1', cG2: 'colorGrad2', cCont: 'colorContainer', cDock: 'colorDock' };
+/* INPUT TÙY CHỌN MÀU SẮC (COLOR PICKER) */
+.color-picker-input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+}
+.color-picker-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.color-picker-input::-webkit-color-swatch {
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+}
 
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    let audioCtx = null;
+/* HIỆU ỨNG NÚT BẤM HOẠT ĐỘNG */
+#storeToggleBtn, #btnLoadMoreOnline, #btnLoadMoreLocal { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s; }
+#storeToggleBtn:active, #btnLoadMoreOnline:active, #btnLoadMoreLocal:active, .close-modal:active { transform: scale(0.95) !important; opacity: 0.8; }
 
-    function playHapticSound() {
-        if (localStorage.getItem(ST_KEYS.haptic) === 'false') return;
-        if (!audioCtx) audioCtx = new AudioContext();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.05);
-    }
+.modal-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 6px;
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 8px 2px;
+    -webkit-overflow-scrolling: touch; 
+    overscroll-behavior: contain;
+}
 
-    function createRipple(event, button) {
-        if(!button.classList.contains('ripple-wrapper')) button.classList.add('ripple-wrapper');
-        const circle = document.createElement("span");
-        const diameter = Math.max(button.clientWidth, button.clientHeight);
-        const radius = diameter / 2;
-        const rect = button.getBoundingClientRect();
-        let x, y;
-        if(event.touches && event.touches.length > 0) {
-            x = event.touches[0].clientX - rect.left;
-            y = event.touches[0].clientY - rect.top;
-        } else {
-            x = event.clientX - rect.left;
-            y = event.clientY - rect.top;
-        }
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${x - radius}px`;
-        circle.style.top = `${y - radius}px`;
-        circle.classList.add("ripple");
-        const existing = button.querySelector('.ripple');
-        if (existing) { existing.remove(); }
-        button.appendChild(circle);
-        setTimeout(() => { if(circle.parentNode) circle.remove(); }, 600);
-    }
+@keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-6deg) scale(1.05); } 75% { transform: rotate(6deg) scale(1.05); } }
+.wiggle-effect { animation: wiggle 1.5s infinite ease-in-out; }
 
-    document.body.addEventListener('touchstart', function(e) {
-        let target = e.target.closest('button, .app-item, .drawer-btn, .close-modal, .dir-btn');
-        if(target) {
-            playHapticSound();
-            if(target.tagName === 'BUTTON' || target.classList.contains('close-modal')) {
-                createRipple(e, target);
-            }
-        }
-    }, {passive: true});
+.direction-container { display: flex; gap: 8px; margin-bottom: 10px; }
+.dir-btn { flex: 1; padding: 10px 5px; background: var(--color-input-bg); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; border-radius: 12px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;}
+.dir-btn.active { background: #0071e3; color: #fff; transform: scale(1.08);}
+.dir-btn:active { transform: scale(0.92); }
 
-    const FALLBACK_DB = {};
-    let appDatabase = {}, socialData = { links: { email: '', social_follow: '', plugin_shortcut: '' } }, langData = {};
-    const basePath = '.';
+.switch { position: relative; display: inline-block; width: 50px; height: 30px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background-color: #ccc; transition: .4s; border-radius: 30px; }
+.slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: .5s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 50%; }
+input:checked + .slider { background-color: #34c759; }
+input:checked + .slider:before { transform: translateX(20px); }
+
+#toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0,0,0,0.85); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 2000; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+/* RIPPLE EFFECT */
+.ripple-wrapper { position: relative; overflow: hidden; }
+.ripple {
+    position: absolute; border-radius: 50%; transform: scale(0); pointer-events: none;
+    animation: ripple-anim 600ms linear; background-color: rgba(200, 200, 200, 0.4);
+}
+@keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+@media (prefers-color-scheme: dark) {
+    :root { --bg-container: rgba(30, 27, 75, 0.3); --color-modal-bg: rgba(15, 23, 42, 0.9); --color-input-bg: rgba(255, 255, 255, 0.1); }
+    body { background: linear-gradient(135deg, #1e1b4b, #0f172a, #2e1065, #1e3a8a); background-size: 300% 300%; }
+    .modal-content, #drawerWrapper { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
+    .modal-content h3 { color: #f1f5f9 !important; }
+    .app-name { color: #f1f5f9; }
+    .close-modal { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.05);}
     
-    const MAX_APPS = 12, MAX_DOCK_APPS = 3;
-    let isDeleteMode = false, isAddingDock = false, isFastRenameMode = false;
-    
-    let searchTimeout = null;
-    let currentSearchLimit = 12;
-    let currentLocalLimit = 12;
-    let currentStore = 'vn';
-    let currentQuery = '';
-
-    const grid = document.getElementById('appGrid'), dockArea = document.getElementById('dockArea'), drawerWrapper = document.getElementById('drawerWrapper'), drawerContent = document.getElementById('drawerContent'), mainAppContainer = document.getElementById('mainAppContainer');
-
-    Promise.all([
-        fetch(basePath + '/db.json').then(res => res.json()).catch(() => FALLBACK_DB),
-        fetch(basePath + '/system-app.json').then(res => res.json()).catch(() => ({})),
-        fetch(basePath + '/social.json').then(res => res.json()).catch(() => socialData),
-        fetch(basePath + '/Language/vi_VN.json').then(res => res.json()).catch(() => ({}))
-    ]).then(([db, sysApp, social, lang]) => {
-        let customApps = getVals(ST_KEYS.custom, {});
-        appDatabase = { ...db, ...sysApp, ...customApps }; 
-        socialData = social || socialData;
-        langData = lang || {};
-        applyLanguage();
-        applyBackgroundEffects();
-        applyGlobalIconEffectsToSettingsBtn();
-        initUI();
-    });
-
-    function applyLanguage() {
-        if (!langData.effects) return;
-        
-        document.getElementById('infoTitle').innerText = langData.info_popup?.title || 'Sentechtipvn';
-        const infoDetails = document.getElementById('infoDetails');
-        if (infoDetails && langData.info_popup?.details) {
-            infoDetails.innerHTML = langData.info_popup.details;
-            infoDetails.style.display = 'block';
-        }
-        
-        const onboardingTitle = document.getElementById('onboardingTitle');
-        if (onboardingTitle) onboardingTitle.innerText = langData.onboarding?.title || 'Sentechtipvn';
-        
-        const onboardingDesc = document.getElementById('onboardingDesc');
-        if (onboardingDesc) onboardingDesc.innerText = langData.onboarding?.desc || 'Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!';
-        
-        document.getElementById('btnMail').innerText = langData.info_popup?.contact || 'Liên hệ';
-        document.getElementById('btnFollow').innerText = langData.info_popup?.follow || 'Theo dõi kênh';
-        document.getElementById('btnInfoDetails').innerText = langData.info_popup?.info || 'Thông tin';
-        document.getElementById('txtSettingTitle').innerText = langData.effects.settings?.title || 'Sentechtipvn';
-        document.getElementById('openEffectsBtn').innerText = langData.effects.settings?.effects_menu || 'Hiệu ứng Icon';
-        document.getElementById('openBgEffectsBtn').innerText = langData.effects.settings?.bg_menu || 'Hiệu ứng Nền';
-        document.getElementById('txtBgEffectTitle').innerText = langData.effects?.title_bg || 'Sentechtipvn';
-        
-        const elCg1 = document.getElementById('lblColorGrad1'); if(elCg1) elCg1.innerText = langData.effects?.color_grad1 || 'Màu nền 1:';
-        const elCg2 = document.getElementById('lblColorGrad2'); if(elCg2) elCg2.innerText = langData.effects?.color_grad2 || 'Màu nền 2:';
-        const elCCont = document.getElementById('lblColorContainer'); if(elCCont) elCCont.innerText = langData.effects?.color_container || 'Màu khung App:';
-        const elCDock = document.getElementById('lblColorDock'); if(elCDock) elCDock.innerText = langData.effects?.color_dock || 'Màu nền Dock:';
-
-        document.getElementById('lblBgShadowDirection').innerText = langData.effects?.shadow_direction_label || 'Hướng đổ bóng:';
-        document.getElementById('lblBgShadowBlur').innerText = langData.effects?.shadow_blur_label || 'Blur:';
-        document.getElementById('lblBgShadowOffset').innerText = langData.effects?.shadow_offset_label || 'Offset:';
-        document.getElementById('lblBgShadowOpacity').innerText = langData.effects?.shadow_opacity_label || 'Opacity 0-100:';
-        document.getElementById('saveBgEffectBtn').innerText = langData.effects?.save || 'Lưu hiệu ứng';
-
-        document.getElementById('openDockBtn').innerText = langData.effects.settings?.dock_menu || 'Dock';
-        document.getElementById('openLabelsBtn').innerText = langData.app_menu?.manage_apps || 'Quản lý Ứng dụng';
-        document.getElementById('exportBtn').innerText = langData.common?.export_config || '📤 Xuất Cấu Hình';
-        document.getElementById('importBtn').innerText = langData.common?.import_config || '📥 Nhập';
-        document.getElementById('lblLabelsTitle').innerText = langData.app_menu?.manage_apps || 'Sentechtipvn';
-        document.getElementById('txtHideLabels').innerText = langData.common?.hide_app_name || 'Ẩn tên ứng dụng';
-        document.getElementById('txtShowLabels').innerText = langData.common?.show_app_name || 'Hiện tên ứng dụng';
-        document.getElementById('txtFastRename').innerText = langData.common?.fast_rename_mode || 'Chế độ Đổi tên nhanh';
-        document.getElementById('saveLabelsBtn').innerText = langData.button?.save_config || 'Lưu cấu hình';
-        document.getElementById('txtEffectTitle').innerText = langData.effects?.title || 'Sentechtipvn';
-        document.getElementById('txtVisionStroke').innerText = langData.effects?.vision_stroke || 'Viền VisionOS';
-        document.getElementById('lblMarkStyle').innerText = langData.effects?.mark_label || 'Kiểu Mark';
-        document.getElementById('lblShadowDirection').innerText = langData.effects?.shadow_direction_label || 'Hướng đổ bóng:';
-        document.getElementById('lblShadowBlur').innerText = langData.effects?.shadow_blur_label || 'Blur:';
-        document.getElementById('lblShadowOffset').innerText = langData.effects?.shadow_offset_label || 'Offset:';
-        document.getElementById('lblShadowOpacity').innerText = langData.effects?.shadow_opacity_label || 'Opacity 0-100:';
-        document.getElementById('lblRadiusStyle').innerText = langData.effects?.radius_label || 'Kiểu Bo góc Icon';
-        document.getElementById('saveEffectBtn').innerText = langData.effects?.save || 'Lưu hiệu ứng';
-        document.getElementById('txtDockTitle').innerText = langData.effects.dock?.title || 'Sentechtipvn';
-        document.getElementById('txtDockGlass').innerText = langData.effects.dock?.glass || 'Kính trong suốt';
-        document.getElementById('txtDockWood').innerText = langData.effects.dock?.wood || 'Gỗ (iOS 6)';
-        document.getElementById('txtDockBlur').innerText = langData.effects.dock?.blur || 'Mờ Đen';
-        document.getElementById('txtDockDisable').innerText = langData.effects.dock?.disable || 'Tắt Dock';
-        document.getElementById('saveDockBtn').innerText = langData.effects.dock?.save || 'Lưu cấu hình';
-        document.querySelectorAll('.lang-close').forEach(el => el.innerText = langData.button?.close || 'Đóng');
-        document.querySelectorAll('.lang-cancel').forEach(el => el.innerText = langData.button?.cancel || 'Huỷ');
-        document.getElementById('txtAddAppTitle').innerText = '➕ Sentechtipvn';
-        
-        let loadMoreText = langData.button?.load_more || 'Xem thêm (12 App)';
-        document.getElementById('btnLoadMoreOnline').innerText = loadMoreText;
-        document.getElementById('btnLoadMoreLocal').innerText = loadMoreText;
-        if (document.getElementById('appSearchInput')) document.getElementById('appSearchInput').placeholder = langData.modal?.search_placeholder || '🔍 Tìm kiếm trên App Store...';
-    }
-
-    function cleanIconPath(iconPath) { return iconPath ? (iconPath.includes('\\/') ? iconPath.replace(/\\\//g, '/') : iconPath) : ''; }
-    function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
-    function getVals(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch(e) { return def; } }
-    function setVals(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
-    
-    function getIconStyles() {
-        const mark = localStorage.getItem(ST_KEYS.mark) || '0';
-        const sDir = localStorage.getItem(ST_KEYS.dir) || 'bottom';
-        const radius = localStorage.getItem(ST_KEYS.radius) || '0';
-        const sBlur = localStorage.getItem(ST_KEYS.blur) || '10';
-        const sOff = localStorage.getItem(ST_KEYS.offset) || '10';
-        
-        let opRaw = parseFloat(localStorage.getItem(ST_KEYS.opacity));
-        if (isNaN(opRaw)) opRaw = 30;
-        const sOp = Math.max(0, Math.min(100, opRaw)) / 100;
-        
-        const stroke = localStorage.getItem(ST_KEYS.stroke) === 'true';
-        let radCSS = radius === '1' ? '50%' : radius === '2' ? '12px' : '16px';
-        let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
-        let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
-        let markBg = mark==='0'?'linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02))':mark==='1'?'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.3) 100%)':'rgba(0,0,0,0.1)';
-        
-        return { radCSS, stroke, boxShadow: `${ox}px ${oy}px ${sBlur}px rgba(0,0,0,${sOp})`, markBg };
-    }
-
-    function applyGlobalIconEffectsToSettingsBtn() {
-        const styles = getIconStyles();
-        const btn = document.getElementById('settingsBtn');
-        const overlay = document.getElementById('settingMarkOverlay');
-        btn.style.borderRadius = styles.radCSS;
-        btn.style.boxShadow = styles.boxShadow;
-        btn.classList.toggle('vision-stroke', styles.stroke);
-        if(overlay) { overlay.style.borderRadius = styles.radCSS; overlay.style.background = styles.markBg; }
-
-        const trashWrapper = document.getElementById('trashIconWrapper');
-        const trashOverlay = document.getElementById('trashMarkOverlay');
-        const trashImg = document.getElementById('trashIconImg');
-        if (trashWrapper) {
-            trashWrapper.style.borderRadius = styles.radCSS;
-            trashWrapper.style.boxShadow = styles.boxShadow;
-            trashWrapper.classList.toggle('vision-stroke', styles.stroke);
-        }
-        if (trashImg) {
-            trashImg.style.borderRadius = styles.radCSS;
-        }
-        if (trashOverlay) {
-            trashOverlay.style.borderRadius = styles.radCSS;
-            trashOverlay.style.background = styles.markBg;
-        }
-    }
-
-    function applyBackgroundEffects() {
-        const sDir = localStorage.getItem(ST_KEYS.bgDir) || 'bottom';
-        const sBlur = localStorage.getItem(ST_KEYS.bgBlur) || '60';
-        const sOff = localStorage.getItem(ST_KEYS.bgOffset) || '30';
-        
-        let bgOpRaw = parseFloat(localStorage.getItem(ST_KEYS.bgOpacity));
-        if (isNaN(bgOpRaw)) bgOpRaw = 8;
-        const sOp = Math.max(0, Math.min(100, bgOpRaw)) / 100;
-
-        let ox = sDir==='left'? -sOff : sDir==='right'? sOff : 0;
-        let oy = sDir==='top'? -sOff : sDir==='bottom'? sOff : 0;
-        let shadowValue = `${ox}px ${oy}px ${sBlur}px rgba(0,0,0,${sOp}), 0 0 40px rgba(139,92,246,0.1)`;
-        
-        mainAppContainer.style.boxShadow = shadowValue;
-        if(document.body.classList.contains('dock-active') && dockArea.className.indexOf('none') === -1) {
-            dockArea.style.boxShadow = shadowValue;
-        }
-    }
-
-    function closeDrawerSecure() { 
-        drawerWrapper.classList.remove('open'); 
-    }
-
-    function createAppItem(id, data, isDockItem = false) {
-        const div = document.createElement('div'); div.className = 'app-item'; div.dataset.id = id; div.dataset.zone = isDockItem ? 'dock' : 'grid';
-        let dName = getVals(ST_KEYS.name, {})[id] || data.Name;
-        let cleanIcon = cleanIconPath(data.icon);
-        let iconSrc = cleanIcon && !cleanIcon.startsWith('http') && !cleanIcon.startsWith('/') ? basePath + '/' + cleanIcon : cleanIcon;
-        const styles = getIconStyles();
-
-        div.innerHTML = `
-            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:60px; height:60px;">
-                <img class="icon-img" style="border-radius:${styles.radCSS};" src="${iconSrc}" onerror="this.style.display='none'">
-                <span class="fallback-text"></span>
-                <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
-            </div>
-            ${!isDockItem ? `<div class="app-info"><span class="app-name">${dName}</span></div>` : ''}
-        `;
-
-        div.onclick = () => {
-            if (isDeleteMode) return;
-            if (isFastRenameMode) renameApp(id, dName);
-            else window.location.href = "shortcuts://run-shortcut?name=Open App Launcher&input=text&text=" + encodeURIComponent(id);
-        };
-
-        let startX = 0, startY = 0, isDragging = false, moved = false;
-        
-        div.addEventListener('touchstart', e => {
-            if (!isDeleteMode) return;
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-            isDragging = true;
-            moved = false;
-            div.style.transition = 'none';
-            div.style.zIndex = '1000';
-        }, {passive: true});
-
-        div.addEventListener('touchmove', e => {
-            if (!isDragging || !isDeleteMode) return;
-            let currentX = e.touches[0].clientX;
-            let currentY = e.touches[0].clientY;
-            let diffX = currentX - startX;
-            let diffY = currentY - startY;
-            if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
-                moved = true;
-                div.style.transform = `translate(${diffX}px, ${diffY}px) scale(0.85)`;
-                div.style.opacity = '0.8';
-            }
-        }, {passive: true});
-
-        div.addEventListener('touchend', e => {
-            if (!isDragging || !isDeleteMode) return;
-            isDragging = false;
-            
-            if (moved) {
-                const trash = document.getElementById('deleteTrash');
-                if (trash) {
-                    const trashRect = trash.getBoundingClientRect();
-                    const divRect = div.getBoundingClientRect();
-                    const divCenterX = divRect.left + divRect.width / 2;
-                    const divCenterY = divRect.top + divRect.height / 2;
-
-                    if (divCenterX >= trashRect.left && divCenterX <= trashRect.right &&
-                        divCenterY >= trashRect.top && divCenterY <= trashRect.bottom) {
-                        let arr = getVals(isDockItem ? ST_KEYS.dock : ST_KEYS.app, []);
-                        arr = arr.filter(itemId => itemId !== id);
-                        setVals(isDockItem ? ST_KEYS.dock : ST_KEYS.app, arr);
-                        renderGrid();
-                        return;
-                    }
-                }
-            }
-            
-            div.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s';
-            div.style.transform = '';
-            div.style.opacity = '';
-            div.style.zIndex = '';
-        });
-
-        return div;
-    }
-
-    function renderDock() {
-        const style = localStorage.getItem(ST_KEYS.dockStyle) || 'none';
-        dockArea.innerHTML = '';
-        if (style === 'none') {
-            document.body.classList.remove('dock-active'); dockArea.style.display = 'none'; closeDrawerSecure(); return;
-        }
-        document.body.classList.add('dock-active'); dockArea.style.display = 'flex';
-        dockArea.className = 'dock-container dock-style-' + style;
-        applyBackgroundEffects();
-        
-        let arr = getVals(ST_KEYS.dock, []).filter(id => Boolean(id) && appDatabase[id]).slice(0, MAX_DOCK_APPS);
-        arr.forEach(id => { dockArea.appendChild(createAppItem(id, appDatabase[id], true)); });
-
-        if (arr.length < MAX_DOCK_APPS) {
-            const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2); border-radius:16px;"><span style="font-size:28px; color:#fff;">+</span></div>`;
-            addBtn.onclick = () => { isAddingDock = true; currentLocalLimit = 12; renderModal(); };
-            dockArea.appendChild(addBtn);
-        }
-
-        const setBtn = document.createElement('div'); setBtn.className = 'app-item'; setBtn.dataset.id = 'sys_settings';
-        const styles = getIconStyles();
-        
-        setBtn.innerHTML = `
-            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:60px; height:60px; background:transparent;" id="dockSetInner">
-                <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
-                <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain; position:relative; z-index:2; border-radius:${styles.radCSS};">
-            </div>
-        `;
-        setBtn.onclick = () => {
-            if(isDeleteMode) { toggleDeleteMode(); return; }
-            if(drawerWrapper.classList.contains('open')) closeDrawerSecure();
-            else {
-                const rect = setBtn.getBoundingClientRect();
-                drawerWrapper.style.flexDirection = 'column-reverse';
-                drawerContent.style.flexDirection = 'column-reverse';
-                drawerWrapper.className = 'drawer-vertical'; 
-                
-                drawerWrapper.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
-                drawerWrapper.style.left = (rect.left + rect.width / 2) + 'px';
-                drawerWrapper.style.right = 'auto';
-                drawerWrapper.style.transformOrigin = 'bottom center';
-                drawerWrapper.style.transform = 'translateX(-50%) scale(0.5)';
-                
-                void drawerWrapper.offsetWidth; 
-                drawerWrapper.classList.add('open');
-            }
-        };
-        dockArea.appendChild(setBtn);
-    }
-
-    function renderGrid() {
-        grid.innerHTML = '';
-        document.body.classList.toggle('hide-labels', localStorage.getItem(ST_KEYS.hideLab) === 'true');
-        
-        let rawList = getVals(ST_KEYS.app, []).filter(Boolean);
-        let appList = rawList.filter(id => appDatabase[id]).slice(0, MAX_APPS);
-        
-        appList.forEach(id => { grid.appendChild(createAppItem(id, appDatabase[id])); });
-        
-        if (appList.length < MAX_APPS) {
-            let isEmpty = appList.length === 0;
-            let addLabel = isEmpty ? (langData.button?.add_first_app || 'Thêm ứng dụng') : (langData.button?.add || 'Thêm');
-            
-            const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `
-                <div class="icon-wrapper ${isEmpty ? 'wiggle-effect' : ''}" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6); border-radius:16px; background:rgba(255,255,255,0.15);">
-                    <span style="font-size:32px; color:#4f46e5; font-weight:300;">+</span>
-                </div>
-                <div class="app-info"><span class="app-name">${addLabel}</span></div>
-            `;
-            addBtn.onclick = () => { isAddingDock = false; currentLocalLimit = 12; renderModal(); };
-            grid.appendChild(addBtn);
-        }
-        renderDock();
-    }
-
-    function toggleDeleteMode() {
-        isDeleteMode = !isDeleteMode;
-        document.body.classList.toggle('delete-mode', isDeleteMode);
-        
-        const delBtn = document.getElementById('btnDelete');
-        if (delBtn) {
-            delBtn.innerHTML = isDeleteMode ? '<span style="font-size:18px; color:#34c759;">✅</span>' : '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
-        }
-        
-        if (isDeleteMode) closeDrawerSecure();
-        renderGrid();
-    }
-
-    function searchOnlineApps(query) {
-        currentQuery = query;
-        const ml = document.getElementById('modalList');
-        const btnMoreOnline = document.getElementById('btnLoadMoreOnline');
-        const btnMoreLocal = document.getElementById('btnLoadMoreLocal');
-        
-        btnMoreLocal.style.display = 'none';
-        if (!query.trim()) { renderModalList(); return; }
-
-        if(currentSearchLimit === 12) ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #666; font-size: 14px; padding: 20px;">🔍 Đang tìm kiếm...</div>';
-        btnMoreOnline.style.display = 'none';
-
-        fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&country=${currentStore}&entity=software&limit=${currentSearchLimit}`)
-            .then(res => res.json())
-            .then(data => {
-                ml.innerHTML = '';
-                if (!data.results || data.results.length === 0) {
-                    ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #888; font-size: 14px; padding: 20px;">Không tìm thấy ứng dụng!</div>';
-                    return;
-                }
-                data.results.forEach(app => {
-                    const bundleId = app.bundleId;
-                    let appName = app.trackName;
-                    
-                    appName = appName.split(':')[0].split('-')[0].split('–')[0].split('/')[0].split('"')[0].split(',')[0].trim();
-                    
-                    const iconUrl = app.artworkUrl512 || app.artworkUrl100;
-                    appDatabase[bundleId] = { Name: appName, icon: iconUrl };
-                    
-                    const item = document.createElement('div'); item.className = 'app-item';
-                    item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${iconUrl}" class="icon-img"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appName}</span>`;
-                    item.onclick = () => selectAppToAdd(bundleId);
-                    ml.appendChild(item);
-                });
-                
-                if(data.results.length === currentSearchLimit) btnMoreOnline.style.display = 'block';
-            })
-            .catch(() => { ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #ff3b30; font-size: 13px;">Lỗi mạng!</div>'; });
-    }
-
-    function selectAppToAdd(id) {
-        let arr = getVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, []).filter(savedId => Boolean(savedId) && appDatabase[savedId]); 
-        let maxLimitMsg = (langData.modal?.max_apps_limit || "Bạn chỉ có thể thêm tối đa {max} ứng dụng.").replace('{max}', isAddingDock ? MAX_DOCK_APPS : MAX_APPS);
-        if(arr.length >= (isAddingDock ? MAX_DOCK_APPS : MAX_APPS)) return showToast(maxLimitMsg);
-        
-        arr.push(id); 
-        setVals(isAddingDock ? ST_KEYS.dock : ST_KEYS.app, arr);
-
-        let customApps = getVals(ST_KEYS.custom, {});
-        if (!customApps[id] && appDatabase[id]) {
-            customApps[id] = { Name: appDatabase[id].Name, icon: appDatabase[id].icon };
-            setVals(ST_KEYS.custom, customApps);
-        }
-
-        document.getElementById('addAppModal').classList.remove('active'); 
-        isAddingDock = false; 
-        renderGrid();
-    }
-
-    function renderModalList() {
-        const ml = document.getElementById('modalList'); ml.innerHTML = '';
-        document.getElementById('btnLoadMoreOnline').style.display = 'none';
-        const btnMoreLocal = document.getElementById('btnLoadMoreLocal');
-        
-        const used = [...getVals(ST_KEYS.app, []), ...getVals(ST_KEYS.dock, [])];
-        const availableApps = Object.keys(appDatabase).filter(id => !used.includes(id));
-        
-        availableApps.slice(0, currentLocalLimit).forEach(id => {
-            const item = document.createElement('div'); item.className = 'app-item';
-            let cleanIcon = cleanIconPath(appDatabase[id].icon);
-            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appDatabase[id].Name}</span>`;
-            item.onclick = () => selectAppToAdd(id);
-            ml.appendChild(item);
-        });
-
-        if(availableApps.length > currentLocalLimit) btnMoreLocal.style.display = 'block';
-        else btnMoreLocal.style.display = 'none';
-    }
-
-    function renderModal() {
-        document.getElementById('appSearchInput').value = '';
-        currentQuery = '';
-        currentLocalLimit = 12;
-        renderModalList();
-        document.getElementById('addAppModal').classList.add('active');
-    }
-
-    function renameApp(id, old) {
-        let msg = langData.messages?.prompt_rename_app || 'Nhập tên mới:';
-        let n = prompt(msg, old);
-        if(n !== null) { let dict = getVals(ST_KEYS.name, {}); n.trim() ? dict[id] = n.trim() : delete dict[id]; setVals(ST_KEYS.name, dict); renderGrid(); }
-    }
-
-    function openSettings(modalId) { closeDrawerSecure(); document.getElementById(modalId).classList.add('active'); }
-
-    function initColors() {
-        let cg1 = localStorage.getItem(ST_KEYS.cG1) || '#d4bbfc';
-        let cg2 = localStorage.getItem(ST_KEYS.cG2) || '#8ec5fc';
-        let cCont = localStorage.getItem(ST_KEYS.cCont) || '#ffffff';
-        let cDock = localStorage.getItem(ST_KEYS.cDock) || '#ffffff';
-        
-        document.getElementById('colorGrad1').value = cg1;
-        document.getElementById('colorGrad2').value = cg2;
-        document.getElementById('colorContainer').value = cCont;
-        document.getElementById('colorDock').value = cDock;
-
-        document.documentElement.style.setProperty('--bg-gradient-1', cg1);
-        document.documentElement.style.setProperty('--bg-gradient-2', cg2);
-        document.documentElement.style.setProperty('--bg-container', cCont + '40');
-        document.documentElement.style.setProperty('--bg-dock', cDock + '40');
-    }
-
-    function initUI() {
-        document.getElementById('hapticSoundToggle').checked = localStorage.getItem(ST_KEYS.haptic) !== 'false';
-        
-        initColors();
-
-        document.getElementById('colorGrad1').addEventListener('input', e => document.documentElement.style.setProperty('--bg-gradient-1', e.target.value));
-        document.getElementById('colorGrad2').addEventListener('input', e => document.documentElement.style.setProperty('--bg-gradient-2', e.target.value));
-        document.getElementById('colorContainer').addEventListener('input', e => document.documentElement.style.setProperty('--bg-container', e.target.value + '40'));
-        document.getElementById('colorDock').addEventListener('input', e => document.documentElement.style.setProperty('--bg-dock', e.target.value + '40'));
-
-        document.getElementById('settingsBtn').onclick = () => {
-            if (isDeleteMode) {
-                toggleDeleteMode();
-                return;
-            }
-            drawerWrapper.style.flexDirection = 'row';
-            drawerContent.style.flexDirection = 'row';
-            drawerWrapper.className = 'drawer-horizontal';
-            
-            drawerWrapper.style.bottom = 'calc(30px + env(safe-area-inset-bottom, 20px))';
-            drawerWrapper.style.right = '88px'; 
-            drawerWrapper.style.left = 'auto'; 
-            drawerWrapper.style.transformOrigin = 'right center';
-            drawerWrapper.style.transform = 'scale(0.5)';
-            
-            void drawerWrapper.offsetWidth; 
-            drawerWrapper.classList.add('open');
-        };
-        document.getElementById('drawerClose').onclick = closeDrawerSecure;
-
-        const trashEl = document.getElementById('deleteTrash');
-        if (trashEl) {
-            trashEl.onclick = () => {
-                if (isDeleteMode) toggleDeleteMode();
-            };
-        }
-
-        document.getElementById('appSearchInput').oninput = (e) => {
-            clearTimeout(searchTimeout);
-            currentSearchLimit = 12;
-            searchTimeout = setTimeout(() => searchOnlineApps(e.target.value), 400);
-        };
-        
-        document.getElementById('storeToggleBtn').onclick = () => {
-            currentStore = currentStore === 'vn' ? 'us' : 'vn';
-            document.getElementById('storeToggleBtn').innerText = currentStore.toUpperCase();
-            currentSearchLimit = 12;
-            if(currentQuery) searchOnlineApps(currentQuery);
-        };
-        
-        document.getElementById('btnLoadMoreOnline').onclick = () => { currentSearchLimit += 12; searchOnlineApps(currentQuery); };
-        document.getElementById('btnLoadMoreLocal').onclick = () => { currentLocalLimit += 12; renderModalList(); };
-
-        document.getElementById('btnDelete').onclick = () => {
-            closeDrawerSecure();
-            toggleDeleteMode();
-        };
-        
-        document.getElementById('btnReset').onclick = () => { 
-            if(confirm(langData.messages?.reset_confirm || "Xoá sạch?")){ localStorage.clear(); location.reload(); }
-        };
-        
-        document.getElementById('btnInfo').onclick = () => { closeDrawerSecure(); document.getElementById('infoModal').classList.add('active'); };
-        document.getElementById('btnMail').onclick = () => window.open(socialData.links?.email || 'mailto:', '_blank');
-        document.getElementById('btnFollow').onclick = () => window.open(socialData.links?.social_follow || 'https://icloud.com', '_blank');
-        document.getElementById('btnInfoDetails').onclick = () => { alert(langData.dock_info?.app_version || "Snowboard by Sentechtipvn"); };
-        document.getElementById('btnPlugin').onclick = () => { closeDrawerSecure(); window.open(socialData.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts', '_blank'); };
-        
-        document.getElementById('btnSettings').onclick = () => openSettings('settingsModal');
-        document.getElementById('openEffectsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('effectModal'); };
-        document.getElementById('openBgEffectsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('bgEffectModal'); };
-        document.getElementById('openDockBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('dockModal'); };
-        document.getElementById('openLabelsBtn').onclick = () => { document.getElementById('settingsModal').classList.remove('active'); openSettings('labelsModal'); };
-        
-        document.querySelectorAll('.dir-btn:not(.bg-dir-btn)').forEach(btn => btn.onclick = () => { document.querySelectorAll('.dir-btn:not(.bg-dir-btn)').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
-        document.querySelectorAll('.bg-dir-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.bg-dir-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
-
-        document.getElementById('saveBgEffectBtn').onclick = () => {
-            let activeDir = document.querySelector('.bg-dir-btn.active');
-            if(activeDir) localStorage.setItem(ST_KEYS.bgDir, activeDir.dataset.dir);
-            
-            let b = parseFloat(document.getElementById('bgShadowBlurInput').value) || 0;
-            let o = parseFloat(document.getElementById('bgShadowOffsetInput').value) || 0;
-            let op = parseFloat(document.getElementById('bgShadowOpacityInput').value);
-            if(isNaN(op)) op = 8;
-
-            localStorage.setItem(ST_KEYS.bgBlur, Math.max(0, b));
-            localStorage.setItem(ST_KEYS.bgOffset, o);
-            localStorage.setItem(ST_KEYS.bgOpacity, Math.max(0, Math.min(100, op)));
-
-            localStorage.setItem(ST_KEYS.cG1, document.getElementById('colorGrad1').value);
-            localStorage.setItem(ST_KEYS.cG2, document.getElementById('colorGrad2').value);
-            localStorage.setItem(ST_KEYS.cCont, document.getElementById('colorContainer').value);
-            localStorage.setItem(ST_KEYS.cDock, document.getElementById('colorDock').value);
-            
-            document.getElementById('bgEffectModal').classList.remove('active'); 
-            applyBackgroundEffects(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
-        };
-
-        document.getElementById('saveEffectBtn').onclick = () => {
-            localStorage.setItem(ST_KEYS.mark, document.getElementById('markStyle').value);
-            localStorage.setItem(ST_KEYS.radius, document.getElementById('radiusStyle').value);
-            localStorage.setItem(ST_KEYS.stroke, document.getElementById('strokeToggle').checked);
-            let activeDir = document.querySelector('.dir-btn:not(.bg-dir-btn).active');
-            if(activeDir) localStorage.setItem(ST_KEYS.dir, activeDir.dataset.dir);
-            
-            let b = parseFloat(document.getElementById('shadowBlurInput').value) || 0;
-            let o = parseFloat(document.getElementById('shadowOffsetInput').value) || 0;
-            let op = parseFloat(document.getElementById('shadowOpacityInput').value);
-            if(isNaN(op)) op = 30;
-
-            localStorage.setItem(ST_KEYS.blur, Math.max(0, b));
-            localStorage.setItem(ST_KEYS.offset, o);
-            localStorage.setItem(ST_KEYS.opacity, Math.max(0, Math.min(100, op)));
-            
-            document.getElementById('effectModal').classList.remove('active'); 
-            applyGlobalIconEffectsToSettingsBtn(); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
-        };
-
-        document.getElementById('saveDockBtn').onclick = () => {
-            let style = 'none';
-            if(document.getElementById('dockGlassToggle').checked) style = 'glass';
-            else if(document.getElementById('dockWoodToggle').checked) style = 'wood';
-            else if(document.getElementById('dockBlurToggle').checked) style = 'blur';
-            localStorage.setItem(ST_KEYS.dockStyle, style);
-            document.getElementById('dockModal').classList.remove('active'); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
-        };
-
-        document.getElementById('saveLabelsBtn').onclick = () => {
-            localStorage.setItem(ST_KEYS.hideLab, document.getElementById('hideLabelsToggle').checked);
-            localStorage.setItem(ST_KEYS.haptic, document.getElementById('hapticSoundToggle').checked);
-            isFastRenameMode = document.getElementById('fastRenameToggle').checked; 
-            document.getElementById('labelsModal').classList.remove('active'); renderGrid(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
-        };
-
-        document.querySelectorAll('.close-modal').forEach(btn => { 
-            if(btn.id.includes('close') || btn.id.includes('Close')) { btn.onclick = (e) => e.target.closest('.modal-overlay').classList.remove('active'); }
-        });
-
-        document.getElementById('exportBtn').onclick = () => {
-            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity), hp: localStorage.getItem(ST_KEYS.haptic), cG1: localStorage.getItem(ST_KEYS.cG1), cG2: localStorage.getItem(ST_KEYS.cG2), cCont: localStorage.getItem(ST_KEYS.cCont), cDock: localStorage.getItem(ST_KEYS.cDock) }};
-            navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_copied || "Đã sao chép"); });
-        };
-        
-        document.getElementById('importBtn').onclick = () => {
-            let code = prompt(langData.messages?.prompt_import_code || "Dán mã cấu hình của bạn vào đây:"); if(!code) return;
-            try {
-                let d = JSON.parse(decodeURIComponent(atob(code)));
-                if(d.apps) setVals(ST_KEYS.app, d.apps); if(d.dock) setVals(ST_KEYS.dock, d.dock); if(d.names) setVals(ST_KEYS.name, d.names);
-                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); localStorage.setItem(ST_KEYS.bgDir, d.eff.bgDir||'bottom'); localStorage.setItem(ST_KEYS.bgBlur, d.eff.bgBlur||'60'); localStorage.setItem(ST_KEYS.bgOffset, d.eff.bgOff||'30'); localStorage.setItem(ST_KEYS.bgOpacity, d.eff.bgOp||'8'); localStorage.setItem(ST_KEYS.haptic, d.eff.hp||'true'); localStorage.setItem(ST_KEYS.cG1, d.eff.cG1||'#d4bbfc'); localStorage.setItem(ST_KEYS.cG2, d.eff.cG2||'#8ec5fc'); localStorage.setItem(ST_KEYS.cCont, d.eff.cCont||'#ffffff'); localStorage.setItem(ST_KEYS.cDock, d.eff.cDock||'#ffffff'); }
-                document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_success || "Thành công!"); setTimeout(() => location.reload(), 1000);
-            } catch(e) { alert(langData.messages?.toast_error || "Có lỗi xảy ra!"); }
-        };
-
-        renderGrid();
-        
-        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-        if (!isStandalone) {
-            setTimeout(() => {
-                document.getElementById('onboardingModal').classList.add('active');
-            }, 15000);
-        }
-    }
-</script>
-</body>
-</html>
+    .drawer-btn { background: rgba(255, 255, 255, 0.15) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+    .drawer-btn:active { background: rgba(255, 255, 255, 0.25) !important; }
+    #drawerClose { background: rgba(0, 122, 255, 0.2) !important; color: #4da6ff !important; }
+    .ripple { background-color: rgba(255, 255, 255, 0.2); }
+}
