@@ -15,7 +15,7 @@
 </div>
 
 ---
-## 📸 Demo - [⬇️](https://ngocsen.github.io/Snowboard/)
+## 📸 Demo - [⬇️](https://sentechtipsvn.github.io/Snowboard/)
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="350">
 </p>
@@ -37,7 +37,7 @@
 ## 🚀 Hướng dẫn sử dụng
 
 ### 1. Cài đặt lên iPhone / iPad:
-1. Mở trang GitHub [Pages](https://ngocsen.github.io/Snowboard/) (Webclip) bằng trình duyệt **Safari**.
+1. Mở trang GitHub [Pages](https://sentechtipsvn.github.io/Snowboard/) (Webclip) bằng trình duyệt **Safari**.
 2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
 3. Đặt tên cho ngắn gọn (ví dụ : Snowboard) và bấm **Add**.
 
