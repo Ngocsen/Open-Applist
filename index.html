@@ -647,9 +647,10 @@
         document.getElementById('colorContainer').value = cCont;
         document.getElementById('colorDock').value = cDock;
 
-        document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
-        document.documentElement.style.setProperty('--bg-container', cCont + '40');
-        document.documentElement.style.setProperty('--bg-dock', cDock + '40');
+        document.documentElement.style.setProperty('--bg-gradient-1', cg1);
+        document.documentElement.style.setProperty('--bg-gradient-2', cg2);
+        document.documentElement.style.setProperty('--bg-container', cCont + 'cc');
+        document.documentElement.style.setProperty('--bg-dock', cDock + 'cc');
     }
 
     function initUI() {
@@ -657,18 +658,24 @@
         
         initColors();
 
+        document.getElementById('bgShadowBlurInput').value = localStorage.getItem(ST_KEYS.bgBlur) || '60';
+        document.getElementById('bgShadowOffsetInput').value = localStorage.getItem(ST_KEYS.bgOffset) || '30';
+        document.getElementById('bgShadowOpacityInput').value = localStorage.getItem(ST_KEYS.bgOpacity) || '8';
+        
+        let savedBgDir = localStorage.getItem(ST_KEYS.bgDir) || 'bottom';
+        document.querySelectorAll('.bg-dir-btn').forEach(btn => {
+            if (btn.dataset.dir === savedBgDir) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+
         document.getElementById('colorGrad1').addEventListener('input', e => {
-            let cg1 = e.target.value;
-            let cg2 = document.getElementById('colorGrad2').value;
-            document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
+            document.documentElement.style.setProperty('--bg-gradient-1', e.target.value);
         });
         document.getElementById('colorGrad2').addEventListener('input', e => {
-            let cg1 = document.getElementById('colorGrad1').value;
-            let cg2 = e.target.value;
-            document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
+            document.documentElement.style.setProperty('--bg-gradient-2', e.target.value);
         });
-        document.getElementById('colorContainer').addEventListener('input', e => document.documentElement.style.setProperty('--bg-container', e.target.value + '40'));
-        document.getElementById('colorDock').addEventListener('input', e => document.documentElement.style.setProperty('--bg-dock', e.target.value + '40'));
+        document.getElementById('colorContainer').addEventListener('input', e => document.documentElement.style.setProperty('--bg-container', e.target.value + 'cc'));
+        document.getElementById('colorDock').addEventListener('input', e => document.documentElement.style.setProperty('--bg-dock', e.target.value + 'cc'));
 
         document.getElementById('settingsBtn').onclick = () => {
             if (isDeleteMode) {
@@ -757,7 +764,8 @@
             localStorage.setItem(ST_KEYS.cCont, document.getElementById('colorContainer').value);
             localStorage.setItem(ST_KEYS.cDock, document.getElementById('colorDock').value);
 
-            document.body.style.background = `linear-gradient(135deg, ${cg1}, ${cg2})`;
+            document.documentElement.style.setProperty('--bg-gradient-1', cg1);
+            document.documentElement.style.setProperty('--bg-gradient-2', cg2);
             
             document.getElementById('bgEffectModal').classList.remove('active'); 
             applyBackgroundEffects(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
