@@ -19,7 +19,8 @@
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="350">
 </p>
-
+  <img src="./images/demo-2.png" alt="App Demo" width="350">
+<br/>
 ---
 
 ## ✨ Tính năng nổi bật
