@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.8 - Sentechtipvn</title>
+    <title>Snowboard - Sentechtipvn</title>
 </head>
 <body>
 
@@ -84,6 +84,24 @@
 <div class="modal-overlay" id="bgEffectModal">
     <div class="modal-content">
         <h3 id="txtBgEffectTitle" style="color: #ff2d55;">Sentechtipvn</h3>
+        
+        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
+            <label id="lblColorGrad1" style="margin:0;">Màu nền 1:</label>
+            <input type="color" id="colorGrad1" class="color-picker-input">
+        </div>
+        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
+            <label id="lblColorGrad2" style="margin:0;">Màu nền 2:</label>
+            <input type="color" id="colorGrad2" class="color-picker-input">
+        </div>
+        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
+            <label id="lblColorContainer" style="margin:0;">Màu khung App:</label>
+            <input type="color" id="colorContainer" class="color-picker-input">
+        </div>
+        <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 14px;">
+            <label id="lblColorDock" style="margin:0;">Màu nền Dock:</label>
+            <input type="color" id="colorDock" class="color-picker-input">
+        </div>
+
         <div style="margin-bottom: 14px;">
             <label id="lblBgShadowDirection">Hướng đổ bóng nền:</label>
             <div class="direction-container">
@@ -103,7 +121,7 @@
 </div>
 
 <div class="modal-overlay" id="labelsModal"><div class="modal-content"><h3 id="lblLabelsTitle">Sentechtipvn</h3><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtHideLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="hideLabelsToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;"><span id="txtShowLabels"></span> <label class="switch"><input type="radio" name="labelToggle" id="showLabelsToggle" checked><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span id="txtFastRename"></span> <label class="switch"><input type="checkbox" id="fastRenameToggle"><span class="slider"></span></label></div><div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(150,150,150,0.2); padding-top: 12px;"><span>Âm thanh chạm (Haptic)</span> <label class="switch"><input type="checkbox" id="hapticSoundToggle" checked><span class="slider"></span></label></div><button class="close-modal" id="saveLabelsBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeLabelsBtn" style="color: #ff3b30;"></button></div></div>
-<div class="modal-overlay" id="effectModal"><div class="modal-content"><h3 id="txtEffectTitle" style="color: #20b2aa;">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 10px; border-radius: 14px;"><span style="font-weight: 600; color: #1e1e2f;" id="txtVisionStroke"></span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label></div><div style="margin-bottom: 14px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div><div style="margin-bottom: 14px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div><div style="margin-bottom: 14px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10" min="0" max="200"></div><div style="margin-bottom: 14px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10" min="-100" max="100"></div><div style="margin-bottom: 14px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30" min="0" max="100"></div><div style="margin-bottom: 14px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div><button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button></div></div>
+<div class="modal-overlay" id="effectModal"><div class="modal-content"><h3 id="txtEffectTitle" style="color: #20b2aa;">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--color-input-bg); padding: 10px; border-radius: 14px;"><span style="font-weight: 600;" id="txtVisionStroke"></span> <label class="switch" style="margin: 0;"><input type="checkbox" id="strokeToggle"><span class="slider"></span></label></div><div style="margin-bottom: 14px;"><label id="lblMarkStyle"></label><select id="markStyle" class="input-num"><option value="0">Liquid Glass</option><option value="1">Crystal Shine</option><option value="2">Holographic</option><option value="3">Matte Dark</option><option value="4">Classic Glossy</option></select></div><div style="margin-bottom: 14px;"><label id="lblShadowDirection"></label><div class="direction-container"><button class="dir-btn" data-dir="left">◀︎</button><button class="dir-btn" data-dir="right">►</button><button class="dir-btn" data-dir="center">❖</button><button class="dir-btn" data-dir="top">▲</button><button class="dir-btn" data-dir="bottom">▼</button></div></div><div style="margin-bottom: 14px;"><label id="lblShadowBlur"></label><input type="number" id="shadowBlurInput" class="input-num" style="text-align:center;" value="10" min="0" max="200"></div><div style="margin-bottom: 14px;"><label id="lblShadowOffset"></label><input type="number" id="shadowOffsetInput" class="input-num" style="text-align:center;" value="10" min="-100" max="100"></div><div style="margin-bottom: 14px;"><label id="lblShadowOpacity"></label><input type="number" id="shadowOpacityInput" class="input-num" style="text-align:center;" value="30" min="0" max="100"></div><div style="margin-bottom: 14px;"><label id="lblRadiusStyle"></label><select id="radiusStyle" class="input-num"><option value="0">Squircle (Chuẩn Apple)</option><option value="1">Tròn hoàn toàn</option><option value="2">Vuông nhẹ</option></select></div><button class="close-modal" id="saveEffectBtn" style="color: #00bcd4;"></button><button class="close-modal lang-cancel" id="closeEffectBtn" style="color: #ff3b30;"></button></div></div>
 <div class="modal-overlay" id="dockModal"><div class="modal-content"><h3 id="txtDockTitle">Sentechtipvn</h3><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockGlassToggle"><span class="slider"></span></label><span id="txtDockGlass"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockWoodToggle"><span class="slider"></span></label><span id="txtDockWood"></span></div><div style="margin-bottom: 14px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockBlurToggle"><span class="slider"></span></label><span id="txtDockBlur"></span></div><div style="margin-bottom: 20px; display: flex; align-items: center;"><label class="switch" style="margin-right: 12px;"><input type="radio" name="dockSel" id="dockNoneToggle" checked><span class="slider"></span></label><span id="txtDockDisable"></span></div><button class="close-modal" id="saveDockBtn" style="color: #00bcd4; margin-top: 6px;"></button><button class="close-modal lang-cancel" id="closeDockBtn" style="color: #ff3b30; margin-top: 8px;"></button></div></div>
 
 <div class="modal-overlay" id="addAppModal">
@@ -124,7 +142,7 @@
 <script>
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').then(reg => reg.update()); }
 
-    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity', custom: 'customApps', haptic: 'hapticSound' };
+    const ST_KEYS = { app: 'myAppList', name: 'myAppNames', dock: 'myDockApps', mark: 'effectMarkStyle', radius: 'effectRadiusStyle', dir: 'effectShadowDirection', blur: 'effectShadowBlur', offset: 'effectShadowOffset', opacity: 'effectShadowOpacity', dockStyle: 'dockStyle', stroke: 'effectStroke', hideLab: 'hideLabels', bgDir: 'bgShadowDirection', bgBlur: 'bgShadowBlur', bgOffset: 'bgShadowOffset', bgOpacity: 'bgShadowOpacity', custom: 'customApps', haptic: 'hapticSound', cG1: 'colorGrad1', cG2: 'colorGrad2', cCont: 'colorContainer', cDock: 'colorDock' };
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
@@ -235,6 +253,11 @@
         document.getElementById('openBgEffectsBtn').innerText = langData.effects.settings?.bg_menu || 'Hiệu ứng Nền';
         document.getElementById('txtBgEffectTitle').innerText = langData.effects?.title_bg || 'Sentechtipvn';
         
+        const elCg1 = document.getElementById('lblColorGrad1'); if(elCg1) elCg1.innerText = langData.effects?.color_grad1 || 'Màu nền 1:';
+        const elCg2 = document.getElementById('lblColorGrad2'); if(elCg2) elCg2.innerText = langData.effects?.color_grad2 || 'Màu nền 2:';
+        const elCCont = document.getElementById('lblColorContainer'); if(elCCont) elCCont.innerText = langData.effects?.color_container || 'Màu khung App:';
+        const elCDock = document.getElementById('lblColorDock'); if(elCDock) elCDock.innerText = langData.effects?.color_dock || 'Màu nền Dock:';
+
         document.getElementById('lblBgShadowDirection').innerText = langData.effects?.shadow_direction_label || 'Hướng đổ bóng:';
         document.getElementById('lblBgShadowBlur').innerText = langData.effects?.shadow_blur_label || 'Blur:';
         document.getElementById('lblBgShadowOffset').innerText = langData.effects?.shadow_offset_label || 'Offset:';
@@ -613,8 +636,32 @@
 
     function openSettings(modalId) { closeDrawerSecure(); document.getElementById(modalId).classList.add('active'); }
 
+    function initColors() {
+        let cg1 = localStorage.getItem(ST_KEYS.cG1) || '#d4bbfc';
+        let cg2 = localStorage.getItem(ST_KEYS.cG2) || '#8ec5fc';
+        let cCont = localStorage.getItem(ST_KEYS.cCont) || '#ffffff';
+        let cDock = localStorage.getItem(ST_KEYS.cDock) || '#ffffff';
+        
+        document.getElementById('colorGrad1').value = cg1;
+        document.getElementById('colorGrad2').value = cg2;
+        document.getElementById('colorContainer').value = cCont;
+        document.getElementById('colorDock').value = cDock;
+
+        document.documentElement.style.setProperty('--bg-gradient-1', cg1);
+        document.documentElement.style.setProperty('--bg-gradient-2', cg2);
+        document.documentElement.style.setProperty('--bg-container', cCont + '40');
+        document.documentElement.style.setProperty('--bg-dock', cDock + '40');
+    }
+
     function initUI() {
         document.getElementById('hapticSoundToggle').checked = localStorage.getItem(ST_KEYS.haptic) !== 'false';
+        
+        initColors();
+
+        document.getElementById('colorGrad1').addEventListener('input', e => document.documentElement.style.setProperty('--bg-gradient-1', e.target.value));
+        document.getElementById('colorGrad2').addEventListener('input', e => document.documentElement.style.setProperty('--bg-gradient-2', e.target.value));
+        document.getElementById('colorContainer').addEventListener('input', e => document.documentElement.style.setProperty('--bg-container', e.target.value + '40'));
+        document.getElementById('colorDock').addEventListener('input', e => document.documentElement.style.setProperty('--bg-dock', e.target.value + '40'));
 
         document.getElementById('settingsBtn').onclick = () => {
             if (isDeleteMode) {
@@ -695,6 +742,11 @@
             localStorage.setItem(ST_KEYS.bgBlur, Math.max(0, b));
             localStorage.setItem(ST_KEYS.bgOffset, o);
             localStorage.setItem(ST_KEYS.bgOpacity, Math.max(0, Math.min(100, op)));
+
+            localStorage.setItem(ST_KEYS.cG1, document.getElementById('colorGrad1').value);
+            localStorage.setItem(ST_KEYS.cG2, document.getElementById('colorGrad2').value);
+            localStorage.setItem(ST_KEYS.cCont, document.getElementById('colorContainer').value);
+            localStorage.setItem(ST_KEYS.cDock, document.getElementById('colorDock').value);
             
             document.getElementById('bgEffectModal').classList.remove('active'); 
             applyBackgroundEffects(); showToast(langData.messages?.toast_saved || "Đã lưu thành công");
@@ -741,7 +793,7 @@
         });
 
         document.getElementById('exportBtn').onclick = () => {
-            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity), hp: localStorage.getItem(ST_KEYS.haptic) }};
+            const data = { apps: getVals(ST_KEYS.app,[]), dock: getVals(ST_KEYS.dock,[]), names: getVals(ST_KEYS.name,{}), eff: { mark: localStorage.getItem(ST_KEYS.mark), rad: localStorage.getItem(ST_KEYS.radius), dir: localStorage.getItem(ST_KEYS.dir), blur: localStorage.getItem(ST_KEYS.blur), off: localStorage.getItem(ST_KEYS.offset), op: localStorage.getItem(ST_KEYS.opacity), dk: localStorage.getItem(ST_KEYS.dockStyle), st: localStorage.getItem(ST_KEYS.stroke), hl: localStorage.getItem(ST_KEYS.hideLab), bgDir: localStorage.getItem(ST_KEYS.bgDir), bgBlur: localStorage.getItem(ST_KEYS.bgBlur), bgOff: localStorage.getItem(ST_KEYS.bgOff), bgOp: localStorage.getItem(ST_KEYS.bgOpacity), hp: localStorage.getItem(ST_KEYS.haptic), cG1: localStorage.getItem(ST_KEYS.cG1), cG2: localStorage.getItem(ST_KEYS.cG2), cCont: localStorage.getItem(ST_KEYS.cCont), cDock: localStorage.getItem(ST_KEYS.cDock) }};
             navigator.clipboard.writeText(btoa(encodeURIComponent(JSON.stringify(data)))).then(() => { document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_copied || "Đã sao chép"); });
         };
         
@@ -750,7 +802,7 @@
             try {
                 let d = JSON.parse(decodeURIComponent(atob(code)));
                 if(d.apps) setVals(ST_KEYS.app, d.apps); if(d.dock) setVals(ST_KEYS.dock, d.dock); if(d.names) setVals(ST_KEYS.name, d.names);
-                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); localStorage.setItem(ST_KEYS.bgDir, d.eff.bgDir||'bottom'); localStorage.setItem(ST_KEYS.bgBlur, d.eff.bgBlur||'60'); localStorage.setItem(ST_KEYS.bgOffset, d.eff.bgOff||'30'); localStorage.setItem(ST_KEYS.bgOpacity, d.eff.bgOp||'8'); localStorage.setItem(ST_KEYS.haptic, d.eff.hp||'true'); }
+                if(d.eff) { localStorage.setItem(ST_KEYS.mark, d.eff.mark||'0'); localStorage.setItem(ST_KEYS.radius, d.eff.rad||'0'); localStorage.setItem(ST_KEYS.dir, d.eff.dir||'bottom'); localStorage.setItem(ST_KEYS.blur, d.eff.blur||'10'); localStorage.setItem(ST_KEYS.offset, d.eff.off||'10'); localStorage.setItem(ST_KEYS.opacity, d.eff.op||'30'); localStorage.setItem(ST_KEYS.dockStyle, d.eff.dk||'none'); localStorage.setItem(ST_KEYS.stroke, d.eff.st||'false'); localStorage.setItem(ST_KEYS.hideLab, d.eff.hl||'false'); localStorage.setItem(ST_KEYS.bgDir, d.eff.bgDir||'bottom'); localStorage.setItem(ST_KEYS.bgBlur, d.eff.bgBlur||'60'); localStorage.setItem(ST_KEYS.bgOffset, d.eff.bgOff||'30'); localStorage.setItem(ST_KEYS.bgOpacity, d.eff.bgOp||'8'); localStorage.setItem(ST_KEYS.haptic, d.eff.hp||'true'); localStorage.setItem(ST_KEYS.cG1, d.eff.cG1||'#d4bbfc'); localStorage.setItem(ST_KEYS.cG2, d.eff.cG2||'#8ec5fc'); localStorage.setItem(ST_KEYS.cCont, d.eff.cCont||'#ffffff'); localStorage.setItem(ST_KEYS.cDock, d.eff.cDock||'#ffffff'); }
                 document.getElementById('settingsModal').classList.remove('active'); showToast(langData.messages?.toast_success || "Thành công!"); setTimeout(() => location.reload(), 1000);
             } catch(e) { alert(langData.messages?.toast_error || "Có lỗi xảy ra!"); }
         };
