@@ -38,14 +38,17 @@
     </div>
 </div>
 
-<div id="deleteTrash" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; width: 110px; height: 110px; pointer-events: auto;">
-    <img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" style="width:100%; height:100%; object-fit:contain;" />
+<div id="deleteTrash">
+    <div class="icon-wrapper" id="trashIconWrapper" style="width: 110px; height: 110px; margin: 0;">
+        <img src="icons/icon_delete.png" id="trashIconImg" class="icon-img" onerror="this.outerHTML='🗑️'" />
+        <div class="mark-overlay" id="trashMarkOverlay"></div>
+    </div>
 </div>
 
 <div class="modal-overlay" id="onboardingModal">
     <div class="modal-content" style="text-align: center;">
-        <h3 style="color: #0071e3; margin-bottom: 12px;">Sentechtipvn</h3>
-        <p style="font-size: 14px; margin-bottom: 16px; color: var(--color-channel-name);">Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!</p>
+        <h3 id="onboardingTitle" style="color: #0071e3; margin-bottom: 12px;">Sentechtipvn</h3>
+        <p id="onboardingDesc" style="font-size: 14px; margin-bottom: 16px; color: var(--color-channel-name);">Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!</p>
         <video src="images/huong_dan.mp4" playsinline muted autoplay loop style="width: 100%; border-radius: 12px; box-shadow: var(--shadow-box);"></video>
     </div>
 </div>
@@ -53,6 +56,7 @@
 <div class="modal-overlay" id="infoModal">
     <div class="modal-content">
         <h3 id="infoTitle" style="color: #0071e3;">Sentechtipvn</h3>
+        <div id="infoDetails" style="font-size: 13px; color: var(--color-channel-name); text-align: center; margin-bottom: 12px; display: none;"></div>
         <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
             <button class="close-modal" id="btnMail" style="margin-top:0; font-weight:normal; font-size:15px;"></button>
             <button class="close-modal" id="btnFollow" style="margin-top:0; font-weight:normal; font-size:15px;"></button>
@@ -209,7 +213,20 @@
 
     function applyLanguage() {
         if (!langData.effects) return;
+        
         document.getElementById('infoTitle').innerText = langData.info_popup?.title || 'Sentechtipvn';
+        const infoDetails = document.getElementById('infoDetails');
+        if (infoDetails && langData.info_popup?.details) {
+            infoDetails.innerHTML = langData.info_popup.details;
+            infoDetails.style.display = 'block';
+        }
+        
+        const onboardingTitle = document.getElementById('onboardingTitle');
+        if (onboardingTitle) onboardingTitle.innerText = langData.onboarding?.title || 'Sentechtipvn';
+        
+        const onboardingDesc = document.getElementById('onboardingDesc');
+        if (onboardingDesc) onboardingDesc.innerText = langData.onboarding?.desc || 'Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!';
+        
         document.getElementById('btnMail').innerText = langData.info_popup?.contact || 'Liên hệ';
         document.getElementById('btnFollow').innerText = langData.info_popup?.follow || 'Theo dõi kênh';
         document.getElementById('btnInfoDetails').innerText = langData.info_popup?.info || 'Thông tin';
@@ -291,6 +308,22 @@
         btn.style.boxShadow = styles.boxShadow;
         btn.classList.toggle('vision-stroke', styles.stroke);
         if(overlay) { overlay.style.borderRadius = styles.radCSS; overlay.style.background = styles.markBg; }
+
+        const trashWrapper = document.getElementById('trashIconWrapper');
+        const trashOverlay = document.getElementById('trashMarkOverlay');
+        const trashImg = document.getElementById('trashIconImg');
+        if (trashWrapper) {
+            trashWrapper.style.borderRadius = styles.radCSS;
+            trashWrapper.style.boxShadow = styles.boxShadow;
+            trashWrapper.classList.toggle('vision-stroke', styles.stroke);
+        }
+        if (trashImg) {
+            trashImg.style.borderRadius = styles.radCSS;
+        }
+        if (trashOverlay) {
+            trashOverlay.style.borderRadius = styles.radCSS;
+            trashOverlay.style.background = styles.markBg;
+        }
     }
 
     function applyBackgroundEffects() {
@@ -475,11 +508,6 @@
     function toggleDeleteMode() {
         isDeleteMode = !isDeleteMode;
         document.body.classList.toggle('delete-mode', isDeleteMode);
-        
-        const trash = document.getElementById('deleteTrash');
-        if (trash) {
-            trash.style.display = isDeleteMode ? 'block' : 'none';
-        }
         
         const delBtn = document.getElementById('btnDelete');
         if (delBtn) {
