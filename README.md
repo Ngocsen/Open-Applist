@@ -15,10 +15,12 @@
 </div>
 ---
 ## 📸 Demo - [⬇️](https://sentechtipsvn.github.io/Snowboard/)
+<br/>
 ---
 <p align="center">
   <img src="./images/demo.png" alt="App Demo" width="350">
 </p>
+<br/>
   <img src="./images/demo-2.png" alt="App Demo" width="350">
 ---
 
