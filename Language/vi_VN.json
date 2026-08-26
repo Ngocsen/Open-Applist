@@ -4,7 +4,7 @@
     "desc": "Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!"
   },
   "info_popup": {
-    "title": "Sentechtipsvn",
+    "title": "Sentechtipvn",
     "details": "Snowboard v1.0<br>•Kết hợp Weblip và Phím tắt tạo sự đột phá về tuỳ chỉnh cá nhân hoá.<br>•Thêm nó vào màn hình chính để biến nó thành màn hình thứ hai có độ tuỳ biến sâu.",
     "contact": "Liên hệ",
     "follow": "Theo dõi kênh",
@@ -18,6 +18,10 @@
       "dock_menu": "Cài đặt Dock"
     },
     "title_bg": "Đổ bóng nền",
+    "color_grad1": "Màu nền 1:",
+    "color_grad2": "Màu nền 2:",
+    "color_container": "Màu khung App:",
+    "color_dock": "Màu nền Dock:",
     "shadow_direction_label": "Hướng đổ bóng:",
     "shadow_blur_label": "Độ rõ:",
     "shadow_offset_label": "Khoảng cách:",
