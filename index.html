@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Snowboard V7.7 - Sentechtipsvn</title>
+    <title>Snowboard-Sentechtipsvn</title>
 </head>
 <body>
 
@@ -346,6 +346,7 @@
         let startX = 0, currentX = 0, isDragging = false;
         div.addEventListener('touchstart', e => {
             startX = e.touches[0].clientX;
+            currentX = e.touches[0].clientX;
             isDragging = true;
             div.style.transition = 'none';
         }, {passive: true});
