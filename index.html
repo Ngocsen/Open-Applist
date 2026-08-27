@@ -39,7 +39,7 @@
 </div>
 
 <div id="deleteTrash">
-    <div class="icon-wrapper" id="trashIconWrapper" style="width: 110px; height: 110px; margin: 0;">
+    <div class="icon-wrapper" id="trashIconWrapper" style="width: 110px !important; height: 110px !important; margin: 0;">
         <img src="icons/icon_delete.png" id="trashIconImg" class="icon-img" onerror="this.outerHTML='🗑️'" />
         <div class="mark-overlay" id="trashMarkOverlay"></div>
     </div>
@@ -215,10 +215,11 @@
     const grid = document.getElementById('appGrid'), dockArea = document.getElementById('dockArea'), drawerWrapper = document.getElementById('drawerWrapper'), drawerContent = document.getElementById('drawerContent'), mainAppContainer = document.getElementById('mainAppContainer');
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
+    // --- 1. SỬA ĐỔI CƠ CHẾ NẠP I18N ĐỦ KEY & BINDING DỮ LIỆU ---
     async function resolveLanguage() {
-        let userLang = navigator.language || navigator.languages?.[0] || 'en-US';
+        let userLang = navigator.language || navigator.languages?.[0] || 'vi-VN';
         let exactLang = supportedLangs.find(l => l.toLowerCase() === userLang.toLowerCase()) || 
-                        supportedLangs.find(l => l.startsWith(userLang.split('-')[0])) || 'en-US';
+                        supportedLangs.find(l => l.startsWith(userLang.split('-')[0])) || 'vi-VN';
         
         document.documentElement.dir = (exactLang === 'ar' || exactLang === 'fa-IR') ? 'rtl' : 'ltr';
 
@@ -232,15 +233,31 @@
                 if (targetRes.ok) targetData = await targetRes.json();
             }
             
-            langData = { ...enData, ...targetData };
-            Object.keys(enData).forEach(key => {
-                if (typeof enData[key] === 'object' && targetData[key]) {
-                    langData[key] = { ...enData[key], ...targetData[key] };
-                }
-            });
+            // Deep merge chính xác không đè bẹp object con
+            langData = mergeDeep(enData, targetData);
         } catch (error) {
+            console.error("i18n Load Error:", error);
             langData = {};
         }
+    }
+
+    function mergeDeep(target, source) {
+        let output = Object.assign({}, target);
+        if (isObject(target) && isObject(source)) {
+            Object.keys(source).forEach(key => {
+                if (isObject(source[key])) {
+                    if (!(key in target)) Object.assign(output, { [key]: source[key] });
+                    else output[key] = mergeDeep(target[key], source[key]);
+                } else {
+                    Object.assign(output, { [key]: source[key] });
+                }
+            });
+        }
+        return output;
+    }
+
+    function isObject(item) {
+        return (item && typeof item === 'object' && !Array.isArray(item));
     }
 
     Promise.all([
@@ -274,8 +291,17 @@
         setSafeText('onboardingDesc', langData?.onboarding?.desc || 'Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!');
         
         setSafeText('btnMail', langData?.info_popup?.contact || 'Liên hệ');
-        setSafeText('btnFollow', langData?.info_popup?.follow || 'Theo dõi kênh');
-        setSafeText('btnInfoDetails', langData?.info_popup?.info || 'Thông tin');
+        setSafeText('btnFollow', langData?.info_popup?.follow || 'Theo dõi');
+        setSafeText('btnInfoDetails', langData?.info_popup?.info || 'Thông tin ứng dụng');
+        
+        // Gắn thông tin chi tiết phiên bản từ key dock_info.app_version
+        const btnInfoDetails = document.getElementById('btnInfoDetails');
+        if (btnInfoDetails) {
+            btnInfoDetails.onclick = () => {
+                alert(langData?.dock_info?.app_version || "Snowboard v1.0");
+            };
+        }
+
         setSafeText('txtSettingTitle', langData?.effects?.settings?.title || 'Cài đặt');
         setSafeText('openEffectsBtn', langData?.effects?.settings?.effects_menu || 'Cài đặt icon');
         setSafeText('openBgEffectsBtn', langData?.effects?.settings?.bg_menu || 'Cài đặt nền');
@@ -437,17 +463,24 @@
         drawerWrapper?.classList.remove('open'); 
     }
 
+    // --- 2. TỐI ƯU RENDER APP ITEM (KHẮC PHỤC LỖI HÌNH ẢNH ICON) ---
     function createAppItem(id, data, isDockItem = false) {
-        const div = document.createElement('div'); div.className = 'app-item'; div.dataset.id = id; div.dataset.zone = isDockItem ? 'dock' : 'grid';
+        const div = document.createElement('div'); 
+        div.className = 'app-item'; 
+        div.dataset.id = id; 
+        div.dataset.zone = isDockItem ? 'dock' : 'grid';
+        
         let dName = getVals(ST_KEYS.name, {})[id] || data?.Name || 'App';
+        let firstLetter = dName.charAt(0).toUpperCase();
         let cleanIcon = cleanIconPath(data?.icon);
         let iconSrc = cleanIcon && !cleanIcon.startsWith('http') && !cleanIcon.startsWith('/') ? basePath + '/' + cleanIcon : cleanIcon;
         const styles = getIconStyles();
 
         div.innerHTML = `
-            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:64px; height:64px;">
-                <img class="icon-img" style="border-radius:${styles.radCSS};" src="${iconSrc}" onerror="this.style.display='none'">
-                <span class="fallback-text"></span>
+            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow};">
+                <span class="fallback-text" style="display: none;">${firstLetter}</span>
+                <img class="icon-img" style="border-radius:${styles.radCSS};" src="${iconSrc}" 
+                     onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
                 <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
             </div>
             ${!isDockItem ? `<div class="app-info"><span class="app-name">${dName}</span></div>` : ''}
@@ -533,7 +566,7 @@
 
         if (arr.length < MAX_DOCK_APPS) {
             const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:64px; height:64px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2); border-radius:16px;"><span style="font-size:28px; color:#fff;">+</span></div>`;
+            addBtn.innerHTML = `<div class="icon-wrapper" style="display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2); border-radius:16px;"><span style="font-size:28px; color:#fff;">+</span></div>`;
             addBtn.onclick = () => { isAddingDock = true; currentLocalLimit = 12; renderModal(); };
             fragment.appendChild(addBtn);
         }
@@ -542,7 +575,7 @@
         const styles = getIconStyles();
         
         setBtn.innerHTML = `
-            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:64px; height:64px; background:transparent;" id="dockSetInner">
+            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; background:transparent;" id="dockSetInner">
                 <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
                 <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain; position:relative; z-index:2; border-radius:${styles.radCSS};">
             </div>
@@ -587,7 +620,7 @@
             
             const addBtn = document.createElement('div'); addBtn.className = 'app-item';
             addBtn.innerHTML = `
-                <div class="icon-wrapper ${isEmpty ? 'wiggle-effect' : ''}" style="width:64px; height:64px; display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6); border-radius:16px; background:rgba(255,255,255,0.15);">
+                <div class="icon-wrapper ${isEmpty ? 'wiggle-effect' : ''}" style="display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6); border-radius:16px; background:rgba(255,255,255,0.15);">
                     <span style="font-size:32px; color:#4f46e5; font-weight:300;">+</span>
                 </div>
                 <div class="app-info"><span class="app-name">${addLabel}</span></div>
@@ -612,6 +645,7 @@
         renderGrid();
     }
 
+    // --- 3. TỐI ƯU TÌM KIẾM ONLINE APP STORE ---
     function searchOnlineApps(query) {
         currentQuery = query;
         const ml = document.getElementById('modalList');
@@ -621,7 +655,7 @@
         if(btnMoreLocal) btnMoreLocal.style.display = 'none';
         if (!query.trim()) { renderModalList(); return; }
 
-        if(currentSearchLimit === 12 && ml) ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #666; font-size: 14px; padding: 20px;">🔍 Đang tìm kiếm...</div>';
+        if(currentSearchLimit === 12 && ml) ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--color-channel-name); padding: 20px;">🔍 Đang tải dữ liệu...</div>';
         if(btnMoreOnline) btnMoreOnline.style.display = 'none';
 
         fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&country=${currentStore}&entity=software&limit=${currentSearchLimit}`)
@@ -630,27 +664,38 @@
                 if(!ml) return;
                 ml.innerHTML = '';
                 if (!data.results || data.results.length === 0) {
-                    ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #888; font-size: 14px; padding: 20px;">Không tìm thấy ứng dụng!</div>';
+                    ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #888; padding: 20px;">Không tìm thấy kết quả!</div>';
                     return;
                 }
                 const fragment = document.createDocumentFragment();
                 data.results.forEach(app => {
                     const bundleId = app.bundleId;
-                    let appName = app.trackName;
-                    appName = appName.split(':')[0].split('-')[0].split('–')[0].split('/')[0].split('"')[0].split(',')[0].trim();
+                    let appName = app.trackName.split(':')[0].split('-')[0].trim();
+                    // Lấy icon chất lượng cao 512px
                     const iconUrl = cleanIconPath(app.artworkUrl512 || app.artworkUrl100);
                     
                     appDatabase[bundleId] = { Name: appName, icon: iconUrl };
                     
-                    const item = document.createElement('div'); item.className = 'app-item';
-                    item.innerHTML = `<div class="icon-wrapper" style="width:64px; height:64px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${iconUrl}" class="icon-img" style="object-fit: cover;" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appName}</span>`;
+                    const item = document.createElement('div'); 
+                    item.className = 'app-item';
+                    let firstLetter = appName.charAt(0).toUpperCase();
+                    
+                    item.innerHTML = `
+                        <div class="icon-wrapper" style="width:64px; height:64px; border-radius:16px;">
+                            <span class="fallback-text" style="color:#333; display:none;">${firstLetter}</span>
+                            <img src="${iconUrl}" class="icon-img" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
+                        </div>
+                        <span class="app-name" style="margin-top:4px;">${appName}</span>
+                    `;
                     item.onclick = () => selectAppToAdd(bundleId);
                     fragment.appendChild(item);
                 });
                 ml.appendChild(fragment);
                 if(data.results.length === currentSearchLimit && btnMoreOnline) btnMoreOnline.style.display = 'block';
             })
-            .catch(() => { if(ml) ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #ff3b30; font-size: 13px;">Lỗi mạng!</div>'; });
+            .catch(() => { 
+                if (ml) ml.innerHTML = '<div style="grid-column: span 4; text-align: center; color: #ff3b30;">Lỗi kết nối App Store!</div>'; 
+            });
     }
 
     function selectAppToAdd(id) {
@@ -684,8 +729,17 @@
         const fragment = document.createDocumentFragment();
         availableApps.slice(0, currentLocalLimit).forEach(id => {
             const item = document.createElement('div'); item.className = 'app-item';
+            let dName = appDatabase[id].Name;
             let cleanIcon = cleanIconPath(appDatabase[id].icon);
-            item.innerHTML = `<div class="icon-wrapper" style="width:64px; height:64px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${cleanIcon}" class="icon-img" style="object-fit: cover;" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appDatabase[id].Name}</span>`;
+            let firstLetter = dName.charAt(0).toUpperCase();
+            
+            item.innerHTML = `
+                <div class="icon-wrapper" style="width:64px; height:64px; border-radius:12px; box-shadow: var(--shadow-box);">
+                    <span class="fallback-text" style="color:#333; display:none;">${firstLetter}</span>
+                    <img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
+                </div>
+                <span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${dName}</span>
+            `;
             item.onclick = () => selectAppToAdd(id);
             fragment.appendChild(item);
         });
@@ -790,7 +844,6 @@
         if(document.getElementById('btnInfo')) document.getElementById('btnInfo').onclick = () => { closeDrawerSecure(); document.getElementById('infoModal')?.classList.add('active'); };
         if(document.getElementById('btnMail')) document.getElementById('btnMail').onclick = () => window.open(socialData?.links?.email || 'mailto:', '_blank');
         if(document.getElementById('btnFollow')) document.getElementById('btnFollow').onclick = () => window.open(socialData?.links?.social_follow || 'https://icloud.com', '_blank');
-        if(document.getElementById('btnInfoDetails')) document.getElementById('btnInfoDetails').onclick = () => { alert(langData?.dock_info?.app_version || "Snowboard"); };
         if(document.getElementById('btnPlugin')) document.getElementById('btnPlugin').onclick = () => { closeDrawerSecure(); window.open(socialData?.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts', '_blank'); };
         
         if(document.getElementById('btnSettings')) document.getElementById('btnSettings').onclick = () => openSettings('settingsModal');
