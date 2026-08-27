@@ -28,8 +28,8 @@ body {
 .app-item { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; cursor: pointer; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s; min-width: 0; }
 .app-item:active { transform: scale(0.92); filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)); } 
 
-.icon-wrapper { width: 60px; height: 60px; position: relative; overflow: hidden; margin-bottom: 6px; isolation: isolate; border: none; flex-shrink: 0; pointer-events: none; }
-.icon-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+.icon-wrapper { width: 64px !important; height: 64px !important; position: relative; overflow: hidden; margin-bottom: 6px; isolation: isolate; border: none; flex-shrink: 0; pointer-events: none; }
+.icon-wrapper .icon-img { width: 64px !important; height: 64px !important; position: absolute; top: 0; left: 0; object-fit: cover; z-index: 1; }
 .fallback-text { display: none !important; }
 .mark-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; mix-blend-mode: overlay; }
 
@@ -41,7 +41,7 @@ body.hide-labels .app-info { display: none !important; }
 /* SETTING ICON (KHÔNG DOCK) */
 #settingsBtn {
     position: fixed; bottom: calc(30px + env(safe-area-inset-bottom, 20px)); right: 20px; z-index: 999;
-    width: 60px !important; height: 60px !important; min-width: 60px !important; min-height: 60px !important;
+    width: 50px !important; height: 50px !important; min-width: 50px !important; min-height: 50px !important; border-radius: 50% !important;
     background: transparent; border: none; 
     display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; overflow: hidden;
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); isolation: isolate;
@@ -55,6 +55,8 @@ body.dock-active #settingsBtn, body.dock-active.delete-mode #settingsBtn { displ
 .dock-style-glass { background: var(--bg-dock); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
 .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; }
 .dock-style-blur { background: var(--bg-dock); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
+
+#dockSetInner { width: 64px !important; height: 64px !important; }
 
 /* KHU VỰC DRAWER */
 #drawerWrapper {
