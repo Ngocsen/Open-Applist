@@ -124,7 +124,7 @@
     <div class="modal-content">
         <h3 id="txtAddAppTitle">Thêm ứng dụng</h3>
         <div style="margin-top: 8px; margin-bottom: 10px; display: flex; gap: 8px;">
-            <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm trên App Store..." style="flex:1;" />
+            <input type="text" id="appSearchInput" class="search-box" placeholder="🔍 Tìm kiếm..." style="flex:1;" />
             <button id="storeToggleBtn" style="width: 55px; border-radius: 12px; border: none; background: #0071e3; color: white; font-weight: bold; font-size: 14px; cursor: pointer;">VN</button>
         </div>
         <div class="modal-list" id="modalList"></div>
@@ -263,7 +263,7 @@
     function setSafeText(id, text) { const el = document.getElementById(id); if(el) el.innerText = text; }
 
     function applyLanguage() {
-        setSafeText('infoTitle', langData?.info_popup?.title || 'Thông tin chung');
+        setSafeText('infoTitle', langData?.info_popup?.title || 'Thông tin');
         const infoDetails = document.getElementById('infoDetails');
         if (infoDetails && langData?.info_popup?.details) {
             infoDetails.innerHTML = langData.info_popup.details;
@@ -380,7 +380,6 @@
         const btn = document.getElementById('settingsBtn');
         const overlay = document.getElementById('settingMarkOverlay');
         if(btn) {
-            btn.style.borderRadius = styles.radCSS;
             btn.style.boxShadow = styles.boxShadow;
             btn.classList.toggle('vision-stroke', styles.stroke);
         }
@@ -446,7 +445,7 @@
         const styles = getIconStyles();
 
         div.innerHTML = `
-            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:60px; height:60px;">
+            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:64px; height:64px;">
                 <img class="icon-img" style="border-radius:${styles.radCSS};" src="${iconSrc}" onerror="this.style.display='none'">
                 <span class="fallback-text"></span>
                 <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
@@ -534,7 +533,7 @@
 
         if (arr.length < MAX_DOCK_APPS) {
             const addBtn = document.createElement('div'); addBtn.className = 'app-item';
-            addBtn.innerHTML = `<div class="icon-wrapper" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2); border-radius:16px;"><span style="font-size:28px; color:#fff;">+</span></div>`;
+            addBtn.innerHTML = `<div class="icon-wrapper" style="width:64px; height:64px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.2); border-radius:16px;"><span style="font-size:28px; color:#fff;">+</span></div>`;
             addBtn.onclick = () => { isAddingDock = true; currentLocalLimit = 12; renderModal(); };
             fragment.appendChild(addBtn);
         }
@@ -543,7 +542,7 @@
         const styles = getIconStyles();
         
         setBtn.innerHTML = `
-            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:60px; height:60px; background:transparent;" id="dockSetInner">
+            <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; width:64px; height:64px; background:transparent;" id="dockSetInner">
                 <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
                 <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain; position:relative; z-index:2; border-radius:${styles.radCSS};">
             </div>
@@ -588,7 +587,7 @@
             
             const addBtn = document.createElement('div'); addBtn.className = 'app-item';
             addBtn.innerHTML = `
-                <div class="icon-wrapper ${isEmpty ? 'wiggle-effect' : ''}" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6); border-radius:16px; background:rgba(255,255,255,0.15);">
+                <div class="icon-wrapper ${isEmpty ? 'wiggle-effect' : ''}" style="width:64px; height:64px; display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.6); border-radius:16px; background:rgba(255,255,255,0.15);">
                     <span style="font-size:32px; color:#4f46e5; font-weight:300;">+</span>
                 </div>
                 <div class="app-info"><span class="app-name">${addLabel}</span></div>
@@ -644,7 +643,7 @@
                     appDatabase[bundleId] = { Name: appName, icon: iconUrl };
                     
                     const item = document.createElement('div'); item.className = 'app-item';
-                    item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${iconUrl}" class="icon-img" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appName}</span>`;
+                    item.innerHTML = `<div class="icon-wrapper" style="width:64px; height:64px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${iconUrl}" class="icon-img" style="object-fit: cover;" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appName}</span>`;
                     item.onclick = () => selectAppToAdd(bundleId);
                     fragment.appendChild(item);
                 });
@@ -686,7 +685,7 @@
         availableApps.slice(0, currentLocalLimit).forEach(id => {
             const item = document.createElement('div'); item.className = 'app-item';
             let cleanIcon = cleanIconPath(appDatabase[id].icon);
-            item.innerHTML = `<div class="icon-wrapper" style="width:50px; height:50px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${cleanIcon}" class="icon-img" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appDatabase[id].Name}</span>`;
+            item.innerHTML = `<div class="icon-wrapper" style="width:64px; height:64px; border-radius:12px; box-shadow: var(--shadow-box);"><img src="${cleanIcon}" class="icon-img" style="object-fit: cover;" onerror="this.style.display='none'"></div><span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${appDatabase[id].Name}</span>`;
             item.onclick = () => selectAppToAdd(id);
             fragment.appendChild(item);
         });
@@ -791,7 +790,7 @@
         if(document.getElementById('btnInfo')) document.getElementById('btnInfo').onclick = () => { closeDrawerSecure(); document.getElementById('infoModal')?.classList.add('active'); };
         if(document.getElementById('btnMail')) document.getElementById('btnMail').onclick = () => window.open(socialData?.links?.email || 'mailto:', '_blank');
         if(document.getElementById('btnFollow')) document.getElementById('btnFollow').onclick = () => window.open(socialData?.links?.social_follow || 'https://icloud.com', '_blank');
-        if(document.getElementById('btnInfoDetails')) document.getElementById('btnInfoDetails').onclick = () => { alert(langData?.dock_info?.app_version || "Snowboard Phiên bản mới"); };
+        if(document.getElementById('btnInfoDetails')) document.getElementById('btnInfoDetails').onclick = () => { alert(langData?.dock_info?.app_version || "Snowboard"); };
         if(document.getElementById('btnPlugin')) document.getElementById('btnPlugin').onclick = () => { closeDrawerSecure(); window.open(socialData?.links?.plugin_shortcut || 'https://www.icloud.com/shortcuts', '_blank'); };
         
         if(document.getElementById('btnSettings')) document.getElementById('btnSettings').onclick = () => openSettings('settingsModal');
