@@ -1,4 +1,3 @@
-/* style.css */
 :root {
     --bg-main: #d4bbfc;                  
     --bg-container: #ffffffcc; 
@@ -36,7 +35,7 @@ body {
     position: relative;
     border-radius: 16px;
     background-color: rgba(255, 255, 255, 0.15);
-    overflow: hidden !important; /* Loại bỏ overflow: visible để mask viền chuẩn squircle */
+    overflow: hidden !important;
     margin-bottom: 8px;
     isolation: isolate;
     display: flex;
@@ -44,6 +43,8 @@ body {
     justify-content: center;
     box-shadow: var(--shadow-box);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    flex-shrink: 0;
 }
 
 .icon-img {
@@ -71,6 +72,7 @@ body {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     text-transform: uppercase;
     user-select: none;
+    display: none;
 }
 
 .mark-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; mix-blend-mode: overlay; }
@@ -98,14 +100,14 @@ body.dock-active #settingsBtn, body.dock-active.delete-mode #settingsBtn { displ
 .dock-style-wood { background: linear-gradient(to bottom, #a16d3a, #7c4b21, #a16d3a); border: 1px solid #5a3517; }
 .dock-style-blur { background: var(--bg-dock); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
 
+#dockSetInner { width: 64px !important; height: 64px !important; }
+
 /* Render icon ở Dock chuẩn hóa z-index */
 .dock-container .app-item .icon-wrapper {
-    width: 58px;
-    height: 58px;
+    width: 58px !important;
+    height: 58px !important;
     margin-bottom: 0;
 }
-
-#dockSetInner { width: 64px !important; height: 64px !important; }
 
 /* KHU VỰC DRAWER */
 #drawerWrapper {
