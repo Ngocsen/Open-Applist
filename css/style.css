@@ -1,6 +1,5 @@
 :root {
-    --bg-gradient-1: #d4bbfc;                  
-    --bg-gradient-2: #8ec5fc;                  
+    --bg-main: #d4bbfc;                  
     --bg-container: #ffffffcc; 
     --bg-dock: #ffffffcc;
     --color-title: #0071e3;                    
@@ -13,12 +12,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
 body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
-    background-size: 300% 300%; animation: gradientShift 8s ease infinite;
+    background: var(--bg-main);
     position: fixed; width: 100vw; height: 100vh; overflow: hidden; overscroll-behavior: none;
     display: flex; justify-content: center; align-items: flex-start; padding-top: 50px;
 }
-@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
 .app-container {
     background: var(--bg-container); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
@@ -156,13 +153,6 @@ body.delete-mode #dockSetInner::after {
     z-index: 9999;
 }
 
-/* ĐỒNG BỘ GIAO DIỆN CHỮ TRẮNG TRONG BẢNG CÀI ĐẶT HIỆU ỨNG */
-#bgEffectModal label, #effectModal label,
-#bgEffectModal .input-num, #effectModal .input-num,
-#txtVisionStroke {
-    color: #f1f5f9 !important;
-}
-
 /* INPUT TÙY CHỌN MÀU SẮC (COLOR PICKER) */
 .color-picker-input {
     -webkit-appearance: none;
@@ -227,13 +217,20 @@ input:checked + .slider:before { transform: translateX(20px); }
 
 @media (prefers-color-scheme: dark) {
     :root { --bg-container: rgba(30, 27, 75, 0.3); --color-modal-bg: rgba(15, 23, 42, 0.9); --color-input-bg: rgba(255, 255, 255, 0.1); }
-    body { background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2)); background-size: 300% 300%; }
+    body { background: var(--bg-main); }
     .modal-content, #drawerWrapper { background-color: #1c1c1e !important; border: 1px solid rgba(255,255,255,0.1) !important; color: #e5e5ea !important; }
     .modal-content h3 { color: #f1f5f9 !important; }
     .app-name { color: #f1f5f9; }
     .close-modal { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.05);}
     .search-box { color: #f1f5f9 !important; }
     
+    /* ĐỒNG BỘ GIAO DIỆN CHỮ TRẮNG TRONG BẢNG CÀI ĐẶT HIỆU ỨNG (CHỈ ÁP DỤNG DARK MODE) */
+    #bgEffectModal label, #effectModal label,
+    #bgEffectModal .input-num, #effectModal .input-num,
+    #txtVisionStroke {
+        color: #f1f5f9 !important;
+    }
+
     .drawer-btn { background: rgba(255, 255, 255, 0.15) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
     .drawer-btn:active { background: rgba(255, 255, 255, 0.25) !important; }
     #drawerClose { background: rgba(0, 122, 255, 0.2) !important; color: #4da6ff !important; }
