@@ -4,7 +4,7 @@
     "desc": "Vui lòng thêm ứng dụng vào Màn hình chính (Add to Home Screen) để sử dụng đầy đủ tính năng!"
   },
   "info_popup": {
-    "title": "Sentechtipvn",
+    "title": "Thông tin",
     "contact": "Liên hệ",
     "follow": "Theo dõi kênh",
     "info": "Thông tin"
@@ -16,22 +16,21 @@
       "bg_menu": "Cài đặt nền",
       "dock_menu": "Cài đặt Dock"
     },
-    "title_bg": "Hiệu ứng nền",
-    "color_grad1": "Màu nền 1:",
-    "color_grad2": "Màu nền 2:",
+    "color_main": "Màu nền chính:",
     "color_container": "Màu khung App:",
     "color_dock": "Màu nền Dock:",
+    "title_bg": "Hiệu ứng nền",
+    "vision_stroke": "Viền VisionOS",
+    "mark_label": "Kiểu Mark",
+    "radius_label": "Kiểu Bo góc Icon",
     "shadow_direction_label": "Hướng đổ bóng:",
     "shadow_blur_label": "Độ rõ:",
     "shadow_offset_label": "Khoảng cách:",
     "shadow_opacity_label": "Đậm nhạt 0-100:",
     "save": "Lưu hiệu ứng",
     "title": "Đổ bóng icon",
-    "vision_stroke": "Viền VisionOS",
-    "mark_label": "Kiểu Mark",
-    "radius_label": "Kiểu Bo góc Icon",
     "dock": {
-      "title": "Dock",
+      "title": "Cài đặt Dock",
       "glass": "Kính trong suốt",
       "wood": "Gỗ (iOS 6)",
       "blur": "Mờ Đen",
@@ -59,7 +58,7 @@
   },
   "modal": {
     "title_add_app": "Thêm ứng dụng",
-    "search_placeholder": "🔍 Tìm kiếm trên App Store...",
+    "search_placeholder": "🔍 Tìm kiếm...",
     "max_apps_limit": "Bạn chỉ có thể thêm tối đa {max} ứng dụng."
   },
   "messages": {
@@ -72,6 +71,6 @@
     "toast_error": "Có lỗi xảy ra!"
   },
   "dock_info": {
-    "app_version": "Snowboard v1.0\n•Kết hợp Weblip và Phím tắt tạo sự đột phá về tuỳ chỉnh cá nhân hoá.\n•Thêm nó vào màn hình chính để biến nó thành màn hình thứ hai có độ tuỳ biến sâu."
+    "app_version": "Snowboard v1.0 • Đỉnh Cao Cá Nhân Hoá\n\n📱 WEB CLIP KẾT HỢP PHÍM TẮT (SHORTCUTS)\n• Giải pháp đột phá giúp biến iPhone/iPad thành màn hình thứ hai tùy biến sâu.\n• Mở ứng dụng siêu tốc qua URL Scheme không độ trễ.\n\n✨ TÍNH NĂNG NỔI BẬT\n• Giao diện kính mờ VisionOS sang trọng, chuẩn Apple HIG.\n• Tùy chỉnh hiệu ứng Đổ bóng (Shadow), Viền (Stroke), Bo góc Icon & Nền linh hoạt.\n• Dock đa phong cách: Kính trong suốt, Gỗ iOS 6 hoài niệm, Mờ đen thời thượng.\n• Tìm kiếm & Thêm ứng dụng Online từ App Store cực nhanh.\n• Tự động nhận diện đa ngôn ngữ, hệ thống Dark Mode tuỳ chỉnh cá nhân hoá mạnh mẽ.\n\nĐược phát triển bởi Sentechtipvn 🇻🇳"
   }
 }
