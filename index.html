@@ -371,8 +371,12 @@
     }
     darkModeMediaQuery.addEventListener('change', (e) => applySystemTheme(e.matches));
 
-    function cleanIconPath(iconPath) { 
-        return iconPath ? iconPath.replace(/\\/g, '/').replace(/\/\//g, '/') : ''; 
+    function cleanIconPath(iconPath) {
+        /* Sửa lỗi mất icon: Giữ nguyên protocol http:// hoặc https:// để không bị hỏng cấu trúc link iTunes */
+        if (!iconPath) return '';
+        let cleaned = iconPath.replace(/\\/g, '/');
+        if (cleaned.startsWith('http')) return cleaned;
+        return cleaned.replace(/\/\//g, '/');
     }
 
     function sanitizeIconUrl(rawUrl) {
@@ -682,7 +686,8 @@
                 data.results.forEach(app => {
                     const bundleId = app.bundleId;
                     let appName = app.trackName.split(':')[0].split('-')[0].trim();
-                    const iconUrl = sanitizeIconUrl(app.artworkUrl512 || app.artworkUrl100);
+                    /* Sửa theo yêu cầu: Ưu tiên trả về icon 100x100 trước thay vì 512x512 */
+                    const iconUrl = sanitizeIconUrl(app.artworkUrl100 || app.artworkUrl512);
                     
                     appDatabase[bundleId] = { Name: appName, icon: iconUrl };
                     
