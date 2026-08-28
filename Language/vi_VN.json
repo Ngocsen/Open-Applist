@@ -1,3 +1,4 @@
+// Language/vi-VN.json
 {
   "onboarding": {
     "title": "Hướng dẫn",
@@ -46,7 +47,8 @@
     "import_config": "📥 Nhập",
     "hide_app_name": "Ẩn tên ứng dụng",
     "show_app_name": "Hiện tên ứng dụng",
-    "fast_rename_mode": "Chế độ Đổi tên nhanh"
+    "fast_rename_mode": "Chế độ Đổi tên nhanh",
+    "haptic_sound": "Âm thanh chạm (Haptic)"
   },
   "button": {
     "close": "Đóng",
