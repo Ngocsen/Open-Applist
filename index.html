@@ -21,7 +21,7 @@
 </div>
 
 <button id="settingsBtn" aria-label="Cài đặt">
-    <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" />
+    <img src="icons/icon_setting.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='⚙️'" />
     <div class="mark-overlay" id="settingMarkOverlay"></div>
 </button>
 
@@ -29,18 +29,18 @@
 
 <div id="drawerWrapper">
     <div id="drawerContent">
-        <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" onerror="this.outerHTML='ℹ️'" /></button>
-        <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" onerror="this.outerHTML='🔄'" /></button>
-        <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" onerror="this.outerHTML='🔌'" /></button>
-        <button class="drawer-btn" id="btnDelete"><img src="icons/icon_delete.png" onerror="this.outerHTML='🗑️'" /></button>
-        <button class="drawer-btn" id="btnSettings"><img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" /></button>
+        <button class="drawer-btn" id="btnInfo"><img src="icons/icon_info.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='ℹ️'" /></button>
+        <button class="drawer-btn" id="btnReset"><img src="icons/icon_reset.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='🔄'" /></button>
+        <button class="drawer-btn" id="btnPlugin"><img src="icons/icon_plugin.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='🔌'" /></button>
+        <button class="drawer-btn" id="btnDelete"><img src="icons/icon_delete.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='🗑️'" /></button>
+        <button class="drawer-btn" id="btnSettings"><img src="icons/icon_setting.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='⚙️'" /></button>
         <button id="drawerClose">✕</button>
     </div>
 </div>
 
 <div id="deleteTrash">
     <div class="icon-wrapper" id="trashIconWrapper" style="width: 110px !important; height: 110px !important; margin: 0;">
-        <img src="icons/icon_delete.png" id="trashIconImg" class="icon-img" onerror="this.outerHTML='🗑️'" />
+        <img src="icons/icon_delete.png" id="trashIconImg" class="icon-img" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='🗑️'" />
         <div class="mark-overlay" id="trashMarkOverlay"></div>
     </div>
 </div>
@@ -489,6 +489,7 @@
                 <span class="fallback-text" style="display: none;">${firstLetter}</span>
                 <img class="icon-img" style="border-radius:${styles.radCSS};" 
                      src="${iconSrc}" 
+                     crossorigin="anonymous"
                      referrerpolicy="no-referrer"
                      loading="lazy"
                      onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
@@ -588,7 +589,7 @@
         setBtn.innerHTML = `
             <div class="icon-wrapper ${styles.stroke ? 'vision-stroke' : ''}" style="border-radius:${styles.radCSS}; box-shadow:${styles.boxShadow}; background:transparent;" id="dockSetInner">
                 <div class="mark-overlay" style="border-radius:${styles.radCSS}; background:${styles.markBg}"></div>
-                <img src="icons/icon_setting.png" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain; position:relative; z-index:2; border-radius:${styles.radCSS};">
+                <img src="icons/icon_setting.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML='⚙️'" style="width:100%; height:100%; object-fit:contain; position:relative; z-index:2; border-radius:${styles.radCSS};">
             </div>
         `;
         setBtn.onclick = () => {
@@ -649,7 +650,7 @@
         
         const delBtn = document.getElementById('btnDelete');
         if (delBtn) {
-            delBtn.innerHTML = isDeleteMode ? '<span style="font-size:18px; color:#34c759;">✅</span>' : '<img src="icons/icon_delete.png" onerror="this.outerHTML=\'🗑️\'" />';
+            delBtn.innerHTML = isDeleteMode ? '<span style="font-size:18px; color:#34c759;">✅</span>' : '<img src="icons/icon_delete.png" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.outerHTML=\'🗑️\'" />';
         }
         
         if (isDeleteMode) closeDrawerSecure();
@@ -692,7 +693,7 @@
                     item.innerHTML = `
                         <div class="icon-wrapper" style="width:64px; height:64px; border-radius:16px;">
                             <span class="fallback-text" style="color:#333; display:none;">${firstLetter}</span>
-                            <img src="${iconUrl}" class="icon-img" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
+                            <img src="${iconUrl}" class="icon-img" crossorigin="anonymous" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
                         </div>
                         <span class="app-name" style="margin-top:4px;">${appName}</span>
                     `;
@@ -745,7 +746,7 @@
             item.innerHTML = `
                 <div class="icon-wrapper" style="width:64px; height:64px; border-radius:12px; box-shadow: var(--shadow-box);">
                     <span class="fallback-text" style="color:#333; display:none;">${firstLetter}</span>
-                    <img src="${cleanIcon}" class="icon-img" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
+                    <img src="${cleanIcon}" class="icon-img" crossorigin="anonymous" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
                 </div>
                 <span style="display:block; font-size:10px; margin-top:6px; text-align:center; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding: 0 4px; box-sizing:border-box;">${dName}</span>
             `;
