@@ -104,8 +104,6 @@ body.dock-active #settingsBtn, body.dock-active.delete-mode #settingsBtn { displ
 
 /* Render icon ở Dock chuẩn hóa z-index */
 .dock-container .app-item .icon-wrapper {
-    width: 58px !important;
-    height: 58px !important;
     margin-bottom: 0;
 }
 
