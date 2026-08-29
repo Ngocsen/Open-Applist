@@ -1,4 +1,4 @@
-const CACHE_NAME = 'snowboard-cache-v2'; // Đã nâng cấp lên v2 để ép xóa cache cũ
+const CACHE_NAME = 'snowboard-cache-v10'; // Tăng số lên để ép xóa cache cũ
 const urlsToCache = [
   './',
   './index.html',
@@ -9,7 +9,13 @@ const urlsToCache = [
   './db.json',
   './system-app.json',
   './social.json',
-  './Language/vi_VN.json'
+  './Language/vi_VN.json',
+  './Language/en-US.json',
+  './icons/icon_setting.png',
+  './icons/icon_info.png',
+  './icons/icon_reset.png',
+  './icons/icon_plugin.png',
+  './icons/icon_delete.png'
 ];
 
 self.addEventListener('install', (event) => {
