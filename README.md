@@ -20,7 +20,7 @@
 ## 📸 Demo 
 <div align="center">
   <a href="https://sentechtipvn.github.io/Snowboard/">
-    <img src="./images/demo.png" alt="App Demo 1" width="45%" style="border-radius: 12px; margin-right: 2%;">
+    <img src="./images/demo.png" alt="App Demo 1" width="45%" style="border-radius: 12px; margin-center: 2%;">
     <img src="./images/demo-2.png" alt="App Demo 2" width="45%" style="border-radius: 12px;">
   </a>
   <br>
