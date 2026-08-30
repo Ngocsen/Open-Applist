@@ -16,6 +16,12 @@ body {
     position: fixed; width: 100vw; height: 100dvh; overflow: hidden; overscroll-behavior: none;
     display: flex; justify-content: center; align-items: flex-start; padding-top: calc(env(safe-area-inset-top, 50px) + 10px);
 }
+body {
+    background: var(--bg-main);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding-top: env(safe-area-inset-top);
+}
 
 .app-container {
     background: var(--bg-container); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
