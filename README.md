@@ -44,7 +44,7 @@
 ## 🚀 Hướng dẫn sử dụng
 
 ### 1. Cài đặt lên iPhone / iPad:
-1. Mở trang GitHub [Pages](https://sentechtipvn.github.io/Snowboard/) bằng trình duyệt **Safari**.
+1. Mở trang GitHub [Pages](https://sentechtipsvn.github.io/Snowboard/) bằng trình duyệt **Safari**.
 2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
 3. Đặt tên ngắn gọn (ví dụ: `Snowboard`) và bấm **Add**.
 
