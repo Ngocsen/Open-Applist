@@ -48,7 +48,7 @@
 2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
 3. Đặt tên ngắn gọn (ví dụ: `Snowboard`) và bấm **Add**.
 4. **[Tải nhanh hồ sơ](https://sentechtipsvn.github.io/Snowboard/Snowboard.mobileconfig)**
-5. **[Đến cài đặt hồ sơ](prefs:root=General&path=ManagedConfigurationList)**
+5. **[Đến cài đặt hồ sơ](prefs:root=)**
 
 ### 2. Tạo Shortcuts trên iOS (Bắt buộc):
 1. Mở app **Shortcuts** (Phím tắt) trên iPhone.
