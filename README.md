@@ -47,7 +47,8 @@
 1. Mở trang GitHub [Pages](https://sentechtipsvn.github.io/Snowboard/) bằng trình duyệt **Safari**.
 2. Bấm nút **Share** (Chia sẻ) -> chọn **Add to Home Screen** (Thêm vào màn hình chính).
 3. Đặt tên ngắn gọn (ví dụ: `Snowboard`) và bấm **Add**.
-4. **[Hoặc bấm vào đây để tải nhanh](https://sentechtipsvn.github.io/Snowboard/Snowboard.mobileconfig)**
+4. **[Tải nhanh hồ sơ](https://sentechtipsvn.github.io/Snowboard/Snowboard.mobileconfig)**
+5. **[Đến cài đặt hồ sơ](prefs:root=General&path=ManagedConfigurationList)**
 
 ### 2. Tạo Shortcuts trên iOS (Bắt buộc):
 1. Mở app **Shortcuts** (Phím tắt) trên iPhone.
