@@ -24,7 +24,6 @@
     <img src="./images/demo-2.png" alt="App Demo 2" width="45%" style="border-radius: 12px;">
   </a>
   <br>
-  <p><b>👉 <a href="https://sentechtipsvn.github.io/Snowboard//">Bấm vào đây để trải nghiệm Demo trực tuyến</a></b></p>
 </div>
 
 ---
